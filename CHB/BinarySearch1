@@ -1,0 +1,95 @@
+Basic Binary search implementations:Lower Bound, Higher Bound, Search Insert
+
+//1
+int lowerBound(vector<int> arr, int n, int x) {
+	int low=0;
+	int high=n-1;
+	int res=n;
+	while(low<=high){
+		int mid=low+(high-low)/2;
+		if(arr[mid]>=x ){
+			res=mid;
+			high=mid-1;
+		}
+		else{
+			low=mid+1;
+		}
+	}
+	return res;
+	//you can just use lb=lower_bound(arr.begin(),arr.end(),x)
+}
+
+
+//2
+int upperBound(vector<int> &arr, int x, int n){
+	int low=0;
+	int high=n-1;
+	int res=n;
+	while(low<=high){
+		int mid=low+(high-low)/2;
+		if(arr[mid]<=x){
+			low=mid+1;
+		}
+		else{
+			high=mid-1;
+			res=mid;
+		}
+	}
+	return res;
+	//you can just use ub=upper_bound(arr.begin(),arr.end(),x)
+}
+
+//3
+int searchInsert(vector<int>& arr, int m)
+{
+	//its just lowerbound
+	int x=m;
+	int n=arr.size();
+	int low=0;
+	int high=n-1;
+	int res=n;
+	while(low<=high){
+		int mid=(high+low)/2;
+		if(arr[mid]>=x ){
+			res=mid;
+			high=mid-1;
+		}
+		else{
+			low=mid+1;
+		}
+	}
+	return res;
+}
+
+//4.Ceil and Floor
+
+pair<int, int> getFloorAndCeil(int arr[], int n, int x) {
+	pair<int,int> ans={-1,-1};
+	sort(arr,arr+n);
+	int low=0;
+	int high=n-1;
+	while(low<=high){
+		int mid=(low+high)/2;
+		if(arr[mid]<=x){
+			ans.first=arr[mid];
+			low=mid+1;
+		}
+		else{
+			high=mid-1;
+		}
+	}
+	low=0;
+	high=n-1;
+	while(low<=high){
+		int mid=(low+high)/2;
+		if(arr[mid]>=x){
+			ans.second=arr[mid];
+			high=mid-1;
+		}
+		else{
+			low=mid+1;
+		}
+	}
+	return ans;
+	
+}
