@@ -1,0 +1,22 @@
+//1.Finding first and last occurence in sorted array , TC:O(logn)
+pair<int, int> firstAndLastPosition(vector<int>& arr, int n, int k)
+{
+    
+    int lb=lowerBound(arr,n,k);
+    if(lb==n || arr[lb]!=k){// k not in array and all are <k || k not in array
+        return {-1,-1};
+    }
+    return {lb,upperBound(arr,n,k)-1};
+}
+
+//2.Find the number of occurances of target x in array, TC:O(logn)
+int count(vector<int>& arr, int n, int x) {
+	pair<int, int> fl;
+	fl=firstAndLastPosition(arr,n,x);
+	if(fl.first==-1){
+		return 0;
+	}
+	else{
+		return fl.second-fl.first+1;
+	}
+}
