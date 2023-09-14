@@ -4,3 +4,7 @@ Upper Bound Implementation,
 Search Insert,
 Floor Ceil
 }
+File2{
+First and Last Occurence,
+No.of Occurences
+}
