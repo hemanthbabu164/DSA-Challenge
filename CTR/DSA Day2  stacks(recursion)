@@ -1,0 +1,166 @@
+Q1) Q1) Given a stack, the task is to sort it such that the top of the stack has the greatest element using recursion
+// code
+
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+class SortedStack{
+public:
+	stack<int> s;
+	void sort();
+};
+
+void printStack(stack<int> s)
+{
+    while (!s.empty())
+    {
+        printf("%d ", s.top());
+       	s.pop();
+    }
+    printf("\n");
+}
+
+int main()
+{
+int t;
+cin>>t;
+while(t--)
+{
+	SortedStack *ss = new SortedStack();
+	int n;
+	cin>>n;
+	for(int i=0;i<n;i++)
+	{
+	int k;
+	cin>>k;
+	ss->s.push(k);
+	}
+	ss->sort();
+	printStack(ss->s);
+}
+}
+// } Driver Code Ends
+
+
+/*The structure of the class is
+class SortedStack{
+public:
+	stack<int> s;
+	void sort();
+};
+*/
+
+/* The below method sorts the stack s 
+you are required to complete the below method */
+
+void insert_corr(int x,stack<int> &st)
+{
+    if(st.empty() || st.top()<x)
+    {
+        st.push(x);
+    }
+    else
+    {
+        int a=st.top();
+        st.pop();
+        insert_corr(x,st);
+        st.push(a);
+    }
+}
+
+void reverse(stack<int> &s)
+{
+    if(s.size()>0)
+    {
+        int x=s.top();
+        s.pop();
+        reverse(s);
+        insert_corr(x,s);
+        
+    }
+}
+void SortedStack :: sort()
+{
+   //Your code here
+   // pop all the elemnts from the stack
+   reverse(s);
+   
+}
+
+Q2) Q2) You are given a stack St. You have to reverse the stack using recursion.
+
+//code
+
+//{ Driver Code Starts
+//Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+//User function Template for C++
+
+class Solution{
+public:
+void modify_stack(int a,stack<int> &s)
+{
+    if(s.empty())
+    {
+        s.push(a);
+        return ;
+    } 
+    
+    int temp=s.top();
+    s.pop();
+    modify_stack(a,s);
+    s.push(temp);
+    
+}
+    void Reverse(stack<int> &St){
+        if(St.size()>0)
+        {
+            int a=St.top();
+            St.pop();
+            Reverse(St);
+            modify_stack(a,St);
+        }
+        
+    }
+};
+
+//{ Driver Code Starts.
+
+
+int main(){
+    int T;
+    cin>>T;
+    while(T--){
+        int N;
+        cin>>N;
+        stack<int> St;
+        for(int i=0;i<N;i++){
+            int x;
+            cin>>x;
+            St.push(x);
+        }
+        Solution ob;
+        ob.Reverse(St);
+        vector<int>res;
+        while(St.size())
+        {
+            res.push_back(St.top());
+            St.pop();
+        }
+        for(int i = res.size()-1;i>=0;i--)  
+        {
+            cout<<res[i]<<" ";
+        }
+        
+        cout<<endl;
+    }
+}
+// } Driver Code Ends
+
+
