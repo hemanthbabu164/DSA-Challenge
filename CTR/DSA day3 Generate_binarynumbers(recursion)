@@ -1,0 +1,57 @@
+Given an integer N , Print all binary strings of size N which do not contain consecutive 1s.
+
+A binary string is that string which contains only 0 and 1.
+
+// code
+
+//{ Driver Code Starts
+//Initial Template for C++
+#include<bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+//User function Template for C++
+
+class Solution{
+public:
+  void B_string(int num,string temp)
+  {
+      if(temp.size()==num)       // when the size equals to the num then print
+      {
+          cout<<temp<<" ";
+          return;
+      }
+      
+      B_string(num,temp+"0");      // till then concatenate string with 0
+      if(temp[temp.size()-1]!='1') // after the above recursive call,check with the last index
+      {
+          B_string(num,temp+"1");  // accordingly concatenate one
+      }
+      
+  }
+    void generateBinaryStrings(int num){
+        //Write your code
+        B_string(num,"");
+    }
+};
+
+//{ Driver Code Starts.
+int main(){
+    int t = 1;
+    cin >> t;
+
+
+    while(t--){
+        //Input
+        int n; cin >> n;
+
+        Solution obj;
+        obj.generateBinaryStrings(n);
+        cout << endl;
+    }
+
+    return 0;
+}
+
+// } Driver Code Ends
