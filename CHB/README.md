@@ -9,3 +9,8 @@ File2{
 First and Last Occurence,  
 No.of Occurences  
 }  
+
+File3{  
+Search in Unique Rotated Sorted Array,  
+Search in Rotated Sorted Array with Duplicates  
+}
