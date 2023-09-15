@@ -75,3 +75,27 @@ bool searchInARotatedSortedArrayII(vector<int>&arr, int k) {
     }
     return false;
 }
+
+
+//Finding min in Rotated Sorted array Unique
+int findMin(vector<int>& arr)
+{
+	int low=0;
+	int high=arr.size()-1;
+	int ans=arr[low];
+	while(low<=high){
+		int mid=low+(high-low)/2;
+		//left sorted?
+		if(arr[mid]>=arr[low]){
+			ans=min(ans,arr[low]);
+			low=mid+1;
+
+		}
+		//right sorted?
+		else{
+			ans=min(ans,arr[mid]);
+			high=mid-1;
+		}
+	}
+	return ans;
+}
