@@ -12,5 +12,6 @@ No.of Occurences
 
 File3{  
 Search in Unique Rotated Sorted Array,  
-Search in Rotated Sorted Array with Duplicates  
+Search in Rotated Sorted Array with Duplicates ,
+Finding min in Rotated Sorted array  
 }
