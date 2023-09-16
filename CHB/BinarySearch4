@@ -116,3 +116,24 @@ int findPeakElement(vector<int> &arr) {
     }
     return -1;
 }
+
+
+
+
+//4.Floor Square Root in O(logn)
+int floorSqrt(int n)
+{
+    long long  low=1,high=n;
+    int ans=1;
+    while(low<=high){
+        long long mid=(low+high)/2;
+        long long val=mid*mid;
+        if(val<=n){
+            low=mid+1;
+        }
+        else{
+            high=mid-1;            
+        }
+    }
+    return high;
+}
