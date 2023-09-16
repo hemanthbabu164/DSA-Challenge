@@ -19,5 +19,6 @@ Finding min in Rotated Sorted array
 File4{  
 No.of Rotations in a  Rotated Sorted Array,  
 Single Element in a Soreted Duplicates,  
-Finding Peak Element  
+Finding Peak Element  ,   
+Floor Square Root  
 }
