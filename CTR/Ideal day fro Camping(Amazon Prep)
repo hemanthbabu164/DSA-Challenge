@@ -1,0 +1,52 @@
+Q1)Given an array of predicted rainfall for the next n days, where index i presents a day and day[i]
+represents the amount of rainfall on that day, return a list of ideal days such that -
+day[i-k] >= day[i-k+1] >= ... day[i-1] >= day[i] <= day[i+1] ... <= day[i+k-1] <= day[i+k],
+where k is given as an input which represents the number of days prior and after the current day
+As the index represents a day, while returning, we need to return i+1 as the actual day.
+
+// code
+
+#include <bits/stdc++.h>
+using namespace std;
+int main()
+{
+vectorrainFallPredictions;
+int n,k;
+cin>>n>>k;
+for(int i=0;i<n;i++)
+{
+int temp;
+cin>>temp;
+rainFallPredictions.push_back(temp);
+}
+
+ vector<int> forward(rainFallPredictions.size());
+    for (int i = 1; i < rainFallPredictions.size(); ++i) 
+    {
+        if (rainFallPredictions[i - 1] >= rainFallPredictions[i])   // going till the descent break and keep on adding to the next element in the array
+        {
+            forward[i] = forward[i - 1] + 1;
+        }
+    }
+    vector<int> backward(rainFallPredictions.size());
+    for (int i = rainFallPredictions.size() - 2; i >= 0; --i) 
+    {
+        if (rainFallPredictions[i + 1] >= rainFallPredictions[i])  // going till the ascent breaks and keep on adding to the next element in the array
+        {
+            backward[i] = backward[i + 1] + 1;
+        }
+    }
+    vector<int> v;
+    for (int i = 0; i < rainFallPredictions.size(); ++i) 
+    {
+        if (forward[i] >= k && backward[i] >= k) {     // and checking the forward and backward array elements simultaneously to check whether they are >= k if so
+                                                             //adding it to the vector
+            v.push_back(i+1);
+        }
+    }
+    for(int i=0;i<v.size();i++)
+    {
+        cout<<v[i]<<" ";
+    }
+
+return 0;
