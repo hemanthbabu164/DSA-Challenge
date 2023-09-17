@@ -1,0 +1,36 @@
+//1.Koko Eating Bananas
+
+//return 1, if possible, 0 if not
+int reqTime(vector<int> v,int n, int h, int j){
+    int sum=0;
+    for(int i=0;i<n;i++){
+        sum+=v[i]/j+(v[i]%j!=0);
+        if(sum>h){
+            return 0;
+        }
+    }
+    if(sum<=h){
+        return 1;
+    }
+}
+int minimumRateToEatBananas(vector<int> v, int h) {
+    int n=v.size();
+    int maxi=v[0];
+    for(int i=0;i<n;i++){
+        maxi=max(v[i],maxi);
+    }
+    int low=1;
+    int high=maxi;
+    while(low<=high){
+        int mid=low+(high-low)/2;
+        int val=reqTime(v, n,h,mid);
+        if(val==0){
+            low=mid+1;
+        }
+        else{
+            high=mid-1;
+        }
+    }
+    //No need for taking a extra variable ans for storing the value as the answer is always in low
+    return low;
+}
