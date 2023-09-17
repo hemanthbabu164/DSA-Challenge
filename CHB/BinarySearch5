@@ -1,0 +1,62 @@
+//PreREQ: Pow(x,n) in logn time:
+double myPow(double x, int n) {
+        double ans=1;
+        long long nn=n;
+        if(n<0){
+            nn*=-1;
+        }
+        while(nn>0){
+            if(nn%2==0){//2^10==4^5
+                x*=x;
+                nn/=2;
+            }
+            else{//4^5=4*4^4;
+                ans*=x;
+                nn--;
+            }
+        }
+        if(n<0){
+            ans=(double)1/ans;
+        }
+        return ans;
+}
+//Find Nth Root Of M TC:O(log(n+m))
+//return 2 if val>m
+//return 0 if val==m
+//return 1 if val<m
+int myPow(int x, int n,int m) {
+    long long ans=1;
+    for(int i=0;i<n;i++){
+        ans*=x;
+        if(ans>m){
+            return 2;
+        }
+    }
+    if(ans==m){
+        return 0;
+    }
+    return 1;
+}
+int NthRoot(int n, int m) {
+    long long  low=1,high=m;
+    while(low<=high){
+        long long mid=low+(high-low)/2;
+        int val=myPow(mid,n,m);
+        if(val==0){
+            return mid;
+        }
+        if(val==1){
+            low=mid+1;
+        }
+        else{
+            high=mid-1;            
+        }
+    }
+    return -1;
+}
+
+
+
+
+
+
