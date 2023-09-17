@@ -22,3 +22,8 @@ Single Element in a Soreted Duplicates,
 Finding Peak Element  ,   
 Floor Square Root  
 }
+
+File5{  
+pow(n,m),  
+Find Nth Root Of M  
+}
