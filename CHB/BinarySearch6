@@ -34,3 +34,116 @@ int minimumRateToEatBananas(vector<int> v, int h) {
     //No need for taking a extra variable ans for storing the value as the answer is always in low
     return low;
 }
+
+
+
+//Minimum No.of Days To Make m Bouquets Of k Flowers
+
+bool boquetPossible(vector<int> arr, int day, int k, int m){
+	int n=arr.size();
+	int m1=0;
+	int count=0;
+	for(int i=0;i<n;i++){
+		if(arr[i]<=day){
+			count++;
+		}
+		else{
+			m1+=count/k;
+			count=0;
+		}
+		if(m1>=m){
+			return true;
+		}
+	}
+	m1+=count/k;
+	return m1>=m;
+}
+//For shorter ones:
+// bool boquetPossible(vector<int> arr, int day, int k, int m){
+// 	vector<int> ispos;
+// 	int n=arr.size();
+// 	for(int i=0;i<n;i++){
+// 		ispos.push_back((arr[i]-1)/day);
+// 	}
+// 	int j=0;
+// 	int m1=0;
+// 	while(j<n){
+// 		int k1=j;
+// 		int count=0;
+// 		while(ispos[k1]==0 && k1<n){
+// 			count++;
+// 			j++;
+// 			k1++;
+// 		}
+// 		m1+=count/k;
+// 		if(m1>=m){
+// 			return true;
+// 		}
+// 		j++;
+// 	}
+// 	return false;
+// }
+int roseGarden(vector<int> arr, int k, int m)
+{
+	int n=arr.size();
+	int ans=-1;
+	if(m*k>n){
+		return -1;
+	}
+	int maxi=arr[0];
+	int mini=arr[0];
+	for(int i=1;i<n;i++){
+		maxi=max(arr[i],maxi);
+		mini=min(arr[i],mini);
+	}
+	int low=mini;
+	int high=maxi;
+	while(low<=high){
+		int mid=low+(high-low)/2;
+		if(boquetPossible(arr,mid,k,m)){
+			// key=true;
+			ans=mid;
+			high=mid-1;
+		}
+		else{
+			low=mid+1;
+		}
+	}
+	return ans;
+}
+
+
+
+
+//Smallest Divisor With Limit
+
+int isPossible(vector<int> arr,int val){
+	int sum=0;
+	for(int i=0;i<arr.size();i++){
+		sum+=(arr[i]/val + (arr[i]%val!=0));
+	}
+	return sum;
+}
+
+int smallestDivisor(vector<int>& arr, int limit)
+{
+	int n=arr.size();
+	int maxi=0;
+	for(int i=0;i<n;i++){
+		maxi=max(maxi,arr[i]);
+	}
+	int low=1;
+	int high=maxi;
+	int ans=high;
+	while(low<=high){
+		int mid=low+(high-low)/2;
+		if(isPossible(arr,mid) <= limit){
+			ans=mid;
+			high=mid-1;
+		}
+		else{
+			low=mid+1;
+		}
+	}
+	return ans;
+}
