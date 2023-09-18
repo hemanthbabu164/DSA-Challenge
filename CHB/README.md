@@ -29,5 +29,7 @@ Find Nth Root Of M
 }  
 
 BinarySearch6{  
-Koko Eating Bananas  
+Koko Eating Bananas,  
+Min No.of Days To Make m Bouquets,   
+Smallest Divisor With Limit  
 }
