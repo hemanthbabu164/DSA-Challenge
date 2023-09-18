@@ -5,3 +5,5 @@
 16 - mergeSort , selectionSort [python]
 
 17 - heapSort , quickSort [python]
+
+18 - linearSearch , binarySearch [python]
