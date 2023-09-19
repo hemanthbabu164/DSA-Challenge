@@ -7,3 +7,5 @@
 17 - heapSort , quickSort [python]
 
 18 - linearSearch , binarySearch [python]
+
+19 - kth smallest number | quickSelect , min-heap | [python]
