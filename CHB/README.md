@@ -33,3 +33,8 @@ Koko Eating Bananas,
 Min No.of Days To Make m Bouquets,   
 Smallest Divisor With Limit  
 }
+
+BinarySearch7{  
+Capacity to Ship Packages in d Days,   
+Find kth Positive Missing Integer  
+}
