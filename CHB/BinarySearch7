@@ -1,0 +1,67 @@
+//1. Min Capacity to Ship Packages in d Days
+
+bool isPossible(vector<int> &weights, int mid,int d){
+    int count=0;
+    int sum=0;
+    int n=weights.size();
+    for(int i=0;i<n;i++){
+        sum+=weights[i];
+        if(sum>mid){
+            count++;
+            sum=weights[i];
+        }
+        if(sum==mid){
+            sum=0;
+            count++;
+        }
+    }
+    if(sum!=0){
+        count++;
+    }
+    return (count)<=d;
+}
+
+int leastWeightCapacity(vector<int> &weights, int d)
+{
+    long sum=0;
+    int maxi=weights[0];
+    for(int i=0;i<weights.size();i++){
+        sum+=weights[i];
+        maxi=max(maxi,weights[i]);
+    }
+    int low=maxi;
+    long high=sum;
+    int ans=high;
+    while(low<=high){
+        int mid=(low+high)/2;
+        if(isPossible(weights,mid,d)){
+            ans=mid;
+            high=mid-1;
+
+        }
+        else{
+            low=mid+1;
+        }
+    }
+    return ans;
+}
+
+
+//2. Find kth Positive Missing Integer
+
+int missingK(vector < int > vec, int n, int k) {
+    int low=0;
+    int high=n-1;
+    while(low<=high){
+        int mid=low+(high-low)/2;
+        int val=vec[mid]-(mid+1);
+        if(val>=k){
+            high=mid-1;
+        }
+        else {
+            low=mid+1;
+        }
+    }
+    return low+k;//or k+high+1
+}
+
