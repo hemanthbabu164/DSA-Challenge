@@ -46,5 +46,5 @@ Non PreEmptive SJF
 
 OS CPU Scheduling 2{  
 SRT or PreEmptive SJF,   
-
+Round-Robin  
 }
