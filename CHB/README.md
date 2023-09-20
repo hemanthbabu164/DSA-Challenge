@@ -41,5 +41,6 @@ Find kth Positive Missing Integer
 
 OS CPU Schedulings{  
 FCFS,  
+Non PreEmptive SJF,  
 
 }
