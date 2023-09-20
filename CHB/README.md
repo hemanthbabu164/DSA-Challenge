@@ -39,8 +39,12 @@ Capacity to Ship Packages in d Days,
 Find kth Positive Missing Integer  
 }  
 
-OS CPU Schedulings{  
+OS CPU Scheduling 1{  
 FCFS,  
-Non PreEmptive SJF,  
+Non PreEmptive SJF  
+}
+
+OS CPU Scheduling 2{  
+SRT or PreEmptive SJF,   
 
 }
