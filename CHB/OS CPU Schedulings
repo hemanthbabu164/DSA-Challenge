@@ -41,3 +41,69 @@
     return 0;
 }
 
+
+//2.Non PreEmptive SJF
+#include <stdio.h>
+#include <limits.h>
+
+struct process{
+	int at;
+	int bt;
+	int ft;
+	int status;
+}readylist[10];
+
+int n;
+
+int dispatcher(int time){
+	int minbt=INT_MAX,index=-1,i;
+	for(i=0;i<n;i++){
+		if(readylist[i].status!=1){
+			if(readylist[i].at<=time){
+				if(readylist[i].bt<minbt){
+					index=i;
+					minbt=readylist[i].bt;
+				}
+			}
+		}
+	}
+	return index;
+}
+
+int main(){
+	printf("\nEnter No.of Processes(<=10):");
+	scanf("%d",&n);
+	int i;
+	printf("\nEnter Details:\n");
+	for(i=0;i<n;i++){
+		printf("\nProcess : %d",i+1);
+		printf("\nEnter Arrival time\t: ");
+		scanf("%d",&readylist[i].at);		
+		printf("Enter Burst time\t: ");
+		scanf("%d",&readylist[i].bt);
+		readylist[i].status=0;
+		readylist[i].ft=0;
+	}
+	int cur_time=0;
+	int pid=0;
+	i=0;
+	while(i<n){
+		pid=dispatcher(cur_time);
+		while(pid==-1){
+			//Meaning The time before the 1st process arrives
+			cur_time++;
+			pid=dispatcher(cur_time);
+		}
+		cur_time+=readylist[pid].bt;
+		readylist[pid].ft=cur_time;
+		readylist[pid].status=1;
+		i++;
+	}
+	printf("Process\t Arrival Time\t Burst Time\tFinish Time \t TT \t\tWT\n");
+	printf("*******\t ************\t ************\t***********\t********\t********\n");
+	for(i=0;i<n;i++){
+		printf("%d\t\t%d\t\t%d\t\t%d\t%d\t\t%d\n",i+1,readylist[i].at,readylist[i].bt,readylist[i].ft,(readylist[i].ft-readylist[i].at),(readylist[i].ft-readylist[i].at)-readylist[i].bt);
+	}
+}
+
+
