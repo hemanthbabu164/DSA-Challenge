@@ -37,4 +37,9 @@ Smallest Divisor With Limit
 BinarySearch7{  
 Capacity to Ship Packages in d Days,   
 Find kth Positive Missing Integer  
+}  
+
+OS CPU Schedulings{  
+FCFS,  
+
 }
