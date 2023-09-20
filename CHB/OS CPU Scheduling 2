@@ -1,0 +1,68 @@
+//1. SRT or PreEmptive SJF
+//PreEmptive SJF or SRT
+#include <stdio.h>
+
+struct process{
+	int at;
+	int remt;
+	int ft;
+	int status;
+}readylist[10];
+
+int n;
+
+int dispatcher(int time){
+	int i,index=-1,minRemt=9999;
+	for(i=0;i<n;i++){
+		if(readylist[i].status!=1){
+			if(readylist[i].at<=time){
+				if(readylist[i].remt<minRemt){
+					minRemt=readylist[i].remt;
+					index=i;
+				}
+			}
+		}
+	}
+	return index;
+}
+
+int main(){
+	printf("\nEnter No.of Processes(<=10)\t: ");
+	scanf("%d",&n);
+	int i;
+	int bt[10];
+	for(i=0;i<n;i++){
+		printf("\nProcess %d:",i+1);
+		printf("\nEnter Arrival time: ");
+		scanf("%d",&readylist[i].at);
+		printf("Enter Burst Time: ");
+		scanf("%d",&readylist[i].remt);
+		readylist[i].status=0;
+		bt[i]=readylist[i].remt;
+	}
+	int remProcesses=0;
+	int pid=0;
+	int cur_time=0;
+	while(remProcesses<n){
+		pid=dispatcher(cur_time);
+		while(pid==-1){
+			cur_time++;
+			pid=dispatcher(cur_time);
+		}
+		cur_time++;
+		readylist[pid].remt--;
+		if(readylist[pid].remt==0){
+			readylist[pid].status=1;
+			readylist[pid].ft=cur_time;
+			remProcesses++;
+		}
+	}
+	printf("\nProcess\t Arrival Time\t Burst Time\t Finish Time\n");
+	printf("*******\t **********\t **********\t *********\n");
+	for(i=0;i<n;i++)
+	{
+		printf("%d\t\t%d\t\t%d\t\t\t%d\n",i+1,readylist[i].at,bt[i],readylist[i].ft);
+	}
+}
+
+
