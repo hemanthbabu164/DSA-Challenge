@@ -9,3 +9,8 @@
 18 - linearSearch , binarySearch [python]
 
 19 - kth smallest number | quickSelect , min-heap | [python]
+
+20 - lcm_using_gcd , max_subarray_sum [python]
+
+21 - word_freq_counter , is_armstrong_number [python]
+
