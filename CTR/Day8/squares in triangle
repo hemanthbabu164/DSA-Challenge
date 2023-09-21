@@ -1,0 +1,51 @@
+Q)Geek has a ticket to the Geek Summer Carnival. The ticket has a positive integer B written on it.
+B denotes the base of a right-angled isosceles triangle. 
+Geek can avail discounts on X courses in the carnival.
+
+X is the maximum number of squares of size 2x2 units that can fit in the given right-angled isosceles triangle. 
+Find X. 
+
+
+Example 1:
+
+Input:
+B = 8
+Output:
+6 
+
+// code
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution{
+    public:
+    int countSquare(int B)
+    {
+	    // code here 
+	   int ans=B/2;
+	   ans-=1;
+	   return (ans*(ans+1))/2;
+    }
+};
+
+
+
+//{ Driver Code Starts.
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+    	int B,count;
+    	cin>>B;
+    	Solution ob;
+    	count = ob.countSquare(B);
+    	cout<<count<<endl;
+    }
+}
+// } Driver Code Ends
+
+
