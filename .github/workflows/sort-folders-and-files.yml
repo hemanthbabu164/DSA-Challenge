@@ -28,9 +28,16 @@ jobs:
         with:
           node-version: 16  # Specify the desired Node.js version here
 
+      - name: Create and activate virtual environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt  # Use requirements.txt if you have one
+
       - name: Install dependencies
         run: pip install requests  # Install any dependencies your script needs
 
       - name: Sort the folders and files by creation date
         run: python3 sort_folders_and_files.py  # Adjust the path to your script
-        
