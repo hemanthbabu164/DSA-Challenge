@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: 3.x  # Replace with your desired Python version
 
-      - name: Install Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v2  # Use actions/setup-node to set up Node.js
         with:
           node-version: 16  # Specify the desired Node.js version here
