@@ -15,6 +15,9 @@ jobs:
         with:
           path: CHB  # This should match the name of your subfolder
 
+      - name: Check Node.js version
+        run: node -v
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
