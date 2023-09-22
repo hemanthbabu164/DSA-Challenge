@@ -48,3 +48,11 @@ OS CPU Scheduling 2{
 SRT or PreEmptive SJF,   
 Round-Robin  
 }
+
+BinaryTrees1{  
+PreOrder,   
+InOrder,   
+PostOrder,   
+3 in one,  
+Level order Traversal   
+}
