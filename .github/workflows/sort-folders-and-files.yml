@@ -32,5 +32,5 @@ jobs:
         run: pip install requests  # Install any dependencies your script needs
 
       - name: Sort the folders and files by creation date
-        run: python3 CHB/sort_folders_and_files.py  # Adjust the path to your script
+        run: python3 CHB/sort-folders-and-files.py  # Adjust the path to your script
         
