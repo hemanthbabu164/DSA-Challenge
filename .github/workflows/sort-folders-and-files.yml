@@ -34,9 +34,6 @@ jobs:
           source venv/bin/activate
 
       - name: Install dependencies
-        run: pip install -r requirements.txt  # Use requirements.txt if you have one
-
-      - name: Install dependencies
         run: pip install requests  # Install any dependencies your script needs
 
       - name: Sort the folders and files by creation date
