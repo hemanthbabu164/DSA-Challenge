@@ -14,3 +14,5 @@
 
 21 - word_freq_counter , is_armstrong_number [python]
 
+24 - longest_subarray_length , find_missing_numbers [python]
+
