@@ -43,3 +43,48 @@ int findPages(vector<int>& arr, int n, int m) {
 }
 
 
+//2. Largest SubArray Minimized and Painter's Partition
+//As these both questions seem to be the general concept of the previous question with one less condition and A modified problem statement,
+//I kept the code the same 
+
+bool isPossible(vector<int>& arr, int n, int m, int mid){
+    int count=1;
+    int sum=0;
+    for(int i=0;i<n;i++){
+        sum+=arr[i];
+        if(sum>mid){
+            count++;
+            sum=arr[i];
+            if(count>m){
+                return false;
+            }
+        }
+    }
+    return count<=m;
+}
+
+int largestSubarraySumMinimized(vector<int> arr, int m) {//int findLargestMinDistance(vector<int> arr, int m)
+    int n=arr.size();
+    int sum=0;
+    int maxi=arr[0];
+    for(int i=0;i<n;i++){
+        sum+=arr[i];
+        maxi=max(maxi,arr[i]);
+    }
+    int low=maxi;
+    int high=sum;
+    int ans=-1;
+    while(low<=high){
+        int mid=(low+high)/2;
+        if(isPossible(arr,n,m,mid)){
+            high=mid-1;
+            ans=mid;
+        }
+        else{
+            low=mid+1;
+        }
+    }
+    return ans;
+}
+
+
