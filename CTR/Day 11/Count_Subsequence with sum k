@@ -1,0 +1,85 @@
+Q)Given an array arr[] of non-negative integers and an integer sum, 
+the task is to count all subsets of the given array with a sum equal to a given sum.
+
+Note: Answer can be very large, so, output answer modulo 109+7
+
+Example 1:
+
+Input: N = 6, arr[] = {2, 3, 5, 6, 8, 10}
+       sum = 10
+Output: 3
+Explanation: {2, 3, 5}, {2, 8}, {10} are 
+possible subsets.
+
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution{
+
+	public:
+	
+
+       int count_subs(int i,int sum,int k,int arr[],int n)
+      {
+    if(sum == k && i == n)
+      return 1;
+   if(sum > k || i == n)
+     return 0;
+   
+     sum+=arr[i];
+     
+     
+    int l=count_subs(i+1,sum,k,arr,n); //picking case 
+     l=l%1000000007;
+     sum-=arr[i];
+     
+     
+    int r=count_subs(i+1,sum,k,arr,n); //and not picking case
+     r=r%1000000007;
+     
+    return (l+r)%1000000007;
+
+        
+        
+    }
+    
+	int perfectSum(int arr[], int n, int sum)
+	{
+        // Your code goes here
+        int res=count_subs(0,0,sum,arr,n);
+        
+        return res;
+        
+	}
+	  
+};
+
+//{ Driver Code Starts.
+int main() 
+{
+   	
+   
+   	int t;
+    cin >> t;
+    while (t--)
+    {
+        int n, sum;
+
+        cin >> n >> sum;
+
+        int a[n];
+        for(int i = 0; i < n; i++)
+        	cin >> a[i];
+
+       
+
+	    Solution ob;
+	    cout << ob.perfectSum(a, n, sum) << "\n";
+	     
+    }
+    return 0;
+}
+
+// } Driver Code Ends
