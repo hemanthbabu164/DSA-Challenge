@@ -1,0 +1,78 @@
+//3D surface area
+
+#include <bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int row,col;int data[102][102];
+    cin>>row>>col;
+    for(int i=1;i<=row;i++)
+    {
+        for(int j=1;j<=col;j++)
+        {
+            cin>>data[i][j];
+        }
+    }
+    int cost=0;
+    if(row==1&&col==1)
+    {
+        cout<<(data[1][1]-2)*4+10;return 0;
+    }
+        
+    if(col==1)
+    {
+         int sum=0;int total=0;
+         for(int i=1;i<row;i++)
+         {
+             sum+=abs(data[i][1]-data[i+1][1]);
+             total+=data[i][1];
+             
+         }
+         total+=data[row][1];
+         cost=total*2+sum+data[1][1]+data[row][1]+row*2;
+         cout <<cost;return 0;
+    }
+    if(row==1)
+    {
+         int sum=0;int total=0;
+         for(int i=1;i<col;i++)
+         {
+             sum+=abs(data[1][i]-data[1][i+1]);
+             total+=data[1][i];
+             
+         }
+         total+=data[1][col];
+         cost=total*2+sum+data[1][1]+data[1][col]+col*2;
+         cout <<cost;return 0;
+    }
+    
+     int sf1=0;
+    for(int i=1;i<=row;i++)
+    {
+        for(int j=col;j>1;j--)
+        {
+             sf1+=abs(data[i][j]-data[i][j-1]);
+        }
+    }
+    int sf2=0;
+    for(int i=1;i<=col;i++)
+    {
+        for(int j=1;j<row;j++)
+        {
+            sf2+=abs(data[j][i]-data[j+1][i]);
+        }
+    }
+     
+    int var=(data[1][1]+data[row][1]+data[1][col]+data[row][col]);
+    for(int i=2;i<col;i++)
+    {
+        cost+=data[1][i];
+        cost+=data[row][i];
+    }
+    for(int i=2;i<row;i++)
+    {
+        cost+=data[i][1];
+        cost+=data[i][col];
+    }
+     cost+=2*row*col+sf1+sf2+2*var; cout<<cost;
+}
