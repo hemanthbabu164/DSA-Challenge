@@ -1,0 +1,85 @@
+Q)Given an array arr and target sum k, 
+check whether there exists a subsequence such that the sum of all elements in the subsequence equals the given target sum(k).
+
+Example:
+
+Input:  arr = [10,1,2,7,6,1,5], k = 8.
+Output:  Yes
+Explanation:  Subsequences like [2, 6], [1, 7] sum upto 8
+
+Input:  arr = [2,3,5,7,9], k = 100. 
+Output:  No
+Explanation:  No subsequence can sum upto 100
+
+
+// code
+  //{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution{
+    public:
+    
+    bool check_subs(int i,vector<int> &med,int sum,int k,vector<int> arr,int n)
+    {
+        if(i==n)
+        {
+            if(sum==k)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+        med.push_back(arr[i]);
+        sum+=arr[i];
+        
+        if(check_subs(i+1,med,sum,k,arr,n))   //picking case 
+        {
+            return true;
+        }
+        
+        
+        sum-=arr[i];
+        med.pop_back();
+        
+        if(check_subs(i+1,med,sum,k,arr,n))    //and not picking case
+        {
+            return true;
+        }
+        
+        return false;
+    }
+    bool checkSubsequenceSum(int n, vector<int>& arr, int k) {
+        // Code here
+        vector<int> med;
+        bool flag=check_subs(0,med,0,k,arr,n);
+       return flag;
+    }
+};
+
+//{ Driver Code Starts.
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--){
+        int n,k; cin>>n>>k;
+        vector<int> arr;
+        
+        for(int i=0; i<n; ++i){
+            int x; cin>>x;
+            arr.push_back(x);
+        }
+        
+        Solution obj;
+        bool ans = obj.checkSubsequenceSum(n, arr, k);
+        cout<<( ans ? "Yes" : "No")<<"\n";
+    }
+    return 0;
+}
+// } Driver Code Ends
