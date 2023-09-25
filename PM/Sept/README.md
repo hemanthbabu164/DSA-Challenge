@@ -16,3 +16,5 @@
 
 24 - longest_subarray_length , find_missing_numbers [python]
 
+25 - is_palindrome , are_anagram [python]
+
