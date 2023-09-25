@@ -62,5 +62,6 @@ Aggressive Cows
 }
 
 BinarySearch9{  
-ALlocate Books
+ALlocate Books,   
+Largest SubArray Minimized and Painter's Partition    
 }
