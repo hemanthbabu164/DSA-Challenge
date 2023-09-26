@@ -1,3 +1,6 @@
+**Naming Convention: If there are (2*n+1) number of digits beside the topic name , ignore the first 'n' 9s**
+
+
 BinarySearch1{  
 Lower Bound Implementation,  
 Upper Bound Implementation,  
@@ -64,4 +67,9 @@ Aggressive Cows
 BinarySearch9{  
 ALlocate Books,   
 Largest SubArray Minimized and Painter's Partition    
+}
+
+BinarySearch910{  
+Minimize Max Distance to Gas Station   
+(BruteForce, Better and Optimal)     
 }
