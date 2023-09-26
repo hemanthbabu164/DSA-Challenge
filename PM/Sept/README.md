@@ -18,3 +18,5 @@
 
 25 - is_palindrome , are_anagram [python]
 
+26 - longest_common_prefix , has_unique_characters [python]
+
