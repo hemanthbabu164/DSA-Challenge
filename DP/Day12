@@ -1,4 +1,4 @@
-// sum of all subsets in an array
+// sum of numbers in subsets in an array
 
 //{ Driver Code Starts
 #include<bits/stdc++.h> 
