@@ -1,0 +1,91 @@
+//Minimize Max Distance to Gas Station
+
+//*************M1:BRUTEFORCE**************
+double minimiseMaxDistance(vector<int> &arr, int k){
+	int n=arr.size();
+	vector<int> howMany(n-1,0);
+	for(int j=0;j<k;j++){
+		int id=-1;
+		long double maxi=-1;
+		for(int i=0;i<n-1;i++){
+			long double secLength=(long double)(arr[i+1]-arr[i])/(long double)(howMany[i]+1);
+			if(maxi<secLength){
+				maxi=secLength;
+				id=i;
+			}
+		}
+		howMany[id]++;
+		
+	}	
+	long double ans=-1;
+	for(int i=0;i<n-1;i++){
+		long double secLength=(long double)(arr[i+1]-arr[i])/(long double)(howMany[i]+1);
+		if(ans<secLength){
+			ans=secLength;
+		}
+	}
+	return ans;
+}
+
+
+//*************M2:BETTER SOLUTION Using PRIORITY QUEUE************** 
+
+#include <bits/stdc++.h>
+long double minimiseMaxDistance(vector<int> &arr, int k){
+	int n=arr.size();
+	vector<int> howMany(n-1,0);
+	priority_queue<pair<long double,int>> pq;
+	for(int i=0;i<n-1;i++){
+		pq.push({arr[i+1]-arr[i],i});
+	}
+	for(int j=0;j<k;j++){
+		auto tp=pq.top();
+		pq.pop();
+		int id=tp.second;
+		howMany[id]++;
+		long double newSecn= (long double)(arr[id+1]-arr[id])/(long double)(howMany[id]+1);
+		pq.push({newSecn,id});
+		
+	}	
+	
+	return pq.top().first;
+}
+
+//*************M3:OPTIMAL SOLUTION Using BINARY SEARCH**************
+//TC is almost similar to Better But Space Complexity is 1 as no extra space 
+
+bool isPossible(long double dist,vector<int> &arr, int k){
+	int count=0;
+	for(int i=1;i<arr.size();i++){
+		int posNumInBetween=(arr[i]-arr[i-1])/dist;
+		//if the number is exactly divisible we reduce it by 1 ex: if dist is 0.4 : [1 1.4 1.8 2] is possible if dist is 0.5 : [1 1.5 2] is only possible
+		if (posNumInBetween * dist == (arr[i] - arr[i - 1])) {
+			posNumInBetween--;
+		}
+		count+=posNumInBetween;
+		if(count>k){
+			return false;
+		}
+    }
+	return true;
+}
+//The Question states to consider upto 6th decimal, we incorporate it into our BinarySearch
+double minimiseMaxDistance(vector<int> &arr, int k){
+	int n=arr.size();
+	long double low=0;
+	long double high=0;
+	for(int i=0;i<n-1;i++){
+		high=max(high,(long double)(arr[i+1]-arr[i]));
+	}
+	long double diff=1e-6;//till 6th decimal
+	while(high-low > diff){
+		long double mid=(low+high)/(2.0);
+		if(isPossible(mid,arr,k)){
+			high=mid;
+		}
+		else{
+			low=mid;
+		}
+	}
+	return high;//ans will be in high , do a tracing by taking 1st decimal as limit and see
+}
