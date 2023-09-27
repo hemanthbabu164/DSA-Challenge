@@ -1,0 +1,88 @@
+Q)Minimum partioning of the string to make all of the strings palindromes
+
+// code
+
+//{ Driver Code Starts
+// Initial Template for c++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+
+
+
+void find_parts(int ind,string str,vector<string> med,vector<vector<string>> &ans )
+{
+                             // we filter the partion step in the below loop so we can directly
+     if(ind==str.length())   //add the part to the ans
+    {
+        ans.push_back(med);
+        return;
+    }
+    
+    for(int i=ind;i<str.length();i++)
+    {
+        if(palindrome(str,ind,i))
+        {
+            med.push_back(str.substr(ind,(i-ind)+1));
+            find_parts(i+1,str,med,ans);
+            med.pop_back();
+        }
+    }
+}
+
+bool palindrome(string s,int begin,int end)
+{
+    while(begin<=end)
+    {
+        if(s[begin++]!=s[end--])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+    int palindromicPartition(string str)
+    {
+        // code here
+         vector<string> med;
+         vector<vector<string>> ans;
+         
+         find_parts(0,str,med,ans);
+         
+         int res=INT_MAX;
+         
+         for(int i=0;i<ans.size();i++)
+         {
+             int m=ans[i].size();
+             if(m<res)
+             {
+                 res=m;
+             }
+         }
+         
+         return res-1;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        string str;
+        cin>>str;
+        
+        Solution ob;
+        cout<<ob.palindromicPartition(str)<<"\n";
+    }
+    return 0;
+}
+// } Driver Code Ends
