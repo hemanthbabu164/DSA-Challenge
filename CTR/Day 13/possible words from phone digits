@@ -1,0 +1,102 @@
+Q)Given N and and array of N digit number.
+find all possible strings that are generate dfrom this fone digits.
+
+2-abc
+3-def
+4-ghi
+5-jkl
+6-mno
+7-pqrs
+8-tuv
+9-wxyz
+
+
+Input N=2 a[]=[2,3]
+output:aed,ae,af,bd,be,bf,cd,ce,cf
+
+
+//code
+
+//{ Driver Code Starts
+//Initial Template for C++
+
+#include <bits/stdc++.h>
+#include <string>
+
+using namespace std;
+
+
+// } Driver Code Ends
+//User function Template for C++
+
+class Solution
+{
+    public:
+    //Function to find list of all words possible by pressing given numbers.
+   void generate_strings(int ind,vector<string> fetch,string med,vector<string> &ans)
+   {
+       if(ind==fetch.size())
+       {
+           ans.push_back(med);
+           return;
+       }
+       
+       for(int i=0;i<fetch[ind].length();i++)
+       {
+           string x=fetch[ind];
+           med+=x[i];
+           generate_strings(ind+1,fetch,med,ans);
+           med.pop_back();
+       }
+   }
+    
+    vector<string> possibleWords(int a[], int N)
+    {
+        //Your code here
+             vector<string> ans;
+             vector<string> store;
+             vector<string> fetch;
+             
+             store={"abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+             
+             for(int i=0;i<N;i++)
+              {
+                  fetch.push_back(store[a[i]-2]);
+              }
+              string med="";
+              generate_strings(0,fetch,med,ans);
+              
+              return ans;
+    }
+};
+
+
+//{ Driver Code Starts.
+
+int main() {
+  
+	int T;
+	
+	cin >> T; //testcases
+	
+	while(T--){ //while testcases exist
+	   int N;
+	    
+	   cin >> N; //input size of array
+	   
+	   int a[N]; //declare the array
+	   
+	   for(int i =0;i<N;i++){
+	       cin >> a[i]; //input the elements of array that are keys to be pressed
+	   }
+	   
+	   Solution obj;
+	   
+	  vector <string> res = obj.possibleWords(a,N);
+	  for (string i : res) cout << i << " ";
+	   cout << endl;
+	}
+	
+	return 0;
+}
+// } Driver Code Ends
