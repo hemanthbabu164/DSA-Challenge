@@ -1,0 +1,177 @@
+//Stack push, pop ,getmin with TC:O(1)
+
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+/*
+The structure of the class is as follows
+class _stack{
+stack<int> s;
+int minEle;
+public :
+    int getMin();
+    int pop();
+    void push(int);
+};
+*/
+
+class Solution{
+    int minEle=101;
+    stack<int> s;
+    stack<int> minstack;
+    public:
+    
+       /*returns min element from stack*/
+       int getMin(){
+           
+           //Write your code here
+           if(minstack.empty()){
+               return -1;
+           }
+           return minstack.top();
+       }
+       
+       /*returns poped element from stack*/
+       int pop(){
+           
+           int x=0;
+           if(s.empty()){
+               return -1;
+           }
+           else {
+                x=s.top();
+               if(s.top()==minstack.top())
+               {
+                   minstack.pop();
+               }
+               s.pop();
+               return x;
+           }
+           //Write your code here
+       }
+       
+       /*push element x into the stack*/
+       void push(int x){
+           
+           if(minstack.empty())
+           {
+               minstack.push(x);
+               s.push(x);
+           }
+           else{
+               if(minstack.top()>=x)
+                    minstack.push(x);
+            s.push(x);    
+           }
+           //Write your code here
+       }
+};
+
+//{ Driver Code Starts.
+
+int main()
+ {
+    long long t;
+
+    cin>>t;
+    while(t--)
+    {
+        int q;
+        cin>>q;
+        Solution ob;
+        while(q--){
+           int qt;
+           cin>>qt;
+           if(qt==1)
+           {
+              //push
+              int att;
+              cin>>att;
+              ob.push(att);
+           }
+           else if(qt==2)
+           {
+              //pop
+              cout<<ob.pop()<<" ";
+           }
+           else if(qt==3)
+           {
+              //getMin
+              cout<<ob.getMin()<<" ";
+           }
+       }
+       cout<<endl;
+    }
+    return 0;
+}
+
+// } Driver Code Ends
+
+
+//Remove all the consecutive duplicate pairs and concatenate the remaining string to replace the original string.
+
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+class Solution {
+  public:
+    string removePair(string s) {
+        // code here
+        stack<char> st;
+        
+        string res="";
+        for (int i=0;i<s.length();i++)
+        {
+            if(st.empty())
+                st.push(s[i]);
+            else{
+                if(st.top()==s[i])
+                {
+                    st.pop();
+                }
+                else{
+                    st.push(s[i]);
+                }
+            }    
+        }
+        if(st.empty())
+            return "-1";
+        else{
+            while(!st.empty())
+            {
+                res+=st.top();
+                st.pop();
+            }
+        }    
+       reverse(res.begin(),res.end());
+        return res;
+        
+        
+    }
+};
+
+
+//{ Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        string s; 
+        cin>>s;
+        
+        Solution obj;
+        string res = obj.removePair(s);
+        
+        cout<<res<<endl;
+        
+    }
+}
+
+// } Driver Code Ends
