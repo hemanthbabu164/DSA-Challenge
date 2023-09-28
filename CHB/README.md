@@ -78,3 +78,7 @@ BinarySearch911{
 Median of Two Sorted Arrays   
 (BruteForce, Better and Optimal)   
 }
+
+BinarySearch912{   
+K-th Element of Two Sorted Arrays   
+}
