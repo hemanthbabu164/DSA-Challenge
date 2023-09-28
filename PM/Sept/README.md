@@ -20,3 +20,7 @@
 
 26 - longest_common_prefix , has_unique_characters [python]
 
+27 - merge_intervals , two_sum [python]
+
+28 - primes_in_range , max_subarray_kadanesAlgo [python]
+
