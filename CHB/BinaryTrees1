@@ -1,4 +1,6 @@
 //1.PreOrder Traversal
+
+#include <stack>
 void preorder(TreeNode<int> * root,vector<int> &ans ){
     if(root==NULL || root->data==-1){
         return;
@@ -9,15 +11,32 @@ void preorder(TreeNode<int> * root,vector<int> &ans ){
         preorder(root->right, ans);
     }
 }
-
+void iterativePreorder(TreeNode<int> * root,vector<int> &ans ){
+    if(root==NULL || root->data==-1){
+        return;
+    }
+    stack<TreeNode<int> *> s1;
+    s1.push(root);
+    while(!s1.empty()){
+        TreeNode<int> *node=s1.top();
+        s1.pop();
+        ans.push_back(node->data);
+        if(node->right != NULL) s1.push(node->right);
+        if(node->left !=NULL) s1.push(node->left);
+    }
+    
+}
 
 vector<int> preOrder(TreeNode<int> * root){
     vector<int> ans;
-    preorder(root,ans);
+    iterativePreorder(root,ans);
     return ans;
 }
 
+
 //2.InOrder Traversal
+
+#include <stack>
 void inOrder(TreeNode * root,vector<int> &ans ){
     if(root==NULL || root->data==-1){
         return;
@@ -28,12 +47,32 @@ void inOrder(TreeNode * root,vector<int> &ans ){
         inOrder(root->right, ans);
     }
 }
+void iterativeInOrder(TreeNode * root,vector<int> &ans ){
+    if(root==NULL || root->data==-1){
+        return;
+    }
+    stack<TreeNode *> s1;
+    TreeNode *node=root;
+    while(true){
+        if(node!=NULL && node->data!=-1){
+            s1.push(node);
+            node=node->left;
+        }
+        else{
+            if(s1.empty()) return;
+            node = s1.top();
+            s1.pop();
+            ans.push_back(node->data);
+            node=node->right;
+        }
+    }
 
+}
 
 vector<int> getInOrderTraversal(TreeNode *root)
 {
     vector<int> ans;
-    inOrder(root,ans);
+    iterativeInOrder(root,ans);
     return ans;
 }
 
