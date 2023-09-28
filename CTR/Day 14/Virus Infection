@@ -1,0 +1,103 @@
+Q)There are N people standing in a row, you are given a string s of
+length N where s[i] ='1"if jth person is infected with a virus
+and s[i] ='0"if not infected. Given K, ith person can infect up
+to Kpeople on his left side and up to K people on his right side.
+Now the newly infected people can't further spread the virus.
+
+Find the total number of people who are infected with the virus.
+
+//code
+
+//{ Driver Code Starts
+//Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+//User function Template for C++
+
+class Solution{
+    public:
+    int solve(string s, int k){
+        // code here
+        
+        int med;
+        int count=0;
+        int n=s.length();
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]=='1')
+            {
+                // forwarding
+                 med=i;
+                 count=0;
+                while(count!=k && med!=0)
+                {
+                    if(s[med-1]!='1')
+                    {
+                        s[med-1]='z';
+                    }
+                    count++;
+                    med--;
+                }
+                
+                // backwarding
+                med=i;
+                count=0;
+                
+                
+                while(count!=k && med!=n-1)
+                {
+                    if(s[med+1]!='1')
+                    {
+                        s[med+1]='z';
+                    }
+                    count++;
+                    med++;
+                }
+                
+            }
+        }
+        
+        
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]=='z')
+            {
+                s[i]='1';
+            }
+        }
+        
+        
+        
+        
+        int ans=0;
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]=='1')
+            {
+                ans++;
+            }
+        }
+        
+        return ans;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main(){
+    int T;
+    cin >> T;
+    while(T--){
+        string s;
+        cin >> s;
+        int K;
+        cin >> K;
+        Solution obj;
+        cout << obj.solve(s, K) << "\n";
+    }
+}
+// } Driver Code Ends
