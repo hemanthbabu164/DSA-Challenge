@@ -1,0 +1,82 @@
+Q)Find all valid combinations of K numbers that sum upto to N such that the following conditions are true:
+
+Only number 1 through 9 are used.
+Each number is used atmost once.
+Return the list of all possible valid combinations.
+
+Note: The list must not contain the same combination twice, and the combinations returned in any order.
+
+Example 1:
+
+Input:
+K = 3
+N = 7
+Output: { {1, 2, 4} }
+Explanation: 
+1+ 2+ 4 = 7
+There are no other valid combinations.
+
+
+
+//code
+
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+class Solution {
+  public:
+  
+  
+  void find_combs(int i,int sum,int target,vector<vector<int>> &res,int num,vector<int> ds,int K)
+  {
+      if(i==9)
+      {
+          if(sum==target && ds.size()==K)
+          {
+              res.push_back(ds);
+          }
+          return ;
+      }
+      
+      sum+=num;
+      ds.push_back(num);
+      find_combs(i+1,sum,target,res,num+1,ds,K);
+      sum-=num;
+      ds.pop_back();
+      find_combs(i+1,sum,target,res,num+1,ds,K);
+      
+  }
+    vector<vector<int>> combinationSum(int K, int N) {
+        // code here
+        
+        vector<int> ds;
+        vector<vector<int>> res;
+        
+        find_combs(0,0,N,res,1,ds,K);
+        return res;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int N, K;
+        cin >> K >> N;
+
+        Solution obj;
+        vector<vector<int>> ans = obj.combinationSum(K, N);
+        sort(ans.begin(), ans.end());
+        for (auto &arr : ans) {
+            for (auto it : arr) cout << it << ' ';
+            cout << endl;
+        }
+    }
+    return 0;
+}
+// } Driver Code Ends
