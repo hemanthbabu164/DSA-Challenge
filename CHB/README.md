@@ -82,3 +82,7 @@ Median of Two Sorted Arrays
 BinarySearch912{   
 K-th Element of Two Sorted Arrays   
 }
+
+BinarySearch913{   
+Row with max 1s   
+}
