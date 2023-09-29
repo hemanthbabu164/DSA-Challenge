@@ -84,5 +84,6 @@ K-th Element of Two Sorted Arrays
 }
 
 BinarySearch913{   
-Row with max 1s   
+Row with max 1s,    
+Search in a Sorted 2D Matrix      
 }
