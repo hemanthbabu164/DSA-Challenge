@@ -6,5 +6,7 @@ for /l %%i in (1, 1, 31) do (
   set /a "day_sum=18+%%i"
   set "folder_name=!folder_number! - Day!day_sum!"
   mkdir "!folder_name!"
+  set "file_name=Day!day_sum!.md"
+  copy nul "!folder_name!\!file_name!" >nul
   endlocal
 )
