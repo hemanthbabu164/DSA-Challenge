@@ -25,3 +25,5 @@
 28 - primes_in_range , max_subarray_kadanesAlgo [python]
 
 29 - merge_sorted_arrays , longest_increasing_subsequence [python]
+
+30 - leap_year , factorial [python]
