@@ -27,7 +27,8 @@ pair<int, int> search(vector<vector<int>> matrix, int x)
     return {-1,-1};
 }
 
-//M2: idea: Reverse L part is sorted : i.e., if you are standing at (i,j) pos, 
+//M2: TC: O(n+m)
+//idea: Reverse L part is sorted : i.e., if you are standing at (i,j) pos, 
 //then all the num to its left (till {i,0}) are <(i,j) and all the num below (i.e. till {n,j}) are >(i,j)
 
 #include <bits/stdc++.h> 
@@ -49,3 +50,100 @@ pair<int, int> search(vector<vector<int>> matrix, int x)
     }
     return {-1,-1};
 }
+
+
+
+//2. Peak Element in a Grid
+
+//M1: Normal : Note: There are additional cases here in M1 as i took not only adjacent but also the diagonal ones for comparisions
+vector<int> findPeakGrid(vector<vector<int>> &g){
+    int n=g.size();
+    int m=g[0].size();
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            bool key=true;
+            if(j-1>=0){
+                if(key && g[i][j-1]>=g[i][j]){
+                    key=false;
+                }
+                if(key && i-1>=0){
+                    if(g[i-1][j-1]>=g[i][j] || g[i-1][j]>=g[i][j]){
+                        key=false;
+                    }
+                }
+                if(key && i+1<n){
+                    if(g[i+1][j-1]>=g[i][j] || g[i+1][j]>=g[i][j]){
+                        key=false;
+                    }
+                }
+            }
+            else{
+                if(i-1>=0 && g[i-1][j]>=g[i][j]){
+                    key=false;
+                }
+                if(key && i+1<n && g[i+1][j]>=g[i][j]){
+                    key=false;
+                }
+            }
+            if(key && j+1<m){
+                if(g[i][j+1]>=g[i][j]){
+                    key=false;
+                }
+                if(key && i-1>=0){
+                    if(g[i-1][j+1]>=g[i][j]){
+                        key=false;
+                    }
+                }
+                if(key && i+1<n){
+                    if(g[i+1][j+1]>=g[i][j]){
+                        key=false;
+                    }
+                }
+            }
+            if(key){
+                // cout<<"\t"<<i<<"\t"<<j<<endl;
+                return {i,j};
+            }
+
+        }
+    }
+    return {-1,-1};
+}
+
+//M2: Optimal: It is just like finding a peak element in 1D array, BS on columns, 
+//Finding the max elem in the column makes it it the peak elem of the col(top and bottom conditions are satisfied)
+
+int maxElem(vector<vector<int>> &g, int n, int mid){
+    int maxi=0;
+    int ind=-1;
+    for(int i=0;i<n;i++){
+        if(g[i][mid]>maxi){
+            maxi=g[i][mid];
+            ind=i;
+        }
+    }
+    return ind;
+}
+vector<int> findPeakGrid(vector<vector<int>> &g){
+    int n=g.size();
+    int m=g[0].size();
+    int low=0;
+    int high=m-1;
+    while(low<=high){
+        int mid=(low+high)/2;
+        int row=maxElem(g, n,mid);
+        int left= mid-1>=0?g[row][mid-1]:-1;
+        int right=mid+1<m?g[row][mid+1]:-1;
+        if(g[row][mid]>left && g[row][mid]>right){
+            return {row,mid};
+        }
+        else if(g[row][mid]<=left){
+            high=mid-1;
+        }
+        else{
+            low=mid+1;
+        }
+    }
+    return {-1,-1};
+}
+
