@@ -1,0 +1,51 @@
+//1. Search In A Row Wise And Column Wise Sorted Matrix
+
+//M1: TC:O(n*logn) for a n*n matrix, you can just replace a couple positions of n with m for n*m 
+
+#include <bits/stdc++.h> 
+pair<int, int> search(vector<vector<int>> matrix, int x)
+{
+    int n=matrix.size();
+    for(int i=0;i<n;i++){
+        if(matrix[i][0]<=x && matrix[i][n-1]>=x){
+            int low=0;
+            int high=n-1;
+            while(low<=high){
+                int mid=(low+high)/2;
+                if(matrix[i][mid]==x){
+                    return {i,mid};
+                }
+                if(matrix[i][mid]>x){
+                    high=mid-1;
+                }
+                else{
+                    low=mid+1;
+                }
+            }
+        }
+    }
+    return {-1,-1};
+}
+
+//M2: idea: Reverse L part is sorted : i.e., if you are standing at (i,j) pos, 
+//then all the num to its left (till {i,0}) are <(i,j) and all the num below (i.e. till {n,j}) are >(i,j)
+
+#include <bits/stdc++.h> 
+pair<int, int> search(vector<vector<int>> matrix, int x)
+{
+    int n=matrix.size();
+    int row=0;
+    int col=n-1;
+    while (row >= 0 && col >= 0 && row < n && col < n){
+        if(matrix[row][col]==x){
+            return {row,col};
+        }
+        if(matrix[row][col]>x){
+            col--;
+        }
+        else{
+            row++;
+        }
+    }
+    return {-1,-1};
+}
