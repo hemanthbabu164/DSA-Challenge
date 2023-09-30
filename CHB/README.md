@@ -87,3 +87,8 @@ BinarySearch913{
 Row with max 1s,    
 Search in a Sorted 2D Matrix      
 }
+
+BinarySearch914{   
+Search In A Row Wise And Column Wise Sorted Matrix,    
+
+}
