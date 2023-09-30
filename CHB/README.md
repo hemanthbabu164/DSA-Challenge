@@ -90,5 +90,6 @@ Search in a Sorted 2D Matrix
 
 BinarySearch914{   
 Search In A Row Wise And Column Wise Sorted Matrix,    
-Peak Element in a Grid   
+Peak Element in a Grid,   
+Median in a Row Wise Sorted Matrix    
 }
