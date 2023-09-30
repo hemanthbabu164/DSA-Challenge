@@ -147,3 +147,69 @@ vector<int> findPeakGrid(vector<vector<int>> &g){
     return {-1,-1};
 }
 
+
+//3. Median in a Row Wise Sorted Matrix
+
+//M1: Naive, BF :
+int median(vector<vector<int>> &matrix, int m, int n) {
+    vector<int> ans;
+    for(int i=0;i<m;i++){
+        for(int j=0;j<n;j++){
+            ans.push_back(matrix[i][j]);
+        }
+    }
+    sort(ans.begin(),ans.end());
+    return ans[n*m/2];
+}
+
+//M2:
+//Binary Search on the number of numbers in the matrix less than or equal to our mid
+//the Binary search is taken on the range of minimum to maximum (not just on the elements)
+#include <limits.h>
+int upperBound(vector<int> &arr, int x, int n){
+	int low=0;
+	int high=n-1;
+	int res=n;
+	while(low<=high){
+		int mid=low+(high-low)/2;
+		if(arr[mid]<=x){
+			low=mid+1;
+		}
+		else{
+			high=mid-1;
+			res=mid;
+		}
+	}
+	return res;
+	//you can just use ub=upper_bound(arr.begin(),arr.end(),x)
+}
+int numLessOrEq(vector<vector<int>> &matrix, int n, int m,int mid){
+    int count=0;
+    for(int i=0;i<n;i++){
+        count+=upperBound(matrix[i], mid, m);
+        
+    }
+    return count;
+}
+int median(vector<vector<int>> &matrix, int n, int m) {
+    int low=INT_MAX;
+    int high=INT_MIN;
+    for(int i=0;i<n;i++){
+        low=min(low,matrix[i][0]);
+        high=max(high,matrix[i][m-1]);
+    }
+    int k=(n*m)/2;
+    int ans=-1;
+    while(low<=high){
+        int mid=(low+high)/2;
+        int val=numLessOrEq(matrix,n,m,mid);
+        if(val>k){
+            ans=mid;
+            high=mid-1;
+        }
+        else{
+            low=mid+1;
+        }
+    }
+    return ans;
+}
