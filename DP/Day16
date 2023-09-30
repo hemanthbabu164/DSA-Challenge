@@ -1,0 +1,146 @@
+//License formatting
+//Given a string S that consists of only alphanumeric characters and dashes. The string is separated into N + 1 groups by N dashes. Also given an integer K. 
+
+//We want to reformat the string S, such that each group contains exactly K characters, except for the first group, which could be shorter than K but still must contain at least one character. Furthermore, there must be a dash inserted between two groups, and you should convert all lowercase letters to uppercase.
+//{ Driver Code Starts
+/* Driver program to test above function */
+
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+//Back-end complete function Template for C++
+class Solution
+{
+   public:
+    string ReFormatString(string s, int K){
+    	string res="";
+    	vector<char> temp;
+    	for(int i=s.length()-1;i>=0;i--)
+    	{
+    	    if(s[i]!='-')
+    	    {
+        	    temp.push_back(s[i]);
+    	    }
+    	    else{
+    	        continue;
+    	    }
+    	    if(temp.size()==K)
+    	    {
+    	       for(int j=0;j<K;j++)
+    	       {
+    	           res+=toupper(temp[j]);
+    	       }
+    	       //if(i!=0)
+    	       res+='-';
+    	       temp.clear();
+    	    }
+    	}
+    	for(int j=0;j<temp.size();j++)
+       {
+           res+=toupper(temp[j]);
+       }
+    	reverse(res.begin(),res.end());
+       if(res[0]=='-')
+            res.erase(0,1);
+    	return res;
+    	
+    	
+    }
+};
+
+//{ Driver Code Starts.
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    string S;
+	    cin>>S;
+	    int K;
+	    cin >> K;
+	    Solution ob;  
+	    string ans=ob.ReFormatString(S, K);
+	    cout<<ans;
+	    cout<<"\n";
+	}
+	return 0;
+}
+
+// } Driver Code Ends
+
+
+
+//Geek has a string Sof size Nconsisting of characters from '0'to '9'. He wants to minimise the length of the string. In each minimising operation, geek can remove any two consecutive characters if they are of the form {"12", "21", "34", "43", "56", "65", "78", "87", "09", "90"}.
+Find the minimum possible length of the string after applying minimising operations.
+
+//{ Driver Code Starts
+//Initial template for C++
+ 
+#include<bits/stdc++.h>
+using namespace std; 
+
+// } Driver Code Ends
+//User function template for C++
+
+class Solution{
+public:
+    int minLength(string s, int n) {
+        // code here
+        
+        stack<char> st;
+        
+        string res="";
+        for (int i=0;i<s.length();i++)
+        {
+            if(st.empty())
+                st.push(s[i]);
+            else{
+                if((st.top()=='1'&&s[i]=='2')||(st.top()=='2'&&s[i]=='1')||(st.top()=='3'&&s[i]=='4')||(st.top()=='4'&&s[i]=='3')||(st.top()=='5'&&s[i]=='6')||(st.top()=='6'&&s[i]=='5')||(st.top()=='7'&&s[i]=='8')||(st.top()=='8'&&s[i]=='7')||(st.top()=='0'&&s[i]=='9')||(st.top()=='9'&&s[i]=='0'))
+                {
+                    st.pop();
+                }
+                else{
+                    st.push(s[i]);
+                }
+            }    
+        }
+       
+        while(!st.empty())
+        {
+            res+=st.top();
+            st.pop();
+        }
+            
+       //reverse(res.begin(),res.end());
+        return res.length();
+        
+    } 
+};
+
+
+//{ Driver Code Starts.
+
+int32_t main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        int n;
+        cin >> n;
+
+        string s;
+        cin >> s;
+
+        Solution obj;
+        cout << obj.minLength(s, n) << "\n";
+    }
+    return 0;
+}
+// } Driver Code Ends
