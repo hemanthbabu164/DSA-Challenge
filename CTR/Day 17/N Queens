@@ -1,0 +1,113 @@
+Q)The n-queens puzzle is the problem of placing n queens on a (n×n) chessboard such that no two queens can attack each other.
+Given an integer n, find all distinct solutions to the n-queens puzzle. 
+Each solution contains distinct board configurations of the n-queens’ placement,
+where the solutions are a permutation of [1,2,3..n] in increasing order, here the number in the ith place denotes that the ith-column queen is placed in the row with that number
+
+//code
+
+//{ Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+
+
+   void get_pos(int col,vector<vector<int>> &res,vector<string> board,vector<int> lr,vector<int> lole,vector<int>uple,int n)
+   {
+       if(col==n)
+       {
+           vector<int> temp;
+           for(int i=0;i<n;i++)
+           {
+               for(int j=0;j<n;j++)
+               {
+                   if(board[i][j]=='Q')
+                   {
+                       temp.push_back(j+1);
+                       break;
+                   }
+               }
+           }
+           res.push_back(temp);
+           return;
+       }
+       
+       
+       for(int rows=0;rows<n;rows++)
+       {
+           if(lr[rows]==0 && lole[rows+col]==0 && uple[(n-1)+(col-rows)]==0)
+           {
+               board[rows][col]='Q';
+               lr[rows]=1;
+               lole[rows+col]=1;
+               uple[(n-1)+(col-rows)]=1;
+               get_pos(col+1,res,board,lr,lole,uple,n);
+               board[rows][col]='.';
+                lr[rows]=0;
+               lole[rows+col]=0;
+               uple[(n-1)+(col-rows)]=0;
+           }
+       }
+       
+       
+   }
+
+    vector<vector<int>> nQueen(int n) {
+        // code here
+        vector<vector<int>> res;
+        
+        //creating the board
+        
+        vector<string> board(n);
+        string s(n,'.');
+        
+        for(int i=0;i<n;i++)
+        {
+            board[i]=s;
+        }
+        
+        vector<int> leftrow(n,0);
+        vector<int> lowerleft(2*n-1,0);
+        vector<int> upperleft(2*n-1,0);
+        
+        get_pos(0,res,board,leftrow,lowerleft,upperleft,n);
+        
+        sort(res.begin(),res.end());
+        return res;
+        
+    }
+};
+
+
+//{ Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        
+        Solution ob;
+        vector<vector<int>> ans = ob.nQueen(n);
+        if(ans.size() == 0)
+            cout<<-1<<"\n";
+        else {
+            for(int i = 0;i < ans.size();i++){
+                cout<<"[";
+                for(int u: ans[i])
+                    cout<<u<<" ";
+                cout<<"] ";
+            }
+            cout<<endl;
+        }
+    }
+    return 0;
+}
+// } Driver Code Ends
