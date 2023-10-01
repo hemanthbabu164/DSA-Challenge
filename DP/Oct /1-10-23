@@ -1,1 +1,123 @@
+//Boundary travesal of matrix
+//{ Driver Code Starts
+#include <bits/stdc++.h> 
+using namespace std; 
 
+// } Driver Code Ends
+
+class Solution
+{   
+    public:
+    //Function to return list of integers that form the boundary 
+    //traversal of the matrix in a clockwise manner.
+    vector<int> boundaryTraversal(vector<vector<int> > matrix, int n, int m) 
+    {
+        // code here
+        vector<int> result;
+        if(m==1)
+        {
+            for(int i=0;i<n;i++)
+            {
+                result.push_back(matrix[i][m-1]);
+            }
+            return result;
+        }
+        if(n==1)
+        {
+            for(int i=0;i<m;i++)
+            {
+                result.push_back(matrix[0][i]);
+            }
+            return result;
+        }
+        for(int j=0;j<m;j++)
+        {
+            result.push_back(matrix[0][j]);
+        }
+        for(int i=1;i<n;i++)
+        {
+            result.push_back(matrix[i][m-1]);
+        }
+        for(int j=m-2;j>-1;j--)
+        {
+            result.push_back(matrix[n-1][j]);
+        }
+        for(int i=n-2;i>0;i--)
+        {
+            result.push_back(matrix[i][0]);
+        }
+        return result;
+        
+    }
+};
+
+
+//{ Driver Code Starts.
+int main() {
+    int t;
+    cin>>t;
+    
+    while(t--) 
+    {
+        int n,m;
+        cin>>n>>m;
+        vector<vector<int> > matrix(n); 
+
+        for(int i=0; i<n; i++)
+        {
+            matrix[i].assign(m, 0);
+            for( int j=0; j<m; j++)
+            {
+                cin>>matrix[i][j];
+            }
+        }
+
+        Solution ob;
+        vector<int> result = ob.boundaryTraversal(matrix, n, m);
+        for (int i = 0; i < result.size(); ++i)
+                cout<<result[i]<<" ";
+        cout<<endl;
+    }
+    return 0;
+}
+// } Driver Code Ends
+
+//Given a positive integer N, count all possible distinct binary strings of length N such that there are no consecutive 1’s. Output your answer modulo 10^9 + 7
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+
+using namespace std;
+#define ll long long
+
+// } Driver Code Ends
+//User function template for C++
+class Solution{
+public:
+	// #define ll long long
+	ll countStrings(int n) {
+	    ll int dp[n+1];
+        dp[1]=2;
+        dp[2]=3;
+        for(int i=3;i<=n;i++){
+            dp[i]=(dp[i-1]+dp[i-2])%1000000007;
+        }
+        return dp[n];  
+	    
+	}
+};
+
+//{ Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        Solution ob;
+        auto ans = ob.countStrings(n);
+        cout << ans << "\n";
+    }
+    return 0;
+}
+// } Driver Code Ends
