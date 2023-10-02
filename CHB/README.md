@@ -95,6 +95,10 @@ Median in a Row Wise Sorted Matrix
 }
 
 Strings1{  
-Check if One String is a Rotation of Another,   
+Check if One String is a Rotation of Another    
+}
+
+BinaryTrees2{   
+Is Height Balanced Binary Tree,   
 
 }
