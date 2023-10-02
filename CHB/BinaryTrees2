@@ -1,6 +1,6 @@
 //1.Is Height Balanced Binary Tree
 
-//M1:
+//M1:BruteForce TC: O(n*2)
 int heightOfBinaryTree(TreeNode<int> *root)
 {
 	if(root==NULL){
@@ -20,4 +20,36 @@ bool isBalancedBT(TreeNode<int>* root){
     bool righbal=isBalancedBT(root->right);
     bool leftbal=isBalancedBT(root->left);
     return (abs(rightheight-leftheight)<2)&&righbal&&leftbal;
+}
+
+
+//M2: Optimal TC: O(N)
+  int heightToCheckBalance(TreeNode *root)
+{
+	if(root==NULL){
+        return 0;
+    }
+    int leftheight=heightToCheckBalance(root->left);
+    int rightheight=heightToCheckBalance(root->right);
+    if(leftheight==-1 || rightheight==-1){
+        return -1;
+    }
+    if(abs(leftheight-rightheight)>1){
+        return -1;
+    }
+    return max(leftheight,rightheight)+1;
+}
+bool isBalanced(TreeNode* root){
+    if(root==NULL || root->val==-1){
+        return true;
+    }
+    int rightheight=heightToCheckBalance(root->right);
+    int leftheight=heightToCheckBalance(root->left);
+    if(leftheight==-1 || rightheight==-1){
+        return false;
+    }
+    if(abs(leftheight-rightheight)>1){
+        return false;
+    }
+    return true;
 }
