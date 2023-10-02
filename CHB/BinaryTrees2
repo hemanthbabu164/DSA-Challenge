@@ -1,0 +1,23 @@
+//1.Is Height Balanced Binary Tree
+
+//M1:
+int heightOfBinaryTree(TreeNode<int> *root)
+{
+	if(root==NULL){
+        return 0;
+    }
+    int leftheight=heightOfBinaryTree(root->left);
+    int rightheight=heightOfBinaryTree(root->right);
+
+    return max(leftheight,rightheight)+1;
+}
+bool isBalancedBT(TreeNode<int>* root){
+    if(root==NULL || root->val==-1){
+        return true;
+    }
+    int rightheight=heightOfBinaryTree(root->right);
+    int leftheight=heightOfBinaryTree(root->left);
+    bool righbal=isBalancedBT(root->right);
+    bool leftbal=isBalancedBT(root->left);
+    return (abs(rightheight-leftheight)<2)&&righbal&&leftbal;
+}
