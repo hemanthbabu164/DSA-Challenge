@@ -40,16 +40,25 @@ bool isBalancedBT(TreeNode<int>* root){
     return max(leftheight,rightheight)+1;
 }
 bool isBalanced(TreeNode* root){
-    if(root==NULL || root->val==-1){
-        return true;
+    return heightToCheckBalance(root)!=-1;
+}
+
+
+
+//2.Diameter of Binary Tree
+
+int heightOfBinaryTree(TreeNode<int> *root, int& maxi)
+{
+    if(root==NULL){
+        return 0;
     }
-    int rightheight=heightToCheckBalance(root->right);
-    int leftheight=heightToCheckBalance(root->left);
-    if(leftheight==-1 || rightheight==-1){
-        return false;
-    }
-    if(abs(leftheight-rightheight)>1){
-        return false;
-    }
-    return true;
+    int leftheight=heightOfBinaryTree(root->left,maxi);
+    int rightheight=heightOfBinaryTree(root->right,maxi);
+    maxi=max(maxi,leftheight+rightheight);
+    return max(leftheight,rightheight)+1;
+}
+int diameterOfBinaryTree(TreeNode<int> *root){
+int dia=0;
+    int h=heightOfBinaryTree(root, dia);
+    return dia;
 }
