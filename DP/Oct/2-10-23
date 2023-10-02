@@ -1,0 +1,118 @@
+//Triplets with sum zero
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+#include<stdlib.h>
+#include<iostream>
+using namespace std;
+
+// } Driver Code Ends
+/* You are required to complete the function below
+*  arr[]: input array
+*  n: size of array
+*/
+class Solution{
+  public:
+    //Function to find triplets with zero sum.
+    bool findTriplets(int num[], int n)
+    { 
+        
+        //Your code here
+        vector<vector<int>> ans;
+        sort(num,num+n);
+        for(int i=0;i<n;i++)
+        {
+            if(i>0 && num[i]==num[i-1])
+                continue;
+            int j=i+1,k=n-1;
+            while(j<k){
+                int sum=num[i]+num[j]+num[k];
+                if(sum<0)
+                    j++;
+                else if(sum>0)
+                    k--;
+                else
+                {
+                    /*vector<int> t ={num[i],num[j],num[k]};
+                    ans.push_back(t);
+                    j++;k--;
+                    while(j<k && num[j]==num[j-1])j++;
+                    while(j<k && num[k]==num[k+1])k++;*/
+                    return 1;
+                }
+                    
+            }
+        }
+        return 0;
+    }
+};
+
+//{ Driver Code Starts.
+int main()
+{
+    int t;
+	cin>>t;
+	while(t--){
+    	int n;
+    	cin>>n;
+    	int arr[n]={0};
+    	for(int i=0;i<n;i++)
+    		cin>>arr[i];
+    	Solution obj;
+        if(obj.findTriplets(arr, n))
+            cout<<"1"<<endl;
+        else 
+            cout<<"0"<<endl;
+	}
+    return 0;
+}
+// } Driver Code Ends
+
+
+//Given a positive integer N. You have to find Nth natural number after removing all the numbers containing digit 9.
+
+//{ Driver Code Starts
+//Initial Template for C++
+
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+//User function Template for C++
+
+
+class Solution{
+	public:
+    	long long findNth(long long N)
+    {
+        // code here.
+        string ans="";
+
+        while(N){
+
+            ans=to_string(N%9)+ans;
+
+            N/=9;
+
+        }
+
+        return stoll(ans);
+    }
+};
+
+//{ Driver Code Starts.
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--)
+	{
+		long long n , ans;
+		cin>>n;
+		Solution obj;
+		ans = obj.findNth(n);
+		cout<<ans<<endl;
+	}
+}
+
+
+// } Driver Code Ends
