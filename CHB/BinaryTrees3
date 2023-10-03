@@ -1,0 +1,24 @@
+//1. Symmetrical Binary Tree
+
+bool isSymHelp(TreeNode<int> *left,TreeNode<int> *right){
+    if(left==NULL || right==NULL){
+        return left==right;
+    }
+    if(left->data!=right->data){
+        return false;
+    }
+    return isSymHelp(left->left,right->right) 
+    && 
+    isSymHelp(left->right,right->left);
+}
+
+
+bool isSymmetric(TreeNode<int> *root)
+{
+    if(root==NULL){
+        return true;
+    }
+    return isSymHelp(root->left,root->right);
+    
+
+}
