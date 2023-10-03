@@ -1,0 +1,64 @@
+//1.Is Height Balanced Binary Tree
+
+//M1:BruteForce TC: O(n*2)
+int heightOfBinaryTree(TreeNode<int> *root)
+{
+	if(root==NULL){
+        return 0;
+    }
+    int leftheight=heightOfBinaryTree(root->left);
+    int rightheight=heightOfBinaryTree(root->right);
+
+    return max(leftheight,rightheight)+1;
+}
+bool isBalancedBT(TreeNode<int>* root){
+    if(root==NULL || root->val==-1){
+        return true;
+    }
+    int rightheight=heightOfBinaryTree(root->right);
+    int leftheight=heightOfBinaryTree(root->left);
+    bool righbal=isBalancedBT(root->right);
+    bool leftbal=isBalancedBT(root->left);
+    return (abs(rightheight-leftheight)<2)&&righbal&&leftbal;
+}
+
+
+//M2: Optimal TC: O(N)
+  int heightToCheckBalance(TreeNode *root)
+{
+	if(root==NULL){
+        return 0;
+    }
+    int leftheight=heightToCheckBalance(root->left);
+    int rightheight=heightToCheckBalance(root->right);
+    if(leftheight==-1 || rightheight==-1){
+        return -1;
+    }
+    if(abs(leftheight-rightheight)>1){
+        return -1;
+    }
+    return max(leftheight,rightheight)+1;
+}
+bool isBalanced(TreeNode* root){
+    return heightToCheckBalance(root)!=-1;
+}
+
+
+
+//2.Diameter of Binary Tree
+
+int heightOfBinaryTree(TreeNode<int> *root, int& maxi)
+{
+    if(root==NULL){
+        return 0;
+    }
+    int leftheight=heightOfBinaryTree(root->left,maxi);
+    int rightheight=heightOfBinaryTree(root->right,maxi);
+    maxi=max(maxi,leftheight+rightheight);
+    return max(leftheight,rightheight)+1;
+}
+int diameterOfBinaryTree(TreeNode<int> *root){
+int dia=0;
+    int h=heightOfBinaryTree(root, dia);
+    return dia;
+}

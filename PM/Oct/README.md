@@ -1,6 +1,6 @@
-1 -
+1 - boundaryTraversal , findDuplicates [cpp]
 
-2 -
+2 - distinctSubsequences , hasPairWithSum [cpp]
 
 3 -
 
