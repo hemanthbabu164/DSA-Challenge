@@ -102,3 +102,7 @@ BinaryTrees2{
 Is Height Balanced Binary Tree,   
 Diameter of Binary Tree    
 }
+
+BinaryTrees3{   
+Symmetric Binary Tree   
+}
