@@ -106,3 +106,7 @@ Diameter of Binary Tree
 BinaryTrees3{   
 Symmetric Binary Tree   
 }
+
+BinaryTrees4{   
+Maximum Path Sum    
+}
