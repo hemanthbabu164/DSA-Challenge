@@ -1,0 +1,35 @@
+//1.Top View of a Binary Tree
+#include <bits/stdc++.h>
+//We are labelling the lines, going left decrease the label by 1, going right increase the label by 1
+//The first element in every Line is our ans
+vector<int> getTopView(TreeNode<int> *root)
+{
+    vector<int> ans;
+    if(root==NULL){
+        return ans;
+    }
+    map<int,int> mpp;
+    queue<pair<TreeNode<int> *,int>> q;
+    q.push({root,0});
+    while(!q.empty()){
+        auto it=q.front();
+        q.pop();
+        TreeNode<int> *node=it.first;
+        int lineNo=it.second;
+        if(mpp.find(lineNo)==mpp.end()){
+            mpp[lineNo]=node->data;
+        }
+        if(node->left !=NULL){
+            q.push({node->left,lineNo-1});
+        }
+        if(node->right!=NULL){
+            q.push({node->right,lineNo+1});
+        }
+    }
+    //As map is ordered we will get from left to right automatically
+    for(auto it:mpp){
+        ans.push_back(it.second);
+    }
+    return ans;
+
+}
