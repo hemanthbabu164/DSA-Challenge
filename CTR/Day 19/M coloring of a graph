@@ -1,0 +1,100 @@
+Q)Given an undirected graph and an integer M.
+The task is to determine if the graph can be colored with at most M colors 
+such that no two adjacent vertices of the graph are colored with the same color.
+Here coloring of a graph means the assignment of colors to all vertices.
+Print 1 if it is possible to colour vertices and 0 otherwise.
+
+//code
+
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+class Solution{
+public:
+    // Function to determine if graph can be coloured with at most M colours such
+    // that no two adjacent vertices of graph are coloured with same colour.
+    bool is_safe(int Node,bool graph[101][101],int color[],int n,int colr)
+    {
+        for(int k=0;k<n;k++)
+        {
+            if(k!=Node && graph[k][Node]==1 && color[k]==colr)
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    bool Possible_color(int Node,bool graph[101][101],int color[],int m,int n)
+    {
+        if(Node==n)
+        {
+            return true;
+        }
+        
+        
+        // trying out all the possible colors for the node and if it is possible return true
+        // if not bact track
+        
+        
+        for(int i=1;i<=m;i++)
+        {
+            if(is_safe(Node,graph,color,n,i))
+            {
+                color[Node]=i;
+                if(Possible_color(Node+1,graph,color,m,n))
+                {
+                    return true;
+                }
+                color[Node]=0;
+            }
+        }
+        
+        return false; // if cant color the node we can't proceed further
+    }
+    
+    bool graphColoring(bool graph[101][101], int m, int n) {
+        // your code here
+        //create Color array for all the nodes and intialize them to 0
+        
+        int color[n]={0};
+        
+        if(Possible_color(0,graph,color,m,n))
+        {
+            return true;
+        }
+        
+        return false;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, m, e;
+        cin >> n >> m >> e;
+        int i;
+        bool graph[101][101];
+        for (i = 0; i < n; i++) {
+            memset(graph[i], 0, sizeof(graph[i]));
+        }
+        for (i = 0; i < e; i++) {
+            int a, b;
+            cin >> a >> b;
+            graph[a - 1][b - 1] = 1;
+            graph[b - 1][a - 1] = 1;
+        }
+        Solution ob;
+        cout << ob.graphColoring(graph, m, n) << endl;
+    }
+    return 0;
+}
+
+// } Driver Code Ends
