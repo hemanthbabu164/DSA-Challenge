@@ -106,3 +106,13 @@ Diameter of Binary Tree
 BinaryTrees3{   
 Symmetric Binary Tree   
 }
+
+BinaryTrees4{   
+Maximum Path Sum,   
+Check if Identical Trees or not  
+}
+
+BinaryTrees5{    
+Top View of a Binary Tree,     
+Bottom View Of a Binary Tree      
+}

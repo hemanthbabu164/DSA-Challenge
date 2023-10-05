@@ -1,0 +1,36 @@
+//1. Maximum Path Sum in a BT
+
+//Max Path sum= leftMax Path sum + right Max path Sum + node value
+    int maxSum(TreeNode* root,int &maxi){
+        if(root==NULL){
+            return 0;
+        }      
+        int leftMax=maxSum(root->left,maxi);
+        int rightMax=maxSum(root->right,maxi);
+        maxi=max(maxi,root->val+leftMax+rightMax);
+        return max(0,root->val+max(leftMax,rightMax));//For backtracking only, we choose the path with max sum
+        //0 becoz if a path only has -ve sum max , we dont need it
+    }
+    int maxPathSum(TreeNode* root) {
+        int maxi=root->val;//if the root value is negative we have not choice but to take it as max sum
+        int k=maxSum(root,maxi);
+        return maxi;
+    }
+
+
+//2. Check if Identical Trees or not
+
+bool isSameTree(TreeNode*  root1, TreeNode*  root2) {
+    if(root1==NULL && root2==NULL){
+        return true;
+    } 	 
+    if(root1==NULL|| root2==NULL){
+        return false;
+    }
+    if(root1->val!=root2->val){
+        return false;
+    }
+    bool leftCheck=isSameTree(root1->left, root2->left);
+    bool rightCheck=isSameTree(root1->right, root2->right);
+    return leftCheck&&rightCheck;
+}
