@@ -118,5 +118,9 @@ Bottom View Of a Binary Tree
 }
 
 BinaryTrees6{    
-Zig-Zag Traversal in the Binary Tree,          
+Zig-Zag Traversal in the Binary Tree          
+}
+
+BinaryTrees7{        
+Boundary Traversal of Binary Tree          
 }
