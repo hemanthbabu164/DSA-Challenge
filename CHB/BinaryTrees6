@@ -1,0 +1,32 @@
+//1. Zig-Zag Traversal in the Binary Tree
+
+vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> res;
+        bool key=true;//If true L->R, Else R->L
+        if(root==NULL){
+            return res;
+        }
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty()){
+            int l=q.size();
+            vector<int> ans(l);
+            for(int i=0;i<l;i++){//this for loop is not only for insertion of new nodes, 
+                                //but our answers are inserted in the ans vector, if L->R the index is same as i else it will be l-i-1
+                TreeNode *node=q.front();
+                q.pop();
+                int index=key?i:(l-i-1);
+                ans[index]=node->val;
+                if(node->left!=NULL){
+                    q.push(node->left);
+                }
+                if(node->right!=NULL){
+                    q.push(node->right);
+                }
+                
+            }   
+            res.push_back(ans);
+            key=!key;
+        }
+        return res;
+    }
