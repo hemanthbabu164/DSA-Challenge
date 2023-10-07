@@ -116,3 +116,7 @@ BinaryTrees5{
 Top View of a Binary Tree,     
 Bottom View Of a Binary Tree      
 }
+
+BinaryTrees6{    
+Zig-Zag Traversal in the Binary Tree,          
+}
