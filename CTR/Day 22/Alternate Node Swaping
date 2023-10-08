@@ -1,0 +1,100 @@
+Q)Given a string S that contains only digits (0-9) and an integer target, return all possible strings to insert the binary operator ' + ', ' - ', or ' * ' between the digits of S so that the resultant expression evaluates to the target value.
+
+Note:
+
+Operands in the returned expressions should not contain leading zeros. For example, 2 + 03 is not allowed whereas 20 + 3 is fine. It is allowed to not insert any of the operators.
+
+If no solution is found, return an empty string array.
+Example 1:
+
+Input:
+S = "123"
+target = 6
+Output: { "1*2*3", "1+2+3"}
+Explanation: Both "1*2*3" and "1+2+3" evaluate to 6.
+
+
+//code
+
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+class Solution {
+  public:
+  
+  
+     void get_strings(int i,string s,long sum,long prev,string nums,int target,vector<string> &res)
+     {
+         // base condition
+         
+         if(i==nums.length())
+         {
+             if(sum==target)
+             {
+                 res.push_back(s);
+                 
+             }
+            
+             return;
+             
+             
+         }
+         
+         //generating all th combs
+         
+         for(int j=i;j<nums.length();j++)
+         {
+             if(j>i && nums[i]=='0')
+             {
+                 return;
+             }
+             
+             long number=stol(nums.substr(i,j-i+1));
+             
+             if(i==0)
+             {
+                 get_strings(j+1,s+nums.substr(i,j-i+1),number,number,nums,target,res);
+             }
+             else
+             {
+                 get_strings(j+1,s+"+"+nums.substr(i,j-i+1),sum+number,number,nums,target,res);
+                 get_strings(j+1,s+"-"+nums.substr(i,j-i+1),sum-number,-number,nums,target,res);
+                 get_strings(j+1,s+"*"+nums.substr(i,j-i+1),(sum-prev)+(prev*number),prev*number,nums,target,res);
+             }
+         }
+         
+     }
+    vector<string> addOperators(string S, int target) {
+        // code here
+        
+        vector<string> res;
+        
+        get_strings(0,"",0,0,S,target,res);
+        
+        return res;
+        
+    }
+};
+
+//{ Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int target;
+        string S;
+        cin >> S >> target;
+
+        Solution obj;
+        vector<string> ans = obj.addOperators(S, target);
+        sort(ans.begin(), ans.end());
+        for (auto &it : ans) cout << it << ' ';
+        cout << endl;
+    }
+    return 0;
+}
+// } Driver Code Ends
