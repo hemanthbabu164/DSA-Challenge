@@ -1,0 +1,62 @@
+//1. Boundary Traversal of Binary Tree
+//Sol: root+Left Bounary withouth leaf node+leafNodes+reversed right Boundary without leafnode
+void leftBoundary(Node *root, vector<int> &ans){
+    Node *node=root->left;
+    while(node!=NULL){
+        if((node->left!=NULL)||(node->right!=NULL)){
+            ans.push_back(node->data);
+        }
+        if(node->left !=NULL){
+            node=node->left;
+        }
+        else{
+            node=node->right;
+        }
+    }
+}
+void rightBoundary(Node *root, vector<int> &ans){
+    Node *node=root->right;
+    vector<int> vec;
+    while(node!=NULL){
+        if((node->left!=NULL)||(node->right!=NULL)){
+            vec.push_back(node->data);
+        }
+        if(node->right !=NULL){
+            node=node->right;
+        }
+        else{
+            node=node->left;
+        }
+    }
+    for(int i=vec.size()-1;i>=0;i--){
+        ans.push_back(vec[i]);
+    }
+}
+void leafNodes(Node *root, vector<int> &ans){
+    if((root->left==NULL)&&(root->right==NULL)){
+        ans.push_back(root->data);
+        return;
+    }
+    if(root->left!=NULL){
+        leafNodes(root->left,ans);
+    }
+    if(root->right!=NULL){
+        leafNodes(root->right,ans);
+    }
+}
+vector<int> boundary(Node *root)
+{
+	vector<int> ans;
+    if(root==NULL){
+        return ans;
+    }
+    if((root->left!=NULL)||(root->right!=NULL)){
+        //As according to our leafNodes function, there might be two additions of root node
+        ans.push_back(root->data);
+    }
+
+    leftBoundary(root, ans);
+    leafNodes(root, ans);
+    rightBoundary(root, ans);
+    return ans;
+}
