@@ -1,0 +1,88 @@
+Q)Given an incomplete Sudoku configuration in terms of a 9x9  2-D square matrix(mat[][]) 
+the task to check if the current configuration is valid or not where a 0 represents an empty block.
+Note: Current valid configuration does not ensure validity of the final solved sudoku. 
+
+//code
+
+//{ Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+
+bool check(int row,int col,vector<vector<int>> mat,int val)
+{
+    for(int i=0;i<9;i++)
+    {
+        if(mat[i][col]==val)
+        {
+            return false;
+        }
+        if(mat[row][i]==val)
+        {
+            return false;
+        }
+        if(mat[3*(row/3) + i/3][3*(col/3) + i%3]==val)
+        {
+            return false;
+        }
+    }
+    
+    return true;
+    
+  
+}
+    int isValid(vector<vector<int>> mat){
+        // code here
+        
+        
+        
+        
+        for(int i=0;i<9;i++)
+        {
+            for(int j=0;j<9;j++)
+            {
+                if(mat[i][j]!=0)
+                {
+                    
+                int val=mat[i][j];
+                mat[i][j]=0;
+                if(check(i,j,mat,val)==false)
+                {
+                    return false;
+                }
+                else
+                {
+                    mat[i][j]=val;
+                }
+                
+                }
+            }
+        }
+        
+        return true;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        vector<vector<int>> mat(9, vector<int>(9, 0));
+        for(int i = 0;i < 81;i++)
+            cin>>mat[i/9][i%9];
+        
+        Solution ob;
+        cout<<ob.isValid(mat)<<"\n";
+    }
+    return 0;
+}
+// } Driver Code Ends
