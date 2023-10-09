@@ -1,0 +1,31 @@
+//1. Vertical Order Traversal 
+
+vector<vector<int>> verticalTraversal(TreeNode* root) {
+    map<int,map<int,multiset<int>>> nodes; //vertical(line)->level->Set of nodes(due to overlappings,multiset as same valued nodes could also overlap)
+    queue<pair<TreeNode*,pair<int,int>>> todo; // Over DS which we use while traversing
+    todo.push({root,{0,0}}); //left: vertical-1,level+1, right: vertical+1,level-1
+    while(!todo.empty()){
+        auto QEle=todo.front();
+        todo.pop();
+        TreeNode* pLoc=QEle.first;
+        int xCor=QEle.second.first;
+        int yCor=QEle.second.second;
+        nodes[xCor][yCor].insert(pLoc->val);
+        if(pLoc->left!=NULL){
+            todo.push({pLoc->left,{xCor-1,yCor+1}});
+        }
+        if(pLoc->right!=NULL){
+            todo.push({pLoc->right,{xCor+1,yCor+1}});
+        }
+    }
+    vector<vector<int>> ans;
+    for(auto p:nodes){//Each x Cor
+        vector<int> verLine;
+        for(auto level: p.second){//Each Y cor in X 
+            //Always inserting at the end, level.second is the mutiset, we are inserting it from beginning to ending
+            verLine.insert(verLine.end(),level.second.begin(),level.second.end());
+        }
+        ans.push_back(verLine);
+    }
+    return ans;
+}
