@@ -124,3 +124,7 @@ Zig-Zag Traversal in the Binary Tree
 BinaryTrees7{        
 Boundary Traversal of Binary Tree          
 }
+
+BinaryTrees8{   
+Vertical Order Traversal     
+}
