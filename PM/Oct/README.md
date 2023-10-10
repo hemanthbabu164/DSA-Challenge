@@ -2,21 +2,21 @@
 
 2 - distinctSubsequences , hasPairWithSum [cpp]
 
-3 -
+3 - colName [cpp] , productExceptSelf [python]
 
-4 -
+4 - binSearch , romanToInteger [cpp]
 
-5 -
+5 - substrCount [cpp]
 
-6 -
+6 - revAlternateNode [cpp]
 
-7 -
+7 - 
 
-8 -
+8 - timeDifference [python]
 
-9 -
+9 - arrayStack.cpp , reverseWord.cpp
 
-10 -
+10 - arrayQueue.cpp
 
 11 -
 
