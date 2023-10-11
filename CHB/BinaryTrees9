@@ -1,0 +1,76 @@
+//1. Right Side View of a Binary Tree
+
+//*******M1****TC:O(n) SC:O(n)
+void inOrder(TreeNode * root,map<int,vector<TreeNode*>> &mpp, int level ){
+    if(root==NULL){
+        return;
+    }
+    else{
+        inOrder(root->left, mpp,level+1);
+        mpp[level].push_back(root);
+        inOrder(root->right, mpp,level+1);
+    }
+}
+vector<int> rightSideView(TreeNode* root) {
+    vector<int> ans;
+    if(root==NULL){
+        return ans;
+    }
+    map<int,vector<TreeNode*>> mpp;
+    inOrder(root,mpp,0);
+    for(auto p:mpp){
+        vector<TreeNode*> levelNodes=p.second;
+        int index=levelNodes.size()-1;
+        ans.push_back(levelNodes[index]->val);
+    }
+    
+    return ans;
+}
+
+//*******M2:Cleaner Recursive one********** Same TC but way better SC
+// A reverse PreOrder: NRL
+  void traverse(TreeNode * root,vector<int> &ans, int level ){
+      if(root==NULL){
+          return;
+      }
+      if(ans.size()==level){//meaning its the first time we came to this level
+          ans.push_back(root->val);
+      }
+      traverse(root->right, ans,level+1);//prioritising right first
+      traverse(root->left, ans,level+1);
+      
+  }
+  vector<int> rightSideView(TreeNode* root) {
+      vector<int> ans;
+      if(root==NULL){
+          return ans;
+      }
+      traverse(root,ans,0);
+      return ans;
+
+  }
+
+
+
+//2.LeftSide View Similar to right Side
+// A PreOrder: NLR
+ void traverse(TreeNode * root,vector<int> &ans, int level ){
+      if(root==NULL){
+          return;
+      }
+      if(ans.size()==level){//meaning its the first time we came to this level
+          ans.push_back(root->val);
+      }
+      traverse(root->left, ans,level+1);//prioritising left first
+      traverse(root->right, ans,level+1);
+      
+  }
+  vector<int> rightSideView(TreeNode* root) {
+      vector<int> ans;
+      if(root==NULL){
+          return ans;
+      }
+      traverse(root,ans,0);
+      return ans;
+
+  }
