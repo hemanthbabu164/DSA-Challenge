@@ -1,0 +1,41 @@
+//1. Check Valid BST
+
+//Given Order is Inorder
+bool isValidBST(vector<int> &order){
+    int n=order.size();
+    for(int i=1;i<n;i++){
+        if(order[i]<=order[i-1]){
+            return false;
+        }
+    }
+    return true;
+}
+
+
+//2. Search in a BST
+
+TreeNode* searchBST(TreeNode* root, int val) {
+    if(root==NULL || root->val==val){
+        return root;
+    }
+    if(root->left!=NULL && root->val>val){
+        return searchBST(root->left,val);
+    }
+    if(root->right!=NULL && root->val<val){
+        return searchBST(root->right,val);
+    }
+    return NULL;
+}
+
+
+//3. Min Value in a BST
+
+int minValue(struct Node *root) {
+	int mini=-1;
+	while(root!=NULL){
+		mini=root->data;
+		root=root->left;
+	}	
+	return mini;
+}
+
