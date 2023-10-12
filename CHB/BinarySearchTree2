@@ -1,0 +1,19 @@
+//1. Finding Ceil In A BST
+
+int findCeil(BinaryTreeNode<int> *node, int x){
+    int ceil=-1;
+    while(node){
+        if(node->data==x){
+            ceil=x;
+            return x;
+        }
+        if(node->data<x){
+            node=node->right;
+        }
+        else{//if(node->data>x)
+            ceil=node->data;//possible ans
+            node=node->left;
+        }
+    }
+    return ceil;
+}
