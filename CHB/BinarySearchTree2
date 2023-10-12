@@ -17,3 +17,25 @@ int findCeil(BinaryTreeNode<int> *node, int x){
     }
     return ceil;
 }
+
+
+//2. Floor From BST
+
+#include<limits.h>
+int Floor(BinaryTreeNode<int> *node, int input)
+{
+	int floor=INT_MAX;
+	while(node){
+		if(node->data==input){
+			return input;
+		}
+		if(node->data>input){
+			node=node->left;
+		}
+		else{// if(node->data < input)
+			floor=node->data;
+			node=node->right;
+		}
+	}
+	return floor;
+}
