@@ -132,3 +132,14 @@ Vertical Order Traversal
 BinaryTrees9{   
 Right/Left Side View of a Binary Tree    
 }
+
+BinarySearchTree1{    
+Check Valid BST,     
+Search in BST,       
+Min Value in BST      
+}
+
+BinarySearchTree2{    
+Finding Ceil In A BST,        
+Floor From BST       
+}
