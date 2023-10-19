@@ -1,0 +1,1 @@
+Linked Stack is implemented using cpp
