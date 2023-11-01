@@ -1,0 +1,107 @@
+//Petersons solution
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
+#include <time.h>
+
+bool flag[2]={false};
+int turn;
+int i=0;
+int j=1;
+int count=0;
+
+void do_i(){
+	int times=6;
+	do{
+		flag[i]=true;
+		turn =j;
+		while(flag[i] && turn==j);
+		count++;
+		flag[i]=false;
+		printf("thread_1, count:%d",count);
+		usleep(50);
+	}while(times--);
+}
+void do_j(){
+	int times=6;
+	do{
+		flag[j]=true;
+		turn =i;
+		while(flag[j]&& turn==i);
+		count--;
+		flag[j]=false;
+		printf("Thread_2, count:%d",count);
+		usleep(50);
+	}while(times--);
+}
+
+int main(){
+	pthread_t thread_1,thread_2;
+	pthread_create(&thread_1,null,do_i,Null);
+	pthread_create(&thread_2,null,do_j, null);
+	pthread_join(thread_1,null);
+	pthread_join(thread_2,NULL);
+	return 0;
+}
+
+//2.Producer Consumer problem with semaphores
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <semaphore.h>
+
+#define max_items 20
+#define buffer_size 5
+
+int buffer[buffer_size];
+sem_t mutex,empty,full;
+int prod_count=0;
+int in=0,out=0;
+int cons_count=0;
+
+void* producer(){
+	int iem=1;
+	while(prod_count<max_items){
+		sem_wait(&mutex);
+		sem_wait(&empty);
+		buffer[in]=item;
+		printf("\nProduced:%d",item);
+		in=(in+1)%buffer_size;
+		item++;
+		prod_count++;
+		sem_post(&full);
+		sem_post(&mutex);
+	}
+	pthread_exit(NULL);
+}
+
+void* consumer(){
+	while(cons_count<max_items){
+		sem_wait(&mutex);
+		sem_wait(&full);
+		int item=buffer[out];
+		printf("\nConsumed item : %d",item);
+		cons_count++;
+		out=(out+1)%buffer_Size;
+		sem_post(&empty);
+		sem_post(&mutex);
+	}
+}
+
+
+int main(){
+	pthread_t prod, cons;
+	sem_init(&mutex,0,1);
+	sem_init(&full,0,0);
+	sem_init(&empty,0,buffer_size);
+	pthread_create(&prod,null,producer,null);
+	pthread_create(&cons,null,consumer,null);
+	pthread_join(prod,null);
+	pthread_join(cons,null);
+	sem_destroy(&mutex);
+	sem_destroy(&full);
+	sem_destroy(&empty);
+	return 0;
+}
