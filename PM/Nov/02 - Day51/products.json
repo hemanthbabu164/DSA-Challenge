@@ -1,0 +1,52 @@
+{
+    "1": {
+        "name": "Apple",
+        "price": 1.50,
+        "quantity": 100
+    },
+    "2": {
+        "name": "Banana",
+        "price": 0.75,
+        "quantity": 200
+    },
+    "3": {
+        "name": "Carrot",
+        "price": 0.50,
+        "quantity": 150
+    },
+    "4": {
+        "name": "Potato",
+        "price": 0.75,
+        "quantity": 300
+    },
+    "5": {
+        "name": "Onion",
+        "price": 0.80,
+        "quantity": 200
+    },
+    "6": {
+        "name": "Cucumber",
+        "price": 1.25,
+        "quantity": 120
+    },
+    "7": {
+        "name": "Strawberry",
+        "price": 2.00,
+        "quantity": 80
+    },
+    "8": {
+        "name": "Tomato",
+        "price": 1.00,
+        "quantity": 180
+    },
+    "9": {
+        "name": "Pumpkin",
+        "price": 1.50,
+        "quantity": 60
+    },
+    "10": {
+        "name": "Corn",
+        "price": 0.60,
+        "quantity": 250
+    }
+}
