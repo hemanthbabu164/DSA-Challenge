@@ -1,0 +1,136 @@
+[
+    {
+        "id": 1001,
+        "title": "To Kill a Mockingbird",
+        "author": "Harper Lee",
+        "ISBN": "978-0061120084",
+        "price": 12.99
+    },
+    {
+        "id": 1002,
+        "title": "1984",
+        "author": "George Orwell",
+        "ISBN": "978-0451524935",
+        "price": 9.99
+    },
+    {
+        "id": 1009,
+        "title": "The Shining",
+        "author": "Stephen King",
+        "ISBN": "978-0307743657",
+        "price": 16.99
+    },
+    {
+        "id": 1010,
+        "title": "Brave New World",
+        "author": "Aldous Huxley",
+        "ISBN": "978-0060850524",
+        "price": 11.49
+    },
+    {
+        "id": 1011,
+        "title": "The Lord of the Rings",
+        "author": "J.R.R. Tolkien",
+        "ISBN": "978-0544003415",
+        "price": 17.99
+    },
+    {
+        "id": 1012,
+        "title": "War and Peace",
+        "author": "Leo Tolstoy",
+        "ISBN": "978-0198819493",
+        "price": 19.99
+    },
+    {
+        "id": 1017,
+        "title": "The Hitchhiker's Guide to the Galaxy",
+        "author": "Douglas Adams",
+        "ISBN": "978-0345391803",
+        "price": 9.99
+    },
+    {
+        "id": 1018,
+        "title": "The Girl with the Dragon Tattoo",
+        "author": "Stieg Larsson",
+        "ISBN": "978-0307454546",
+        "price": 12.99
+    },
+    {
+        "id": 1021,
+        "title": "The Book Thief",
+        "author": "Markus Zusak",
+        "ISBN": "978-0375842207",
+        "price": 11.99
+    },
+    {
+        "id": 1022,
+        "title": "Lord of the Flies",
+        "author": "William Golding",
+        "ISBN": "978-0399529207",
+        "price": 10.99
+    },
+    {
+        "id": 1023,
+        "title": "Frankenstein",
+        "author": "Mary Shelley",
+        "ISBN": "978-0141439471",
+        "price": 9.99
+    },
+    {
+        "id": 1029,
+        "title": "The Hunger Games",
+        "author": "Suzanne Collins",
+        "ISBN": "978-0439023481",
+        "price": 12.99
+    },
+    {
+        "id": 1030,
+        "title": "The Road",
+        "author": "Cormac McCarthy",
+        "ISBN": "978-0307387899",
+        "price": 13.99
+    },
+    {
+        "id": 1031,
+        "title": "The Book Thief",
+        "author": "Markus Zusak",
+        "ISBN": "978-0375842207",
+        "price": 11.99
+    },
+    {
+        "id": 1034,
+        "title": "The Hunger Games",
+        "author": "Suzanne Collins",
+        "ISBN": "978-0439023481",
+        "price": 12.99
+    },
+    {
+        "id": 1035,
+        "title": "The Road",
+        "author": "Cormac McCarthy",
+        "ISBN": "978-0307387899",
+        "price": 13.99
+    },
+    {
+        "id": 1036,
+        "title": "The Book Thief",
+        "author": "Markus Zusak",
+        "ISBN": "978-0375842207",
+        "price": 11.99
+    },
+    {
+        "id": 1037,
+        "title": "Lord of the Flies",
+        "author": "William Golding",
+        "ISBN": "978-0399529207",
+        "price": 10.99
+    },
+    {
+        "id": 1040,
+        "title": "The Road",
+        "author": "Cormac McCarthy",
+        "ISBN": "978-0307387899",
+        "price": 13.99
+    }
+ 
+]
