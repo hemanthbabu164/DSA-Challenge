@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Apple",
+        "price": 0.50,
+        "quantity": 100,
+        "category": "Fruits"
+    },
+    {
+        "name": "Banana",
+        "price": 0.25,
+        "quantity": 50,
+        "category": "Fruits"
+    },
+    {
+        "name": "Milk",
+        "price": 2.00,
+        "quantity": 30,
+        "category": "Dairy"
+    },
+    {
+        "name": "Bread",
+        "price": 1.50,
+        "quantity": 40,
+        "category": "Bakery"
+    },
+    {
+        "name": "Eggs",
+        "price": 1.00,
+        "quantity": 60,
+        "category": "Dairy"
+    }
+]
