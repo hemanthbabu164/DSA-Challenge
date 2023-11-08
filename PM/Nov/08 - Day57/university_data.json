@@ -1,0 +1,31 @@
+{
+    "students": {
+        "101": {
+            "student_id": "101",
+            "name": "Alice",
+            "courses": []
+        },
+        "102": {
+            "student_id": "102",
+            "name": "Bob",
+            "courses": []
+        }
+    },
+    "courses": [
+        {
+            "code": "CSCI101",
+            "name": "Introduction to Computer Science",
+            "instructor": "Dr. Smith"
+        },
+        {
+            "code": "MATH201",
+            "name": "Calculus I",
+            "instructor": "Prof. Johnson"
+        },
+        {
+            "code": "ENG101",
+            "name": "English Composition",
+            "instructor": "Prof. Brown"
+        }
+    ]
+}
