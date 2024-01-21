@@ -9,7 +9,16 @@ class Product:
 
     def __str__(self):
         return f"Product ID: {self.product_id} - {self.name} - Price: ${self.price:.2f} - Available Quantity: {self.quantity}"
+# hello world
+# class Cart
 
+
+'''
+sevsevs
+sdekcnkn
+vsdknvnsdmo
+'''
+    
 class Cart:
     def __init__(self):
         self.items = {}
@@ -33,6 +42,7 @@ class Cart:
             product = products[product_id]
             total_price += product.price * quantity
         return total_price
+    d
 
     def view_cart(self, products):
         if not self.items:

@@ -7,7 +7,8 @@ Convert a number A to B with minimum operations. The operations allowed are :
 Print -1 if it is not possible to convert.
 
 '''
-
+# vfovmorvmrv
+# 1. View Products
 def convert(A, B):
  
     if(A == B):
