@@ -6,6 +6,7 @@ current_time = datetime.datetime.now()
 # Input the time you want to compare (in HH:MM:SS format)
 given_time_str = input("Enter the time (HH:MM:SS): ")
 
+
 try:
     # Convert the given time string to a datetime object
     given_time = datetime.datetime.strptime(given_time_str, "%H:%M:%S")
