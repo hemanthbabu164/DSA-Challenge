@@ -1,0 +1,78 @@
+// The Annoying atoi()
+//M1: The Normie Method
+#include <limits>
+class Solution {
+public:
+    int myAtoi(string s) {
+        long long num=0;
+        int sign=1;
+        int n=s.size();
+        int whiteSpaceTrail=0;
+        for(int i=0;i<n;i++){
+            if(s[i]==' '){
+                whiteSpaceTrail++;
+            }
+            else{
+                break;
+            }
+        }
+        if(whiteSpaceTrail<(n-1)){
+            if(s[whiteSpaceTrail] == '-'){
+                sign=-1;
+                whiteSpaceTrail++;
+            }else if(s[whiteSpaceTrail] == '+'){
+                whiteSpaceTrail++;
+            }
+        }
+        for(int i=whiteSpaceTrail;i<n;i++){            
+            if((s[i]<'0') || s[i]>'9'){
+                break;
+            }
+            if(num>(INT_MAX - (s[i] - '0'))/10){
+                return sign==-1?(INT_MIN):(INT_MAX);
+            }
+            num=num*10+s[i]-48;
+        }
+        num*=sign;
+        return num;
+    }
+};
+
+//M2: The Wasteful Recursion 
+#include <limits>
+class Solution {
+public:
+    int f(int i,int n,string s,bool is_begin,long long sum,int sign){
+        if(i==n){
+            return sum*sign;
+        }
+        if((s[i]==' ') && is_begin){
+            return f(i+1,n,s,is_begin,sum,sign);
+        }
+        if(is_begin){
+            if(s[i]=='-'){
+                is_begin=false;
+                sign=-1;
+                return f(i+1,n,s,is_begin,sum,sign);
+            }
+            if(s[i]=='+'){
+                is_begin=false;
+                return f(i+1,n,s,is_begin,sum,sign);
+            }
+        }
+        is_begin=false;
+
+        if((s[i]<'0') || s[i]>'9'){
+            return sum*sign;
+        }
+        if(sum>(INT_MAX - (s[i] - '0'))/10){
+            return sign==-1?(INT_MIN):(INT_MAX);
+        }
+        sum=sum*10+s[i]-48;
+        return f(i+1,n,s,is_begin,sum,sign);
+
+    }
+    int myAtoi(string s) {
+        return f(0,s.size(),s,true,0,1);
+    }
+};
