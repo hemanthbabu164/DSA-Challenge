@@ -1,0 +1,31 @@
+//Generate Binary Strings without consecutive zeroes
+//Recursion:
+//Time complexity: O(2^n)
+//Space complexity: O(n)
+class Solution {
+public:
+    void genString(int i,int n,bool key,string s,vector<string> &ans){
+        if(i==n){
+            ans.push_back(s);
+            return;
+        }
+        i++;
+        if(key){
+            string temp=s;
+            temp+='0';
+            genString(i,n,false,temp,ans);
+            s+='1';
+            genString(i,n,true,s,ans);
+        }
+        else{
+            s+='1';
+            genString(i,n,true,s,ans);
+        }
+    }
+    vector<string> validStrings(int n) {
+        vector<string> ans;
+        string s;
+        genString(0,n,true,s,ans);
+        return ans;
+    }
+};
