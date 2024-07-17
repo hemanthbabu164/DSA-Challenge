@@ -1,0 +1,21 @@
+// Counting Good Numbers, If you do not keep long long everywhere, you are dead.
+class Solution {
+public:
+     long long myPow(long long x, long long n,long long m) {
+        if(x==0) return 0;
+        if(x==1 || n==0) return 1;
+        if(n==1) return x;
+        if(n%2==0){
+            return myPow((x*x)%m,n/2,m) % m;
+        }
+        return (x*myPow(x,n-1,m))%m;
+    }
+    int countGoodNumbers(long long n) {
+        long long m=1e9+7;
+        long long ans=0;
+        // long long nodd=n/2;
+        // long long neven=n/2+n%2;
+        ans=myPow(20,n/2,m) * ((n%2==1)? 5 : 1); //myPow(5,neven,m)*myPow(4,nodd,m);
+        return ans%m;
+    }
+};
