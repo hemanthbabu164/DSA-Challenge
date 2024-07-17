@@ -19,3 +19,42 @@ public:
         return ans%m;
     }
 };
+
+//Sorting a stack
+//M1: The super Ultra Pro Max Lazy Method:
+void SortedStack :: sort()
+{
+   vector<int> vec;
+   while(!s.empty()){
+       vec.push_back(s.top());
+       s.pop();
+   }
+   std::sort(vec.begin(),vec.end());
+   for(auto i : vec){
+       s.push(i);
+   }   
+}
+//M2: Recursive Method , Do not mess with Pointers or & , know when to pass by reference
+void sortedInsert(int i,stack<int> &s){
+    if(s.empty() || s.top()<i){
+        s.push(i);
+    }
+    else{
+        int temp=s.top();
+        s.pop();
+        sortedInsert(i,s);
+        s.push(temp);
+    }
+}
+void sortStack(stack<int> &s){
+    if(!s.empty()){
+        int temp=s.top();
+        s.pop();
+        sortStack(s);
+        sortedInsert(temp,s);
+    }
+}
+void SortedStack :: sort()
+{
+   sortStack(s);
+}
