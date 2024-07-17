@@ -29,3 +29,46 @@ public:
         return ans;
     }
 };
+
+
+//Generate Parantheses 
+//Recursion , Same as Above
+class Solution {
+public:
+    void genParantheses(int openCount,int closedCount,int n,vector<string> &ans,string s){
+        if(closedCount==0){
+            ans.push_back(s);
+            return;
+        }
+        if(openCount==closedCount){
+            openCount--;
+            s+='(';
+            genParantheses(openCount,closedCount,n,ans,s);
+        }
+        else{
+            if(openCount>0){
+                //taking open
+                openCount--;
+                string temp=s;
+                temp+='(';
+                genParantheses(openCount,closedCount,n,ans,temp);
+                openCount++;
+                //taking closed
+                closedCount--;
+                s+=')';
+                genParantheses(openCount,closedCount,n,ans,s);
+            }
+            else{
+                closedCount--;
+                s+=')';
+                genParantheses(openCount,closedCount,n,ans,s);
+            }
+        }
+    }
+    vector<string> generateParenthesis(int n) {
+        vector<string> ans;
+        string s;
+        genParantheses(n,n,n,ans,s);
+        return ans;
+    }
+};
