@@ -20,6 +20,8 @@ public:
     }
 };
 
+
+
 //Sorting a stack
 //M1: The super Ultra Pro Max Lazy Method:
 void SortedStack :: sort()
@@ -58,3 +60,43 @@ void SortedStack :: sort()
 {
    sortStack(s);
 }
+
+
+//Reversing a Stack
+//M1: Normie , No Special Method
+class Solution{
+public:
+    void Reverse(stack<int> &s){
+        vector<int> vec;
+        while(!s.empty()){
+            vec.push_back(s.top());
+            s.pop();
+        }
+        for(auto i: vec){
+            s.push(i);
+        }
+    }
+};
+//M2: Recursion Method, Same like above but extra process waste?
+class Solution{
+public:
+    void insertAtBottom(int i, stack<int> &s){
+        if(s.empty()){
+            s.push(i);
+        }
+        else{
+            int temp=s.top();
+            s.pop();
+            insertAtBottom(i,s);
+            s.push(temp);
+        }
+    }
+    void Reverse(stack<int> &s){
+        if(!s.empty()){
+            int temp=s.top();
+            s.pop();
+            Reverse(s);
+            insertAtBottom(temp,s);
+        }        
+    }
+};
