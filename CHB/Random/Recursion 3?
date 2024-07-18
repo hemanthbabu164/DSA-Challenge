@@ -196,3 +196,33 @@ class Solution{
 	}
 	  
 };
+
+//* iS there a Subset with Sum k? Boolean, one subset is enough, efficient:
+//Recursion as above but if conditions remove further calls
+bool genSub(int i, int n, int k, int s, vector<int> &a){
+    if(s>k){
+        return false;
+    }
+    if(n==i){
+        if(s==k){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    s+=a[i];
+    if(genSub(i+1, n, k, s, a)){
+        return true;
+    }
+    s-=a[i];
+    if(genSub(i+1, n, k, s, a)){
+        return true;
+    }
+    return false;
+}
+bool isSubsetPresent(int n, int k, vector<int> &a)
+{
+    // Write your code here
+    return genSub(0,n,k,0,a);
+}
