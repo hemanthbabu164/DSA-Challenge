@@ -1,4 +1,4 @@
-//Generate Binary Strings without consecutive zeroes
+//*Generate Binary Strings without consecutive zeroes
 //Recursion:
 //Time complexity: O(2^n)
 //Space complexity: O(n)
@@ -31,7 +31,7 @@ public:
 };
 
 
-//Generate Parantheses 
+//*Generate Parantheses 
 //Recursion , Same as Above
 class Solution {
 public:
@@ -72,3 +72,96 @@ public:
         return ans;
     }
 };
+
+
+//*Generate Powerset, Set of All Subsets
+//M1: Normal Recursion
+class Solution {
+public:
+    void genSubsets(int i, int n, vector<int> arr,vector<int> &nums, vector<vector<int>> &subset){
+        if(i==n){
+            subset.push_back(arr);
+            return;
+        }
+        vector<int> temp=arr;
+        arr.push_back(nums[i]);
+        i++;
+        genSubsets(i,n,arr,nums,subset);
+        genSubsets(i,n,temp,nums,subset);
+        
+    }
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> subset;
+        vector<int> arr;
+        genSubsets(0,nums.size(),arr,nums,subset);
+        return subset;
+    }
+};
+
+//M2: With Bit Manipulation:O(2^n * n)
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> subset;
+        int n=nums.size();
+        //Now with Bit Manipulation, 000=[] to 111=[1,2,3],1<<n ~ 2^n, to check which bit is set just use & operator 
+        for(int i=0;i<(1<<n);i++){
+            vector<int> arr;
+            for(int j=0;j<n;j++){
+                if(i&(1<<j)){
+                    arr.push_back(nums[j]);
+                }
+            }
+            subset.push_back(arr);
+
+        }
+        return subset;
+    }
+
+
+
+//*Better String, which has more Unique Subsequences
+//M1: You will get TLE
+class Solution {
+  public:
+    void genStrings(int i,int n, string s, string str,set<string> &s1){
+        if(i==n){
+            s1.insert(s);
+            return;
+        }
+        string temp=s;
+        s+=str[i];
+        i++;
+        genStrings(i,n,s,str,s1);
+        genStrings(i,n,temp,str,s1);
+        
+    }
+    string betterString(string str1, string str2) {
+        // code here
+        set<string> s1,s2;
+        string temp1,temp2;
+        genStrings(0,str1.size(),temp1,str1,s1);
+        genStrings(0,str2.size(),temp2,str2,s2);
+        return s1.size()>=s2.size()?str1:str2;
+    }
+};
+
+//M2: The Same above Bit Manipulation: might still get TLE
+    int subsetsLength(string& str) {
+        set<string> subset;
+        int n=str.size();
+        //Now with Bit Manipulation, 000=[] to 111=[1,2,3],1<<n ~ 2^n, to check which bit is set just use & operator 
+        for(int i=0;i<(1<<n);i++){
+            string arr="";
+            for(int j=0;j<n;j++){
+                if(i&(1<<j)){
+                    arr+=str[j];
+                }
+            }
+            subset.insert(arr);
+
+        }
+        return subset.size();
+    }
+    string betterString(string str1, string str2) {
+        
+        return subsetsLength(str1)>=subsetsLength(str2)?str1:str2;
+    }
