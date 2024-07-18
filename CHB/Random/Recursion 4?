@@ -1,0 +1,62 @@
+//Combination Sum I
+//M1: Normal Recursion, but since we can repeat the elements , just added an extra recursive call where you dont increase the index even after computing sum with that
+//Is it Efficient?Optimal? I DONT THINK SO
+class Solution {
+public:
+    void genSub(int i, int n, vector<int>& candidates, vector<int> ds,set<vector<int>>& ans,int sum, int target){
+        if(sum>target){
+            return ;
+        }
+        if(i==n){
+            if(sum==target){
+                ans.insert(ds);
+            }
+            return;
+        }
+        vector<int> temp=ds;
+        ds.push_back(candidates[i]);
+        sum+=candidates[i];
+        genSub(i+1,n,candidates,ds,ans,sum,target);
+        genSub(i,n,candidates,ds,ans,sum,target);
+        sum-=candidates[i];
+        genSub(i+1,n,candidates,temp,ans,sum,target);
+
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        set<vector<int>> ans;
+        vector<vector<int>> ans1;
+        genSub(0,candidates.size(),candidates,{},ans,0,target);
+        for(vector<int> vec: ans){
+            ans1.push_back(vec);
+        }
+        return ans1;
+    }
+};
+
+//M2: A little better than above, without set or anything
+//Picking leads to calling the same index, not picking leads to next index since it shows we are done with this one.
+class Solution {
+public:
+    void genSub(int i, int n, vector<int>& candidates, vector<int> ds,vector<vector<int>>& ans, int target){
+        if(i==n){
+            if(target==0){
+                ans.push_back(ds);
+            }
+            return;
+        }
+        //if candidates[i] is less or equal to the remaining target, then we proceed adding it.
+        if(target>=candidates[i]){
+            ds.push_back(candidates[i]);
+            genSub(i,n,candidates,ds,ans,target-candidates[i]);
+            ds.pop_back();
+        }
+        
+        genSub(i+1,n,candidates,ds,ans,target);
+
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> ans;
+        genSub(0,candidates.size(),candidates,{},ans,target);
+        return ans;
+    }
+};
