@@ -165,3 +165,34 @@ class Solution {
         
         return subsetsLength(str1)>=subsetsLength(str2)?str1:str2;
     }
+
+//*Subsequences With Sum k
+//M1: Recursion, Take , Not take, Same as above , returns c0 or 1 in Base case accordingly, does left,right and returns left+right
+class Solution{
+	public:	
+    int genSub(int i,int n, int sum,int s,int arr[]){
+        if(s>sum){
+            return 0;
+        }
+        if(i==n){
+            if(s==sum){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
+        s+=arr[i];
+        int l=genSub(i+1,n,sum,s,arr);
+        s-=arr[i];
+        int r=genSub(i+1,n,sum,s,arr);
+        return l+r;
+        
+    }
+	int perfectSum(int arr[], int n, int sum)
+	{
+        // Your code goes here
+        return genSub(0,n,sum,0,arr);        
+	}
+	  
+};
