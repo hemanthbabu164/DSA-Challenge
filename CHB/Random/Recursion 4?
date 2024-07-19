@@ -95,9 +95,9 @@ public:
 };
 
 //M2: Recursion, 2nd Pattern for array problem
-//we decide on Picking or not picking Subsequences instead of elements
+//we decide on Picking or not picking Subsequences instead of elements 
 //By checking what element goes to when in ds, therefore, if there's already a [1,2] then we wont take 2 when the ds has [1]
-//If you cant recall what that is, take the sorted array [1,1,1,2,2] and write the recursion tree, choose the element that goes first into ds, 2nd and so on
+//If you cant recall what that is, take the "sorted" array [1,1,1,2,2] and write the recursion tree, choose the element that goes first into ds, 2nd and so on
 class Solution {
 public:
     void genSub(int i,int n,vector<int>& candidates, int target,vector<vector<int>> &ans,vector<int> ds){
@@ -122,6 +122,49 @@ public:
         vector<vector<int>> ans;
         sort(candidates.begin(),candidates.end());
         genSub(0,candidates.size(),candidates,target,ans,{});
+        return ans;
+    }
+};
+
+//Subset Sum I , Nothing Special
+class Solution {
+  public:
+    void genSub(int i, int n, vector<int> arr, int sum,vector<int> &ans){
+        if(i==n){
+            ans.push_back(sum);
+            return;
+        }
+        genSub(i+1,n,arr,sum+arr[i],ans);
+        genSub(i+1,n,arr,sum,ans);
+    } 
+    vector<int> subsetSums(vector<int> arr, int n) {
+        // Write Your Code here
+        vector<int> ans;
+        genSub(0,n,arr,0,ans);
+        return ans;
+    }
+};
+
+//Subset Sum II
+//Recursion, absence of a base case outside loop , noteworthy, continue condition works
+//Just like combination sum II pattern, i.e., 2nd recursive array pattern
+// Here if you draw the recursive tree according to this pattern, you can see what ds leads to subset
+class Solution {
+public:
+void genSub(int i, int n,vector<int> nums,vector<int> ds,vector<vector<int>> &ans){
+    ans.push_back(ds);
+    for(int j=i;j<n;j++){
+        if(j>i && nums[j]==nums[j-1]) continue;
+        ds.push_back(nums[j]);
+        genSub(j+1,n,nums,ds,ans);
+        ds.pop_back();
+    }
+}
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        vector<vector<int>> ans;
+        int n=nums.size();
+        sort(nums.begin(),nums.end());
+        genSub(0,n,nums,{},ans);
         return ans;
     }
 };
