@@ -60,3 +60,39 @@ public:
         return ans;
     }
 };
+
+
+//*Combination Sum II, No duplicate Subsets allowed , and there can be duplicate elements in the candidates.
+//M1: Inefficient Recursion with Set Data Structure
+class Solution {
+public:
+    void genSub(int i,int n,vector<int>& candidates, int target,set<vector<int>> &ans,vector<int> ds){
+        if(i==n){
+            if(target==0){
+                ans.insert(ds);
+            }
+            return;
+        }
+        if(target<candidates[i]){
+            genSub(i+1,n,candidates,target,ans,ds);
+        }
+        else{
+            ds.push_back(candidates[i]);            
+            genSub(i+1,n,candidates,target-candidates[i],ans,ds);
+            ds.pop_back();       
+            genSub(i+1,n,candidates,target,ans,ds);
+        }
+
+    }
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        set<vector<int>> ans;
+        vector<vector<int>> ans1;
+        vector<int> temp;
+        sort(candidates.begin(),candidates.end());
+        genSub(0,candidates.size(),candidates,target,ans,{});
+        for(vector<int> vec: ans){
+            ans1.push_back(vec);
+        }
+        return ans1;
+    }
+};
