@@ -1,0 +1,55 @@
+//*Combination Sum III, size of 'ds' the array we make is give and target is given , but the elements we take in part of addidtion is not in any array but between 1 to 9
+//M1: We can do it just like Combination Sum I by adding an extra condition of ds, but its inefficient
+class Solution {
+public:
+    void genSub(int i, int n, vector<int> candidates, vector<int> ds,vector<vector<int>>& ans, int target){
+        if(ds.size()==n){
+            if(target==0){
+                ans.push_back(ds);
+            }
+            return;
+        }
+        if(i>=candidates.size()) return;
+        ds.push_back(candidates[i]);
+        genSub(i+1,n,candidates,ds,ans,target-candidates[i]);
+        ds.pop_back();
+        
+        genSub(i+1,n,candidates,ds,ans,target);
+
+    }
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> ans;
+        vector<int> nums;
+        for(int i=1;i<10;i++){
+            nums.push_back(i);
+        }
+        genSub(0,k,nums,{},ans,n);
+        return ans;
+    }
+};
+
+//M2: We can do it in 2nd Pattern, i.e., with a loop checking the numbers we would like to take
+//This is EFFICIENT
+class Solution {
+public:
+    void genSub(int i, int k,  vector<int> ds,vector<vector<int>>& ans, int target){
+        if(k==0){
+            if(target==0){
+                ans.push_back(ds);
+            }
+            return;
+        }
+        if(i==10) return;
+        for(int j=i;j<10;j++){
+            ds.push_back(j);
+            genSub(j+1,k-1,ds,ans,target-j);
+            ds.pop_back();
+        }
+
+    }
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> ans;
+        genSub(1,k,{},ans,n);
+        return ans;
+    }
+};
