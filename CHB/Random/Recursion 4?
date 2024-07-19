@@ -73,15 +73,12 @@ public:
             }
             return;
         }
-        if(target<candidates[i]){
-            genSub(i+1,n,candidates,target,ans,ds);
-        }
-        else{
+        if(target>=candidates[i]){
             ds.push_back(candidates[i]);            
             genSub(i+1,n,candidates,target-candidates[i],ans,ds);
-            ds.pop_back();       
-            genSub(i+1,n,candidates,target,ans,ds);
+            ds.pop_back();
         }
+        genSub(i+1,n,candidates,target,ans,ds);
 
     }
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
