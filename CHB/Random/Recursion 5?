@@ -53,3 +53,54 @@ public:
         return ans;
     }
 };
+
+//*Letter Combinations of a Phone Number
+//M1: Recursive BruteForce? well Used normal map here, rather use unordered map as shown after this program for more efficient one.
+class Solution {
+public:
+    void genCombs(int i,int n,string digits, vector<string> &ans,vector<string> ds,map<char,string> mpp){
+        if(i==n){
+            ans=ds;
+            return;
+        }
+        vector<string> temp;
+        for(auto j : mpp[digits[i]]){
+            for(string p: ds){
+                temp.push_back(p+j);
+            }
+        }
+        genCombs(i+1,n,digits,ans,temp,mpp);
+    }
+    vector<string> letterCombinations(string digits) {
+        if(digits == ""){
+            return {};
+        }
+        map<char,string> mpp={
+            {'1',""},
+            {'2',"abc"},
+            {'3',"def"},
+            {'4',"ghi"},
+            {'5',"jkl"},
+            {'6',"mno"},
+            {'7',"pqrs"},
+            {'8',"tuv"},
+            {'9',"wxyz"},
+            {'0'," "}            
+        };
+        vector<string> ans;
+        int n=digits.size();
+        genCombs(0,n,digits,ans,{""},mpp);
+        return ans;
+    }
+};
+
+//M2: Slight modification from map to unordered_map for better efficiency
+        unordered_map<char, vector<string>> keypad;
+        keypad['2'] = {"a","b","c"};
+        keypad['3'] = {"d","e","f"};
+        keypad['4'] = {"g","h","i"};
+        keypad['5'] = {"j","k","l"};
+        keypad['6'] = {"m","n","o"};
+        keypad['7'] = {"p","q","r","s"};
+        keypad['8'] = {"t","u","v"};
+        keypad['9'] = {"w","x","y","z"};
