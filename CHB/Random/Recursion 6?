@@ -49,3 +49,49 @@ public:
         return false;
     }
 };
+
+//N-Queens, aint this a Queen in questions
+class Solution {
+public:
+    bool is_possible(int row, int col,int n,vector<string> &board){
+        //Since we are going from left to right while inserting Queens,
+        //we just need to check the presence of queen in the left attacking positions
+        int i=row;
+        int j=col;
+        while(i>=0 && j>=0){
+            if(board[i][j]=='Q') return false;
+            i--;
+            j--;
+        }
+        i=row;
+        j=col;
+        while(i<n && j>=0){
+            if(board[i][j]=='Q') return false;
+            i++;
+            j--;
+        }
+        for(j=col-1;j>=0;j--){
+            if(board[row][j]=='Q') return false;
+        }
+        return true;
+    }
+    void nQueen(int col,int n,vector<vector<string>> &ans,vector<string> &board ){
+        if(col==n){
+            ans.push_back(board);
+        }
+        for(int row=0;row<n;row++){
+            if(is_possible(row,col,n,board)){
+                board[row][col]='Q';
+                nQueen(col+1,n,ans,board);
+                board[row][col]='.';
+            }
+        }
+    }
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> ans;
+        vector<string> board(n,string(n,'.'));
+        nQueen(0,n,ans,board);
+        return ans;
+
+    }
+};
