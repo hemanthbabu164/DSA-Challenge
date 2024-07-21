@@ -1,0 +1,51 @@
+//*Word Search , A fun question
+//M1:Recursion , General thinking and might be a good answer
+class Solution {
+public:
+    bool wordSearch(int i, int j, int n, int m, vector<vector<char>>& board, string word,string s,vector<vector<bool>> &visited){
+        if(word==s){
+            return true;
+        }
+        if(i<0 || i>=n || j<0 || j>=m){
+            return false;
+        }
+        if(visited[i][j]){
+            return false;
+        }
+        if(word[s.size()]==board[i][j]){
+            string temp=s;
+            s+=word[s.size()];
+            visited[i][j]=true;
+            if(wordSearch(i+1,j,n,m,board,word,s,visited)){
+                return true;
+            }            
+            if(wordSearch(i-1,j,n,m,board,word,s,visited)){
+                return true;
+            }
+            if(wordSearch(i,j+1,n,m,board,word,s,visited)){
+                return true;
+            }
+            if(wordSearch(i,j-1,n,m,board,word,s,visited)){
+                return true;
+            }
+            s=temp;
+            
+            visited[i][j]=false;
+            
+        }
+        return false;
+    }
+    bool exist(vector<vector<char>>& board, string word) {
+        int n=board.size();
+        int m=board[0].size();
+        vector<vector<bool>> visited(n, vector<bool>(m, false));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(wordSearch(i,j,n,m,board,word,"",visited)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
