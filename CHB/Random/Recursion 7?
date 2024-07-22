@@ -78,3 +78,41 @@ public:
         bool key=solve(board);
     }
 };
+
+
+//*Expression Add Operators
+//Will be tough if we consider the 'not take operator' case for a recursion call, just take that in a for loop
+//Would be better to revise again , since its interesting
+class Solution {
+public:
+    void genOperations(int i, long long cur_val, long long prev,string num, int target, string ds, vector<string> &ans){
+        if(i==num.size()){
+            if(cur_val==target){
+                ans.push_back(ds);
+            }
+            return;
+        }
+        long long currentVal=0;
+        string currentNum="";
+        for(int j=i;j<num.size();j++){
+            if(j>i && num[i]=='0') break;//Ex:05 is not accepted
+            currentNum+=num[j];
+            currentVal=currentVal*10+(num[j]-48);
+            if(ds==""){
+                genOperations(j+1,currentVal,currentVal,num,target,ds+currentNum,ans);
+            }
+            else{
+                genOperations(j+1,cur_val+(currentVal),(currentVal),num,target,ds+"+"+currentNum,ans);
+                genOperations(j+1,cur_val-(currentVal),-(currentVal),num,target,ds+"-"+currentNum,ans);
+                genOperations(j+1,(cur_val-prev)+(prev*(currentVal)),(currentVal)*prev,num,target,ds+"*"+currentNum,ans);
+            }
+        }
+
+    }
+    vector<string> addOperators(string num, int target) {
+        vector<string> ans;
+
+        genOperations(0,0,0,num,target,"",ans);
+        return ans;
+    }
+};
