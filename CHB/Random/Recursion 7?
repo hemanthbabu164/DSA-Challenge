@@ -1,0 +1,35 @@
+//* Map Coloring
+class Solution{
+public:
+    // Function to determine if graph can be coloured with at most M colours such
+    // that no two adjacent vertices of graph are coloured with same colour.
+    bool genPaths(int i, int n,int m, vector<int> &color, bool graph[101][101]){
+        if(i==n){return true;}
+        
+        for(int k=1;k<=m;k++){
+            bool key=true;
+            for(int l=0;l<n;l++){
+                if(graph[i][l] && color[l]==k){
+                    key=false;
+                    break;
+                }
+            }
+            if(key){
+                color[i]=k;
+                if(genPaths(i+1,n,m,color,graph)){
+                    return true;
+                }
+            }
+            
+        }
+        return false;
+    }
+    bool graphColoring(bool graph[101][101], int m, int n) {
+        // your code here
+        //m=no.of colors,n no.of nodes
+        //graph contains edges, i.e., if graph[0][1]=true, then there is an edge between them
+        vector<int> color(n,0);
+        
+        return genPaths(0,n,m,color,graph);
+    }
+};
