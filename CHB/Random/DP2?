@@ -1,0 +1,12 @@
+Note: For Possible DP
+1: Recursion
+  Steps in Recursion:
+  1. make the function to be based on an indexing (if array we will naturally have that )
+  2. Try out all stuffs possible on that index according to the problem statement
+  3. make out the base case,  
+  tip :if count ,returning 1 in base case and summing up all possibilities gives an answer 
+      if min, carry the cost of each possibility in that path, and return the mini of all them
+2: Memoisation(DP TD)
+3: Tabulation(DP BU)
+4: Optimizing Space Complexity.
+
