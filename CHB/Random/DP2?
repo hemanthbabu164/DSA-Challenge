@@ -286,3 +286,37 @@ public:
         }
         return prev1;
     }
+
+//*House Robber II , Houses are circular
+        //Here for circular we dont want first and last element together
+        //so, without any new logic we can just call the straight_Rob twice
+        //once with the nums array without first element, and the other without last element
+class Solution {
+public:
+    int straight_rob(vector<int>& nums) {
+        //from prev Question
+        int n=nums.size();
+        int prev2=0;
+        int prev1=nums[0];
+        int neg_index=0;
+        for(int i=1;i<n;i++){
+            int take=nums[i];
+            if(i-2>=0)
+                take+=prev2;
+            int not_take=prev1;
+            prev2=prev1;
+            prev1=max(take,not_take);
+        }
+        return prev1;
+    }
+    long long int rob(vector<int> &nums){
+        int n=nums.size();
+        vector<int> temp1,temp2;
+        if(n==1) return nums[0]; //just in case we dont give 0 when theres only one element
+        for(int i=0;i<n;i++){
+            if(i!=0) temp1.push_back(nums[i]);
+            if(i!=n-1) temp2.push_back(nums[i]);
+        }
+        return max(straight_rob(temp1),straight_rob(temp2));
+    }
+};
