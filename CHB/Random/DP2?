@@ -1,12 +1,84 @@
-Note: For Possible DP
-1: Recursion
-  Steps in Recursion:
-  1. make the function to be based on an indexing (if array we will naturally have that )
-  2. Try out all stuffs possible on that index according to the problem statement
-  3. make out the base case,  
-  tip :if count ,returning 1 in base case and summing up all possibilities gives an answer 
-      if min, carry the cost of each possibility in that path, and return the mini of all them
-2: Memoisation(DP TD)
-3: Tabulation(DP BU)
-4: Optimizing Space Complexity.
+//*Frog Jump, Energy consumption
+//M1.Recursion:
+class Solution {
+  public:
+  int genPos(int i,vector<int> &height, int n){
+        if(i==0){
+            return 0;
+        }
+        int case1=genPos(i-1,height,n)+abs(height[i]-height[i-1]);
+        int case2=INT_MAX;
+        if(i-2>=0)
+            case2=genPos(i-2,height,n)+abs(height[i]-height[i-2]);
+        return min(case1,case2);
+      
+      
+  }
+    int minimumEnergy(vector<int>& height, int n) {
+       int mini= genPos(n-1,height,n);
+        
+        return mini;
+    }
+};
 
+//M2. Memoisation:
+class Solution {
+  public:
+  int genPos(int i,vector<int> &height, int n,vector<int> &dp){
+      if(dp[i]!=-1){
+          return dp[i];
+      }
+        if(i==0){
+            dp[0] =0;
+            return 0;
+        }
+        int case1=genPos(i-1,height,n,dp)+abs(height[i]-height[i-1]);
+        int case2=INT_MAX;
+        if(i-2>=0)
+            case2=genPos(i-2,height,n,dp)+abs(height[i]-height[i-2]);
+        dp[i]=min(case1,case2);
+        return dp[i];
+      
+      
+  }
+    int minimumEnergy(vector<int>& height, int n) {
+        // Code here
+       vector<int> dp(n+1,-1);
+       int mini= genPos(n-1,height,n,dp);
+        
+        return mini;
+    }
+};
+
+//M3. Tabulation
+  int minimumEnergy(vector<int>& height, int n) {
+        // Code here
+       vector<int> dp(n+1,-1);
+    //   int mini= genPos(n-1,height,n,dp);
+        dp[0]=0;
+        for(int i=1;i<n;i++){
+            int case1=dp[i-1]+abs(height[i]-height[i-1]);
+            int case2=INT_MAX;
+            if(i-2>=0)
+                case2=dp[i-2]+abs(height[i]-height[i-2]);
+            dp[i]=min(case1,case2);
+        }
+        return dp[n-1];
+    }
+
+//M4.Space Optimization in Tabulation:
+  int minimumEnergy(vector<int>& height, int n) {
+        // Code here
+    //   vector<int> dp(n+1,-1);
+        int prev1=0;
+        int prev2=0;
+        for(int i=1;i<n;i++){
+            int case1=prev1+abs(height[i]-height[i-1]);
+            int case2=INT_MAX;
+            if(i-2>=0)
+                case2=prev2+abs(height[i]-height[i-2]);
+            prev2=prev1;
+            prev1=min(case1,case2);
+        }
+        return prev1;
+    }
