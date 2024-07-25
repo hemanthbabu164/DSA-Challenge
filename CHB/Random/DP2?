@@ -82,3 +82,82 @@ class Solution {
         }
         return prev1;
     }
+
+//Multiple steps Jump Possible
+//NOTE after Tabulation :
+  No Space Optimisation could be done here since if k is given n , then we have no choice but to keep all the prev values in array.
+//M1 : Recursion:
+class Solution {
+  public:
+    int genMini(int i, vector<int> &height,int n,int k,vector<int> &dp){
+        if(i==0){
+            return 0;
+        }
+        int mini=INT_MAX;
+        for(int j=1;j<=k;j++){
+            if(i-j<0){
+                break;
+            }
+            int val=genMini(i-j,height,n,k,dp)+abs(height[i]-height[i-j]);
+            mini=min(mini,val);
+        }
+        return mini;
+    }
+    int minimizeCost(vector<int>& height, int n, int k) {
+        // Code here
+        vector<int> dp(n+1,0);
+        int mini=genMini(n-1,height,n,k,dp);
+        return mini;
+    }
+};
+
+//M2:DP-TD, memoisation
+class Solution {
+  public:
+    int genMini(int i, vector<int> &height,int n,int k,vector<int> &dp){
+        if(dp[i]!=-1){
+            return dp[i];
+        }
+        if(i==0){
+            dp[0]=0;
+            return dp[0];
+        }
+        int mini=INT_MAX;
+        for(int j=1;j<=k;j++){
+            if(i-j<0){
+                break;
+            }
+            int val=genMini(i-j,height,n,k,dp)+abs(height[i]-height[i-j]);
+            mini=min(mini,val);
+        }
+        dp[i]=mini;
+        return dp[i];
+    }
+    int minimizeCost(vector<int>& height, int n, int k) {
+        // Code here
+        vector<int> dp(n+1,-1);
+        int mini=genMini(n-1,height,n,k,dp);
+        return dp[n-1];
+    }
+};
+
+//M3:DP-BU, Tabulation:
+  int minimizeCost(vector<int>& height, int n, int k) {
+        // Code here
+        vector<int> dp(n+1,-1);
+        // int mini=genMini(n-1,height,n,k,dp);
+        dp[0]=0;
+        for(int i=1;i<n;i++){
+            int mini=INT_MAX;
+            for(int j=1;j<=k;j++){
+                if(i-j<0){
+                    break;
+                }
+                int val=dp[i-j]+abs(height[i]-height[i-j]);
+                mini=min(mini,val);
+            }
+            dp[i]=mini;
+        }
+        return dp[n-1];
+    }
+
