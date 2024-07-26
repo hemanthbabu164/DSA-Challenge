@@ -1,0 +1,60 @@
+//* Geek's Training, 2D DP 
+//M1: Recursion: TLE, also try to come from n-1 to 0
+class Solution {
+  public:
+    int genMaxi(int i, vector<vector<int>> &arr, int n,int prev){
+        int maxi=0;
+        if(i==0){
+            for(int j=0 ;j<3;j++){
+                if(prev!=j){
+                    maxi=max(maxi,arr[i][j]);
+                }
+            }
+            return maxi;
+        }
+        for(int j=0 ;j<3;j++){
+            if(prev!=j){
+                maxi=max(maxi,genMaxi(i+1,arr,n,j)+arr[i][j]);
+            }
+        }
+        return maxi;
+    }
+    int maximumPoints(vector<vector<int>>& arr, int n) {
+        // Code here
+        int prev=-1;
+        // vector<vector<int>> dp(n,vector<int>(3,-1));
+        return genMaxi(n-1,arr,n,prev,dp);
+    }
+};
+//M2: Memoisation 2D, make sure the edge case of prev=3 is handled properly by dp
+class Solution {
+  public:
+    int genMaxi(int i, vector<vector<int>> &arr, int n,int prev,vector<vector<int>> &dp){
+        if(dp[i][prev]!=-1){
+            return dp[i][prev];
+        }
+        int maxi=0;
+        if(i==0){
+            for(int j=0 ;j<3;j++){
+                if(prev!=j){
+                    maxi=max(maxi,arr[i][j]);
+                }
+            }
+            dp[i][prev]=maxi;
+            return maxi;
+        }
+        for(int j=0 ;j<3;j++){
+            if(prev!=j){
+                maxi=max(maxi,genMaxi(i-1,arr,n,j,dp)+arr[i][j]);
+            }
+        }
+        dp[i][prev]=maxi;
+        return maxi;
+    }
+    int maximumPoints(vector<vector<int>>& arr, int n) {
+        // Code here
+        int prev=-1;
+        vector<vector<int>> dp(n,vector<int>(3,-1));
+        return genMaxi(n-1,arr,n,prev,dp);
+    }
+};
