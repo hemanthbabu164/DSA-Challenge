@@ -45,3 +45,35 @@ class Solution {
         return ans;
     }
 };
+
+
+//POSTFIX TO INFIX
+//STANDARD: 1. If operand push to stack 
+            2. else , remove top two from stack, concat it with operator, shove it in paran and push to stack
+class Solution {
+  public:
+    string postToInfix(string s) {
+        // Write your code here
+        int i=0;
+        string ans="";
+        stack<string> st;
+        while(i<s.size()){
+            if((s[i] >= 'A' && s[i]<='Z') || (s[i] >= 'a' && s[i]<='z') || (s[i] >= '0' && s[i]<='9')){
+                
+                st.push(string(1,s[i]));
+                // cout<<st.top()<<endl;
+            }
+            else{
+                string first=st.top();
+                st.pop();
+                string second=st.top();
+                st.pop();
+                st.push("("+second+s[i]+first+")");
+                // cout<<st.top()<<endl;
+                
+            }
+            i++;
+        }
+        return st.top();
+    }
+};
