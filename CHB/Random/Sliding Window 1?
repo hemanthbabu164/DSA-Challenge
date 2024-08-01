@@ -1,0 +1,26 @@
+//*Longest Substring with No Repeating Characters
+//M: Sliding Window
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if(s==""){
+            return 0;
+        }
+        int start=0;
+        int end=1;
+        int n=s.size();
+        int maxlen=1;
+        vector<int> hash(256,-1);
+        hash[s[start]]=start;
+        while(start<n && end<n){
+            if(hash[s[end]]>=start){
+               start=hash[s[end]]+1;
+            }
+            hash[s[end]]=end;
+            maxlen=max(maxlen,end-start+1);
+            end++;
+        }
+        return maxlen;
+    }
+};
+
