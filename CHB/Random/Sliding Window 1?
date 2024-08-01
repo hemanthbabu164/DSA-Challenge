@@ -98,3 +98,70 @@ public:
         return maxlen;
     }
 };
+
+
+//***FRUITS INTO BASKETS
+//CAN BE INTERPRETED AS: MAXLEN OF THE SUBARRAY WITH ATMOST 2 TYPES OF FRUITS OR NUMBERS
+//M1: BRUTE FORCE, TC: O(N2), SC: O(2)
+class Solution {
+  public:
+    int totalFruits(vector<int> &arr) {
+        int maxlen=0;
+        for(int i=0;i<arr.size();i++){
+            set<int> st;
+            for(int j=i;j<arr.size();j++){
+                st.insert(arr[j]);
+                if(st.size()<=2) maxlen=max(maxlen,j-i+1);
+                else break;
+            }
+        }
+        return maxlen;
+    }
+};
+//M2: SLIDING WINDOW, SAME LIKE BEFORE TC: O(N)+O(N), SC: AT WORST O(3)
+class Solution {
+  public:
+    int totalFruits(vector<int> &arr) {
+        int maxlen=0;
+        int l=0,r=0;
+        set<int> st;
+        unordered_map<int,int> freq;
+        while(r<arr.size()){
+            freq[arr[r]]++;
+            while(freq.size()>2){
+                freq[arr[l]]--;
+                if(freq[arr[l]]==0) freq.erase(arr[l]);
+                l++;
+            }
+            if(freq.size()<=2){
+                maxlen=max(maxlen,r-l+1);
+            }
+            r++;
+        }
+        return maxlen;
+    }
+};
+//M3: JUST LIKE BEFORE PROBLEM , WE ARE NOT GOING TO TRIM ANYMORE AND MOVE L ONE BY  ONE
+//TC: O(N), SC:O(3)
+class Solution {
+  public:
+    int totalFruits(vector<int> &arr) {
+        int maxlen=0;
+        int l=0,r=0;
+        set<int> st;
+        unordered_map<int,int> freq;
+        while(r<arr.size()){
+            freq[arr[r]]++;
+            while(freq.size()>2){
+                freq[arr[l]]--;
+                if(freq[arr[l]]==0) freq.erase(arr[l]);
+                l++;
+            }
+            if(freq.size()<=2){
+                maxlen=max(maxlen,r-l+1);
+            }
+            r++;
+        }
+        return maxlen;
+    }
+};
