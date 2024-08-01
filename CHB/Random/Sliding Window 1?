@@ -24,3 +24,77 @@ public:
     }
 };
 
+//**Maximum Consecutive zeroes:
+//M1: BRUTE FORCE : O(N2)
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) {
+        int maxlen=0;
+        for(int i=0;i<nums.size();i++){
+            int numZeroes=0;
+            for(int j=i;j<nums.size();j++){
+                if(nums[j]==0) numZeroes++;
+                if(numZeroes<=k) maxlen=max(maxlen,j-i+1);
+                else break;
+            }
+        }
+        return maxlen;
+    }
+};
+//M2: SLIDING WINDOW - 2 POINTER, TC: O(N) + O(N)(->2nd one for inner while loop , which at max runs for n times throughout the journey)
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) {
+        int l=0;
+        int r=0;
+        int maxlen=0;
+        int numZeroes=0;
+        int firstZero=0;
+        while(r<nums.size()){
+            if(nums[r]==0){
+               numZeroes++;
+            }
+            while(numZeroes>k){
+                if(nums[l]==0) numZeroes--;
+                l++;
+            }
+            if(numZeroes<=k){
+                int len=r-l+1;
+                maxlen=max(len,maxlen);
+            }
+            r++;
+
+        }
+        return maxlen;
+    }
+};
+//M3: MOST OPTIMAL ONE, TO REMOVE THAT SECOND O(N) TC:
+//MOVING l BY ONLY ONE PLACE AND NOT CONSIDERING THE SUBARRAYS UNTIL NUMZEROES DECREASE. 
+//I.E., NOT ALLOWING THE WINDOW TO EXPAND UNTIL ZEROES DECREASE, YOU CAN ALSO SAY INSTEAD OF TRIMMING WE ARE MAINTAINING SAME WINDOW SIZE
+//LOOKING AT THE CODE YOU CAN SAY , THE INNER WHILE BECOMES IF, 
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) {
+        int l=0;
+        int r=0;
+        int maxlen=0;
+        int numZeroes=0;
+        int firstZero=0;
+        while(r<nums.size()){
+            if(nums[r]==0){
+               numZeroes++;
+            }
+            if(numZeroes>k){
+                if(nums[l]==0) numZeroes--;
+                l++;
+            }
+            if(numZeroes<=k){
+                int len=r-l+1;
+                maxlen=max(len,maxlen);
+            }
+            r++;
+
+        }
+        return maxlen;
+    }
+};
