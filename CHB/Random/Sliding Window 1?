@@ -165,3 +165,78 @@ class Solution {
         return maxlen;
     }
 };
+
+//***LONGEST REPEATING CHARACTER 
+//M1: BRUTEFORCE,//we change the alpha that are not the max freq
+                //TLE
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int maxlen=0;
+        for(int i=0;i<s.size();i++){
+            int diff=0;
+            unordered_map<char,int> freq;
+            int max_freq=0;
+            for(int j=i;j<s.size();j++){
+                freq[s[j]]++;
+                max_freq=max(max_freq,freq[s[j]]);
+                int changes=j-i+1 - max_freq; //we change the alpha that are not the max freq
+                if(changes<=k) maxlen=max(maxlen,j-i+1);
+                else break;
+            }
+        }
+        return maxlen;
+    }
+};
+
+//M2: SLIDING WINDOW: NOTE: UPDATE THE MAXFREQ WHILE TRIMMING DOWN TOO
+//TC: WORST CASE WOULD BE O(N)->OUTER,O(N)->INNER WHILE THROUGHOUT THE JOURNEY, MAX FREQ IN MAP AT WORST O(26)
+// THAT WILL BE (N+N)*26, SC: O(26)
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int maxlen=0;
+        int l=0;
+        int r=0;
+        int max_freq=0;
+        unordered_map<char,int> freq;
+        while(r<s.size()){
+            freq[s[r]]++;
+            max_freq=max(max_freq,freq[s[r]]);
+            while ((r-l+1 - max_freq)>k){
+                freq[s[l]]--;
+                max_freq=0;
+                for(auto m:freq){
+                    max_freq=max(max_freq, m.second);
+                }
+                l++;
+            }
+            if((r-l+1 - max_freq)<=k) maxlen=max(maxlen,r-l+1);
+            r++;
+        } 
+        return maxlen;
+    }
+};
+
+//M3: WE DONT TRIM, AND ALSO WE SEE NO POINT IN REDUCING MAX_FREQ AS IT WONT BE CONTRIBUTING
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int maxlen=0;
+        int l=0;
+        int r=0;
+        int max_freq=0;
+        unordered_map<char,int> freq;
+        while(r<s.size()){
+            freq[s[r]]++;
+            max_freq=max(max_freq,freq[s[r]]);
+            if ((r-l+1 - max_freq)>k){
+                freq[s[l]]--;
+                l++;
+            }
+            if((r-l+1 - max_freq)<=k) maxlen=max(maxlen,r-l+1);
+            r++;
+        } 
+        return maxlen;
+    }
+};
