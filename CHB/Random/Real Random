@@ -109,7 +109,7 @@ public:
 
 
 //**Trapping Rain Water
-//M1:BruteForce:
+//M1:BruteForce: TC:O(N2), SC:O(1)
 class Solution {
 public:
     int trap(vector<int>& height) {
@@ -130,4 +130,58 @@ public:
         return sum;
     }
 };
-//M2: 
+//M2: PRECALCULATING LEFT MAXIMUMS , RIGHT MAXIMUMS AND STORING THEM INTO AN ARRAY.
+//TC:O(N), SC:O(N)
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int sum=0;
+        int n=height.size();
+        vector<int> max_left(n,0);
+        max_left[0]=height[0];
+        vector<int> max_right(n,0);
+        max_right[n-1]=height[n-1];
+        for(int i=1;i<n;i++){
+            max_left[i]=max(max_left[i-1],height[i]);
+        }
+        for(int i=n-2;i>=0;i--){
+            max_right[i]=max(max_right[i+1],height[i]);
+        }
+        //for first and last the left or right one is going to be zero.
+        for(int i=1;i<n-1;i++){
+            int poshigh=min(max_left[i-1],max_right[i+1]);
+            if(poshigh>height[i]){
+                sum+=poshigh-height[i];
+            }
+        }
+        return sum;
+    }
+};
+
+//M3: TWO POINTER APPROACH
+TC:O(N), SC:O(1)
+//SINCE WE NEED THE MIN OF LEFTMAX,RIGHTMAX , WE MOVE THE POINTER WHERE WE HAVE LOWER MAX AND TAKE THE SUM WITH IT
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int sum=0;
+        int n=height.size();
+        int l=0;
+        int r=n-1;
+        int lmax=height[l];
+        int rmax=height[r];
+        while(l<r){
+            if(lmax<=rmax){
+                l++;
+                sum+=max(0,lmax-height[l]);
+                lmax=max(lmax,height[l]);
+            }
+            else{
+                r--;
+                sum+=max(0,rmax-height[r]);
+                rmax=max(rmax,height[r]);
+            }
+        }
+        return sum;
+    }
+};
