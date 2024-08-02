@@ -1,73 +1,30 @@
 //*Maximum mat(c,d)-mat(a,b) where c>a,d>b in matrix NxN
 //M1: BruteForce
-// Online C++ compiler to run C++ program online
-#include <bits/stdc++.h>
-using namespace std;
-int getMax(int row, int col, vector<vector<int>> &mat){
-    int n=mat.size();
-    if(row==n-1 || col==n-1 ){
-        return 0;
-    }
-    int maxi=0;
-    for(int i=row+1;i<n;i++){
-        for(int j=col+1;j<n;j++){
-            maxi=max(maxi,mat[i][j]);
-        }
-    }
-    return maxi;
-}
-int maxDiff(vector<vector<int>> &mat){
-    int n=mat.size();
-    int maxi=0;
-    for(int i=0;i<n-1;i++){
-        for(int j=0;j<n-1;j++){
-            maxi=max(maxi,getMax(i,j,mat)-mat[i][j]);
-        }
-    }
-    return maxi;
-}
 
-int main() {
-    vector<vector<int>> mat;
-    mat.push_back({1,6,2,4});
-    mat.push_back({1,3,5,7});
-    mat.push_back({8,9,2,2});
-    mat.push_back({7,1,7,6});
-    
-    cout<<"Maximuns mat(c,d)-mat(a,b) where c>a,d>b: "<<maxDiff(mat);
-
-    return 0;
-}
+its just O(N4) where we traverse the whole matrix and find the maximum of the matrix madeof next rows and columns
 
 //M2: Saving the Maximums in a matrix before computing
-// Online C++ compiler to run C++ program online
 #include <bits/stdc++.h>
 using namespace std;
-void genMat(vector<vector<int>> &maxMatrix,vector<vector<int>> &mat){
-    int n=mat.size();
-    maxMatrix[n-1][n-1]=mat[n-1][n-1];
-    for(int j=n-2;j>=0;j--){
-        maxMatrix[n-1][j]=max(maxMatrix[n-1][j+1],mat[n-1][j]);
-    }
-    for(int i=n-2;i>=0;i--){
-        maxMatrix[i][n-2]=max(maxMatrix[i+1][n-2],mat[i][n-1]);
-    }
-    for(int i=n-2;i>=0;i--){
-        for(int j=n-2;j>=0;j--){
-            maxMatrix[i][j]=max({maxMatrix[i+1][j],maxMatrix[i][j+1],mat[i][j]});
-        }
-    }
-    
-}
 
 int maxDiff(vector<vector<int>> &mat){
     int n=mat.size();
     int maxi=0;
-    vector<vector<int>> maxMatrix(n,vector<int>(n));
-    genMat(maxMatrix,mat);
-    for(int i=0;i<n-1;i++){
-        for(int j=0;j<n-1;j++){
-            maxi=max(maxi,maxMatrix[i+1][j+1]-mat[i][j]);
+    int maxArr[n][n];
+    maxArr[n-1][n-1]=mat[n-1][n-1];
+    //preprocessing Last Row
+    for(int i=n-2;i>=0;i--){
+        maxArr[n-1][i]=max(mat[n-1][i],maxArr[n-1][i+1]);
+    }
+    //preprocessing Last Columns
+    for(int i=n-2;i>=0;i--){
+        maxArr[i][n-1]=max(mat[i][n-1],maxArr[i+1][n-1]);
+    }
+
+    for(int i=n-2;i>=0;i--){
+        for(int j=n-2;j>=0;j--){
+            maxi=max(maxi,maxArr[i+1][j+1] - mat[i][j]);
+            maxArr[i][j]=max(mat[i][j],max(maxArr[i+1][j],maxArr[i][j+1]));
         }
     }
     return maxi;
