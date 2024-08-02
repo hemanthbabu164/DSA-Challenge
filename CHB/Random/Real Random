@@ -84,3 +84,50 @@ int main() {
 
     return 0;
 }
+
+//**Container With Most Water
+//TWO POINTER APPROACH
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int maxvol=0;
+        int n=height.size();
+        int l=0;
+        int r=n-1;
+        while(l<r){
+            maxvol= max(maxvol,(r-l)*min(height[l],height[r]));
+            if(height[l]<=height[r]){
+                l++;
+            }
+            else{
+                r--;
+            }
+        }
+        return maxvol;
+    }
+};
+
+
+//**Trapping Rain Water
+//M1:BruteForce:
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int sum=0;
+        int n=height.size();
+        //for first and last the left or right one is going to be zero.
+        for(int i=1;i<n-1;i++){
+            int left_max=height[i];
+            int right_max=height[i];
+            for(int j=0;j<i;j++){
+                left_max=max(left_max,height[j]);
+            }
+            for(int j=i+1;j<n;j++){
+                right_max=max(right_max,height[j]);
+            }
+            sum+=min(left_max,right_max) - height[i];
+        }
+        return sum;
+    }
+};
+//M2: 
