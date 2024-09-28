@@ -1,0 +1,33 @@
+//Valid Paranthesis
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> st;
+        unordered_map<char,char> mpp;
+        mpp['(']=')';
+        mpp['[']=']';
+        mpp['{']='}';
+        mpp[')']='(';
+        mpp['}']='{';
+        mpp[']']='[';
+        for(char ch : s){
+            if(ch=='}' || ch==')' || ch==']'){
+                if(st.empty()){
+                    return false;
+                }
+                if(st.top()==mpp[ch]){
+                    st.pop();
+                    continue;
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                st.push(ch);
+            }
+        }
+        if(!st.empty()) return false;
+        return true;
+    }
+};
