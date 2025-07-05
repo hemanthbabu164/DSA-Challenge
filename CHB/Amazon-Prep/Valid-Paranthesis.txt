@@ -1,0 +1,232 @@
+Question:
+Find the validity of an input string s that only contains the letters  '(', ')' and '*'.
+A string entered is legitimate if
+• Any left parenthesis '(' must have a corresponding right parenthesis ')'.
+• Any right parenthesis ')' must have a corresponding left parenthesis '('.
+• Left parenthesis '(' must go before the corresponding right parenthesis ')'.
+• '*' could be treated as a single right parenthesis ')' or a single left parenthesis '(' or an empty string ""
+
+Solution:
+Method-1 - OWN - All cases passed, submitted successfully - TC=O(N), SC=O(N):
+
+class Solution {  
+public:
+    bool isValid(string s) {
+        //your code goes here
+        stack<pair<char,int>> st;
+        vector<int> star;
+        vector<int> remCP;
+        return helper(s,0,st,star,remCP);
+    }
+    bool helper(string &s, int i, stack<pair<char,int>> &st, vector<int> &star, vector<int> &remCP){
+        if(i==s.length()){
+            if(st.empty()){
+                // No rem OP
+                if(remCP.empty()) return true;
+                else{
+                    // CP present star not present
+                    if(star.empty())    return false;
+                    // CP present star present
+                    return checkStarCP(remCP,star);
+                }
+                
+            }
+            else{
+                //rem OP
+                if(star.empty())    return false;
+                if(remCP.empty()) return checkStarOP(st,star);
+                // )(*
+                // We have CP and OP, in the format : )*)*))*((*((*
+                return checkStarCPOP(st, remCP, star);
+
+            }
+        }
+        if(s[i]=='('){
+            st.push(make_pair(s[i],i));
+            
+        }
+        else if(s[i]==')'){
+            if(st.empty()){
+                if(star.empty())  return false;
+                else remCP.push_back(i);
+            }
+            else{
+                st.pop();
+            }
+        }
+        else{
+            star.push_back(i);
+        }
+        return helper(s,i+1,st,star,remCP);
+    }
+
+    bool checkStarCP(vector<int> remCP, vector<int> star){
+        // [1,3,5,7,24] [4,9,12,14]
+        int i = 0, j = 0;
+        while (i < remCP.size() && j < star.size()) {
+            if (star[j] < remCP[i]) {
+                i++; j++;
+            }
+            else return false;
+        }
+        return i == remCP.size(); // false when size of stars < size of remCP
+    }
+
+    bool checkStarOP(stack<pair<char,int>> st, vector<int> star){
+        
+        while(!st.empty()){
+            if(star.empty())  return false;
+            pair<char,int> tp = st.top();
+            if(star.back() > tp.second){
+                star.pop_back();
+                st.pop();
+            }
+            else    return false;
+        }
+        return true;
+    }
+
+    bool checkStarCPOP(stack<pair<char,int>> st, vector<int> remCP, vector<int> star){
+        
+        while(!st.empty()){
+            if(star.empty())  return false;
+            pair<char,int> tp = st.top();
+            if(star.back() > tp.second){
+                star.pop_back();
+                st.pop();
+            }
+            else    return false;
+        }
+        return checkStarCP(remCP,star);
+    }
+    
+};
+
+
+
+Method-2 - BruteForce Recursion- Trying out all possible scenario - TC:3^n (Worst case asterik splits to 3 possibilities), Timelimit Exceeds:
+
+class Solution {  
+public:
+    bool isValid(string s) {
+        //your code goes here
+        return helper(s,0,0);
+    }
+    bool helper(string &s, int i, int count){
+        if(count<0){
+            return false;
+        }
+        if(i==s.length()){
+            return count==0;
+        }
+        if(s[i]=='('){
+            return helper(s,i+1,count+1);
+        }
+        if(s[i]==')'){
+            return helper(s,i+1,count-1);
+        }
+        bool open = helper(s,i+1,count+1);
+        if(open){
+            return open;
+        }
+        bool close = helper(s,i+1,count-1);
+        if(close){
+            return close;
+        }
+        bool empty = helper(s,i+1,count);
+        return empty;
+        
+    }
+    
+};
+
+
+Method-3 - DP - Memoisation - it is on an index and it is on an variable => TC->O(N^2), SC->O(N^2): => SC can be further optimised with Tabulation
+Passes all testacases, memory used is ~2x or ~3x compared to method 1
+class Solution {  
+public:
+    bool isValid(string s) {
+        //your code goes here
+        int n=s.length();
+        // vector[i][count]
+        vector<vector<int>> dp(n+1, vector<int>(n+1,-1));
+        return helper(s,0,0,dp);
+    }
+    bool helper(string &s, int i, int count, vector<vector<int>> &dp){
+        if(count<0){
+            return false;
+        }
+        if(i==s.length()){
+            return count==0;
+        }
+        if(dp[i][count]!=-1){
+            return dp[i][count]==1;
+        }
+
+        bool result;
+
+        if(s[i]=='('){
+            result = helper(s,i+1,count+1,dp);
+        }
+        else if(s[i]==')'){
+            result = helper(s,i+1,count-1,dp);
+        }
+        else{
+            bool open = helper(s,i+1,count+1,dp);
+            if(open){
+                result = open;
+            }
+            else{
+                bool close = helper(s,i+1,count-1,dp);
+                if(close){
+                    result = close;
+                }
+                else{
+                    bool empty = helper(s,i+1,count,dp);
+                    result = empty;
+                }                
+            }
+            
+        }    
+
+        dp[i][count] = result ? 1 : 0;
+        return result;   
+        
+    }
+    
+};
+
+
+
+Method-4 - TC->O(N) -> bruteforce but for asterik we will be maintaining range, i.e, instead of count, we will have minimum count and maximum count : NOTE THAT COUNT is never <0;
+BETTER THAN Method-1 because SC also fell from O(n) to O(1):
+
+
+class Solution {  
+public:
+    bool isValid(string s) {
+        int minCount=0;
+        int maxCount=0;
+        for(char ch:s){
+            if(ch=='('){
+                minCount+=1;
+                maxCount+=1;
+            }
+            else if(ch==')'){
+                minCount-=1;
+                maxCount-=1;
+            }
+            else{
+                minCount-=1;
+                maxCount+=1;
+            }
+
+            if(minCount < 0) minCount=0;
+            if(maxCount < 0) return false;
+        }
+
+        return minCount==0;
+    }
+    
+};
+

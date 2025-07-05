@@ -1,0 +1,14 @@
+Note: For Possible DP
+1: Recursion
+  Steps in Recursion:
+  1. make the function to be based on an indexing (if array we will naturally have that )
+  2. Try out all stuffs possible on that index according to the problem statement
+  3. make out the base case,  
+  tip :if count ,returning 1 in base case and summing up all possibilities gives an answer 
+      if min, carry the cost of each possibility in that path, and return the mini of all them
+2: Memoisation(DP TD) => Required answer to BaseCase => if dp has answer dont make the call, else make the call assign to dp and return
+3: Tabulation(DP BU) => BaseCase to Required answer, assign the basecases to dp arr, then look at the recursion and convert it into loop => this eliminates stack space
+4: Optimizing Space Complexity. => Only keeping the necessary no.of variables, instead of entire dp array, which eliminates the SC by another level
+
+
+Any Problem which involves finding out the maximum substring or something like that, you should straight away start thinking about 2 pointer and sliding window approach => Not a specific algorithm, changes according to the problem, only constant is a window will be moving
