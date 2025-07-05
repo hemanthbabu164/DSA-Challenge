@@ -1,0 +1,247 @@
+//*Word Search , A fun question
+//M1:Recursion , General thinking and might be a good answer
+class Solution {
+public:
+    bool wordSearch(int i, int j, int n, int m, vector<vector<char>>& board, string word,string s,vector<vector<bool>> &visited){
+        if(word==s){
+            return true;
+        }
+        if(i<0 || i>=n || j<0 || j>=m){
+            return false;
+        }
+        if(visited[i][j]){
+            return false;
+        }
+        if(word[s.size()]==board[i][j]){
+            string temp=s;
+            s+=word[s.size()];
+            visited[i][j]=true;
+            if(wordSearch(i+1,j,n,m,board,word,s,visited)){
+                return true;
+            }            
+            if(wordSearch(i-1,j,n,m,board,word,s,visited)){
+                return true;
+            }
+            if(wordSearch(i,j+1,n,m,board,word,s,visited)){
+                return true;
+            }
+            if(wordSearch(i,j-1,n,m,board,word,s,visited)){
+                return true;
+            }
+            s=temp;
+            
+            visited[i][j]=false;
+            
+        }
+        return false;
+    }
+    bool exist(vector<vector<char>>& board, string word) {
+        int n=board.size();
+        int m=board[0].size();
+        vector<vector<bool>> visited(n, vector<bool>(m, false));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(wordSearch(i,j,n,m,board,word,"",visited)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
+
+//N-Queens, aint this a Queen in questions
+class Solution {
+public:
+    bool is_possible(int row, int col,int n,vector<string> &board){
+        //Since we are going from left to right while inserting Queens,
+        //we just need to check the presence of queen in the left attacking positions
+        int i=row;
+        int j=col;
+        while(i>=0 && j>=0){
+            if(board[i][j]=='Q') return false;
+            i--;
+            j--;
+        }
+        i=row;
+        j=col;
+        while(i<n && j>=0){
+            if(board[i][j]=='Q') return false;
+            i++;
+            j--;
+        }
+        for(j=col-1;j>=0;j--){
+            if(board[row][j]=='Q') return false;
+        }
+        return true;
+    }
+    void nQueen(int col,int n,vector<vector<string>> &ans,vector<string> &board ){
+        if(col==n){
+            ans.push_back(board);
+        }
+        for(int row=0;row<n;row++){
+            if(is_possible(row,col,n,board)){
+                board[row][col]='Q';
+                nQueen(col+1,n,ans,board);
+                board[row][col]='.';
+            }
+        }
+    }
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> ans;
+        vector<string> board(n,string(n,'.'));
+        nQueen(0,n,ans,board);
+        return ans;
+
+    }
+};
+
+//*RatMaze
+//A fun Question just like the above N-Queens
+class Solution {
+  public:
+    void ratMaze(int i, int j, int n, vector<vector<int>> &mat,vector<string> &ans, string path){
+        if(i==n-1 && j==n-1){
+            ans.push_back(path);
+            return;
+        }
+        mat[i][j]=0;
+        //Down
+        if(i+1<n && mat[i+1][j]==1){
+            ratMaze(i+1,j,n,mat,ans,path+'D');
+        }
+        //Up
+        if(i-1>=0 && mat[i-1][j]==1){
+            ratMaze(i-1,j,n,mat,ans,path+'U');
+        }
+        //Left
+        if(j-1>=0 && mat[i][j-1]==1){
+            ratMaze(i,j-1,n,mat,ans,path+'L');
+        }
+        //Right
+        if(j+1<n && mat[i][j+1]==1){
+            ratMaze(i,j+1,n,mat,ans,path+'R');
+        }
+        mat[i][j]=1;
+    }
+    vector<string> findPath(vector<vector<int>> &mat) {
+        // Your code goes here
+        string path="";
+        vector<string> ans;
+        if(mat[0][0]==0) return ans;
+        int n=mat.size();
+        ratMaze(0,0,n,mat,ans,path);
+        return ans;
+    }
+};
+
+
+//*Word Break
+//M1: Normal Recursion, TLE
+class Solution {
+public:
+    bool genWords(int i,string s,string word, vector<string> &wordDict){
+        if(s==word){
+            return true;
+        }
+        for(auto w:wordDict){
+            if(word.substr(i,w.size())==w){
+                string temp=s;
+                s+=w;
+                int j=s.size();
+                if(genWords(j,s,word,wordDict)){
+                    return true;
+                }
+                s=temp;
+            }
+        }
+        return false;
+    }
+    bool wordBreak(string s, vector<string>& wordDict) {
+        return genWords(0,"",s,wordDict);
+    }
+};
+
+//M2: Dynamic Programming TD
+//TOP DOWN WAY MORE COMPLEX THAN BOTTOMUP
+class Solution {
+public:    
+    bool binarySearch(const vector<string>& wordDict, const string& target) {
+        int left = 0, right = wordDict.size() - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (wordDict[mid] == target) {
+                return true;
+            } else if (wordDict[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return false;
+    }
+
+    bool wordBreak(string s, vector<string>& wordDict) {
+        int n=s.size();
+        vector<bool> dp(n+1,false);
+        dp[0]=true;
+        sort(wordDict.begin(), wordDict.end()); 
+        for(int i=1;i<=n;i++){
+            for(int j=0;j<i;j++){
+                if(dp[j]&& binarySearch(wordDict,s.substr(j,i-j))){
+                    dp[i]=true;
+                    break;
+                }
+            }
+        }
+        return dp[n];
+        //return genWords(0,"",s,wordDict);
+    }
+};
+
+//M3: DP BU
+//Simpler and most efficient
+    bool wordBreak(string s, vector<string>& wordDict) {
+        int n=s.size();
+        vector<bool> dp(n+1,false);
+        dp[n]=true;
+        for(int i=n-1;i>=0;i--){
+            for(auto word:wordDict){
+                int len=word.size();
+                if((i+len <= n) && (word==s.substr(i,len)) ){
+                    dp[i]=dp[i+len];
+                    if(dp[i]) break;
+                    //if we have this break outside if(dp[i]) rather than inside,
+                    //then assume we have leetcodes as word and [leet,code,codes], 
+                    //then when we go to "code" we will get dp[i]=false since "s" isnt present in wordDict
+                    //and since break is outside we wont have the chance to go to "codes"    
+                }
+            }
+        }
+        return dp[0];
+    }
+//M4: DP BU Recursion
+//Just for the namesake of this category "Recursion", lets just put the loop on i in recursive call like:
+class Solution {
+public:
+    void genWords(int i, int n,string s, vector<string>& wordDict,vector<bool> &dp){
+        if(i==-1){
+            return;
+        }
+        for(auto word:wordDict){
+            int len=word.size();
+                if((i+len <= n) && (word==s.substr(i,len)) ){
+                    dp[i]=dp[i+len];
+                    if(dp[i]) break;
+            }
+        }
+        genWords(i-1,n,s,wordDict,dp);
+    }
+    bool wordBreak(string s, vector<string>& wordDict) {
+        int n=s.size();
+        vector<bool> dp(n+1,false);
+        dp[n]=true;
+        genWords(n-1,n,s,wordDict,dp);
+        return dp[0];
+    }
+}

@@ -1,0 +1,111 @@
+//* Geek's Training, 2D DP 
+//M1: Recursion: TLE, also try to come from n-1 to 0
+class Solution {
+  public:
+    int genMaxi(int i, vector<vector<int>> &arr, int n,int prev){
+        int maxi=0;
+        if(i==0){
+            for(int j=0 ;j<3;j++){
+                if(prev!=j){
+                    maxi=max(maxi,arr[i][j]);
+                }
+            }
+            return maxi;
+        }
+        for(int j=0 ;j<3;j++){
+            if(prev!=j){
+                maxi=max(maxi,genMaxi(i+1,arr,n,j)+arr[i][j]);
+            }
+        }
+        return maxi;
+    }
+    int maximumPoints(vector<vector<int>>& arr, int n) {
+        // Code here
+        int prev=-1;
+        // vector<vector<int>> dp(n,vector<int>(3,-1));
+        return genMaxi(n-1,arr,n,prev,dp);
+    }
+};
+//M2: Memoisation 2D, make sure the edge case of prev=3 is handled properly by dp
+class Solution {
+  public:
+    int genMaxi(int i, vector<vector<int>> &arr, int n,int prev,vector<vector<int>> &dp){
+        if(dp[i][prev]!=-1){
+            return dp[i][prev];
+        }
+        int maxi=0;
+        if(i==0){
+            for(int j=0 ;j<3;j++){
+                if(prev!=j){
+                    maxi=max(maxi,arr[i][j]);
+                }
+            }
+            dp[i][prev]=maxi;
+            return maxi;
+        }
+        for(int j=0 ;j<3;j++){
+            if(prev!=j){
+                maxi=max(maxi,genMaxi(i-1,arr,n,j,dp)+arr[i][j]);
+            }
+        }
+        dp[i][prev]=maxi;
+        return maxi;
+    }
+    int maximumPoints(vector<vector<int>>& arr, int n) {
+        // Code here
+        int prev=3;
+        vector<vector<int>> dp(n,vector<int>(4,-1));
+        return genMaxi(n-1,arr,n,prev,dp);
+    }
+};
+//M3: Tabulation
+  int maximumPoints(vector<vector<int>>& arr, int n) {
+        // Code here
+        int prev=3;
+        vector<vector<int>> dp(n,vector<int>(4,0));
+        //For Tabulation
+        //Base Case
+        dp[0][0]=max(arr[0][1],arr[0][2]);
+        dp[0][1]=max(arr[0][0],arr[0][2]);
+        dp[0][2]=max(arr[0][1],arr[0][0]);
+        dp[0][3]=max(max(arr[0][1],arr[0][2]),arr[0][0]);
+        //4*n Recursion stack
+        for(int day=1;day<n;day++){
+            for(int prev=0;prev<4;prev++){
+                //Inside recursion what we did
+                for(int task=0;task<3;task++){
+                    if(prev!=task){
+                        dp[day][prev]=max(dp[day][prev],arr[day][task]+dp[day-1][task]);
+                    }
+                }
+            }
+        }
+        
+        return dp[n-1][3];
+    }
+//M4: Space Optimisation
+    int maximumPoints(vector<vector<int>>& arr, int n) {
+        // Code here
+        // vector<vector<int>> dp(n,vector<int>(4,0));
+        //For Space Optimisarion
+        vector<int> prevDay(4,0);
+        prevDay[0]=max(arr[0][1],arr[0][2]);
+        prevDay[1]=max(arr[0][0],arr[0][2]);
+        prevDay[2]=max(arr[0][1],arr[0][0]);
+        prevDay[3]=max(max(arr[0][1],arr[0][2]),arr[0][0]);
+        //4*n Recursion stack
+        for(int day=1;day<n;day++){
+            vector<int> temp(4,0);
+            for(int prev=0;prev<4;prev++){
+                //Inside recursion what we did o(3)
+                for(int task=0;task<3;task++){
+                    if(prev!=task){
+                        temp[prev]=max(temp[prev],arr[day][task]+prevDay[task]);
+                    }
+                }
+            }
+            prevDay=temp;
+        }
+        
+        return prevDay[3];
+    }

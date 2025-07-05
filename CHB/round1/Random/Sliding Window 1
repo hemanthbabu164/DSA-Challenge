@@ -1,0 +1,242 @@
+//*Longest Substring with No Repeating Characters
+//M: Sliding Window
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if(s==""){
+            return 0;
+        }
+        int start=0;
+        int end=1;
+        int n=s.size();
+        int maxlen=1;
+        vector<int> hash(256,-1);
+        hash[s[start]]=start;
+        while(start<n && end<n){
+            if(hash[s[end]]>=start){
+               start=hash[s[end]]+1;
+            }
+            hash[s[end]]=end;
+            maxlen=max(maxlen,end-start+1);
+            end++;
+        }
+        return maxlen;
+    }
+};
+
+//**Maximum Consecutive zeroes:
+//M1: BRUTE FORCE : O(N2)
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) {
+        int maxlen=0;
+        for(int i=0;i<nums.size();i++){
+            int numZeroes=0;
+            for(int j=i;j<nums.size();j++){
+                if(nums[j]==0) numZeroes++;
+                if(numZeroes<=k) maxlen=max(maxlen,j-i+1);
+                else break;
+            }
+        }
+        return maxlen;
+    }
+};
+//M2: SLIDING WINDOW - 2 POINTER, TC: O(N) + O(N)(->2nd one for inner while loop , which at max runs for n times throughout the journey)
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) {
+        int l=0;
+        int r=0;
+        int maxlen=0;
+        int numZeroes=0;
+        int firstZero=0;
+        while(r<nums.size()){
+            if(nums[r]==0){
+               numZeroes++;
+            }
+            while(numZeroes>k){
+                if(nums[l]==0) numZeroes--;
+                l++;
+            }
+            if(numZeroes<=k){
+                int len=r-l+1;
+                maxlen=max(len,maxlen);
+            }
+            r++;
+
+        }
+        return maxlen;
+    }
+};
+//M3: MOST OPTIMAL ONE, TO REMOVE THAT SECOND O(N) TC:
+//MOVING l BY ONLY ONE PLACE AND NOT CONSIDERING THE SUBARRAYS UNTIL NUMZEROES DECREASE. 
+//I.E., NOT ALLOWING THE WINDOW TO EXPAND UNTIL ZEROES DECREASE, YOU CAN ALSO SAY INSTEAD OF TRIMMING WE ARE MAINTAINING SAME WINDOW SIZE
+//LOOKING AT THE CODE YOU CAN SAY , THE INNER WHILE BECOMES IF, 
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) {
+        int l=0;
+        int r=0;
+        int maxlen=0;
+        int numZeroes=0;
+        int firstZero=0;
+        while(r<nums.size()){
+            if(nums[r]==0){
+               numZeroes++;
+            }
+            if(numZeroes>k){
+                if(nums[l]==0) numZeroes--;
+                l++;
+            }
+            if(numZeroes<=k){
+                int len=r-l+1;
+                maxlen=max(len,maxlen);
+            }
+            r++;
+
+        }
+        return maxlen;
+    }
+};
+
+
+//***FRUITS INTO BASKETS
+//CAN BE INTERPRETED AS: MAXLEN OF THE SUBARRAY WITH ATMOST 2 TYPES OF FRUITS OR NUMBERS
+//M1: BRUTE FORCE, TC: O(N2), SC: O(2)
+class Solution {
+  public:
+    int totalFruits(vector<int> &arr) {
+        int maxlen=0;
+        for(int i=0;i<arr.size();i++){
+            set<int> st;
+            for(int j=i;j<arr.size();j++){
+                st.insert(arr[j]);
+                if(st.size()<=2) maxlen=max(maxlen,j-i+1);
+                else break;
+            }
+        }
+        return maxlen;
+    }
+};
+//M2: SLIDING WINDOW, SAME LIKE BEFORE TC: O(N)+O(N), SC: AT WORST O(3)
+class Solution {
+  public:
+    int totalFruits(vector<int> &arr) {
+        int maxlen=0;
+        int l=0,r=0;
+        set<int> st;
+        unordered_map<int,int> freq;
+        while(r<arr.size()){
+            freq[arr[r]]++;
+            while(freq.size()>2){
+                freq[arr[l]]--;
+                if(freq[arr[l]]==0) freq.erase(arr[l]);
+                l++;
+            }
+            if(freq.size()<=2){
+                maxlen=max(maxlen,r-l+1);
+            }
+            r++;
+        }
+        return maxlen;
+    }
+};
+//M3: JUST LIKE BEFORE PROBLEM , WE ARE NOT GOING TO TRIM ANYMORE AND MOVE L ONE BY  ONE
+//TC: O(N), SC:O(3)
+class Solution {
+  public:
+    int totalFruits(vector<int> &arr) {
+        int maxlen=0;
+        int l=0,r=0;
+        set<int> st;
+        unordered_map<int,int> freq;
+        while(r<arr.size()){
+            freq[arr[r]]++;
+            while(freq.size()>2){
+                freq[arr[l]]--;
+                if(freq[arr[l]]==0) freq.erase(arr[l]);
+                l++;
+            }
+            if(freq.size()<=2){
+                maxlen=max(maxlen,r-l+1);
+            }
+            r++;
+        }
+        return maxlen;
+    }
+};
+
+//***LONGEST REPEATING CHARACTER 
+//M1: BRUTEFORCE,//we change the alpha that are not the max freq
+                //TLE
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int maxlen=0;
+        for(int i=0;i<s.size();i++){
+            int diff=0;
+            unordered_map<char,int> freq;
+            int max_freq=0;
+            for(int j=i;j<s.size();j++){
+                freq[s[j]]++;
+                max_freq=max(max_freq,freq[s[j]]);
+                int changes=j-i+1 - max_freq; //we change the alpha that are not the max freq
+                if(changes<=k) maxlen=max(maxlen,j-i+1);
+                else break;
+            }
+        }
+        return maxlen;
+    }
+};
+
+//M2: SLIDING WINDOW: NOTE: UPDATE THE MAXFREQ WHILE TRIMMING DOWN TOO
+//TC: WORST CASE WOULD BE O(N)->OUTER,O(N)->INNER WHILE THROUGHOUT THE JOURNEY, MAX FREQ IN MAP AT WORST O(26)
+// THAT WILL BE (N+N)*26, SC: O(26)
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int maxlen=0;
+        int l=0;
+        int r=0;
+        int max_freq=0;
+        unordered_map<char,int> freq;
+        while(r<s.size()){
+            freq[s[r]]++;
+            max_freq=max(max_freq,freq[s[r]]);
+            while ((r-l+1 - max_freq)>k){
+                freq[s[l]]--;
+                max_freq=0;
+                for(auto m:freq){
+                    max_freq=max(max_freq, m.second);
+                }
+                l++;
+            }
+            if((r-l+1 - max_freq)<=k) maxlen=max(maxlen,r-l+1);
+            r++;
+        } 
+        return maxlen;
+    }
+};
+
+//M3: WE DONT TRIM, AND ALSO WE SEE NO POINT IN REDUCING MAX_FREQ AS IT WONT BE CONTRIBUTING
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int maxlen=0;
+        int l=0;
+        int r=0;
+        int max_freq=0;
+        unordered_map<char,int> freq;
+        while(r<s.size()){
+            freq[s[r]]++;
+            max_freq=max(max_freq,freq[s[r]]);
+            if ((r-l+1 - max_freq)>k){
+                freq[s[l]]--;
+                l++;
+            }
+            if((r-l+1 - max_freq)<=k) maxlen=max(maxlen,r-l+1);
+            r++;
+        } 
+        return maxlen;
+    }
+};

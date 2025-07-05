@@ -1,0 +1,322 @@
+//*Frog Jump, Energy consumption
+//M1.Recursion:
+class Solution {
+  public:
+  int genPos(int i,vector<int> &height, int n){
+        if(i==0){
+            return 0;
+        }
+        int case1=genPos(i-1,height,n)+abs(height[i]-height[i-1]);
+        int case2=INT_MAX;
+        if(i-2>=0)
+            case2=genPos(i-2,height,n)+abs(height[i]-height[i-2]);
+        return min(case1,case2);
+      
+      
+  }
+    int minimumEnergy(vector<int>& height, int n) {
+       int mini= genPos(n-1,height,n);
+        
+        return mini;
+    }
+};
+
+//M2. Memoisation:
+class Solution {
+  public:
+  int genPos(int i,vector<int> &height, int n,vector<int> &dp){
+      if(dp[i]!=-1){
+          return dp[i];
+      }
+        if(i==0){
+            dp[0] =0;
+            return 0;
+        }
+        int case1=genPos(i-1,height,n,dp)+abs(height[i]-height[i-1]);
+        int case2=INT_MAX;
+        if(i-2>=0)
+            case2=genPos(i-2,height,n,dp)+abs(height[i]-height[i-2]);
+        dp[i]=min(case1,case2);
+        return dp[i];
+      
+      
+  }
+    int minimumEnergy(vector<int>& height, int n) {
+        // Code here
+       vector<int> dp(n+1,-1);
+       int mini= genPos(n-1,height,n,dp);
+        
+        return mini;
+    }
+};
+
+//M3. Tabulation
+  int minimumEnergy(vector<int>& height, int n) {
+        // Code here
+       vector<int> dp(n+1,-1);
+    //   int mini= genPos(n-1,height,n,dp);
+        dp[0]=0;
+        for(int i=1;i<n;i++){
+            int case1=dp[i-1]+abs(height[i]-height[i-1]);
+            int case2=INT_MAX;
+            if(i-2>=0)
+                case2=dp[i-2]+abs(height[i]-height[i-2]);
+            dp[i]=min(case1,case2);
+        }
+        return dp[n-1];
+    }
+
+//M4.Space Optimization in Tabulation:
+  int minimumEnergy(vector<int>& height, int n) {
+        // Code here
+    //   vector<int> dp(n+1,-1);
+        int prev1=0;
+        int prev2=0;
+        for(int i=1;i<n;i++){
+            int case1=prev1+abs(height[i]-height[i-1]);
+            int case2=INT_MAX;
+            if(i-2>=0)
+                case2=prev2+abs(height[i]-height[i-2]);
+            prev2=prev1;
+            prev1=min(case1,case2);
+        }
+        return prev1;
+    }
+
+//Multiple steps Jump Possible
+//NOTE after Tabulation :
+  No Space Optimisation could be done here since if k is given n , then we have no choice but to keep all the prev values in array.
+//M1 : Recursion:
+class Solution {
+  public:
+    int genMini(int i, vector<int> &height,int n,int k,vector<int> &dp){
+        if(i==0){
+            return 0;
+        }
+        int mini=INT_MAX;
+        for(int j=1;j<=k;j++){
+            if(i-j<0){
+                break;
+            }
+            int val=genMini(i-j,height,n,k,dp)+abs(height[i]-height[i-j]);
+            mini=min(mini,val);
+        }
+        return mini;
+    }
+    int minimizeCost(vector<int>& height, int n, int k) {
+        // Code here
+        vector<int> dp(n+1,0);
+        int mini=genMini(n-1,height,n,k,dp);
+        return mini;
+    }
+};
+
+//M2:DP-TD, memoisation
+class Solution {
+  public:
+    int genMini(int i, vector<int> &height,int n,int k,vector<int> &dp){
+        if(dp[i]!=-1){
+            return dp[i];
+        }
+        if(i==0){
+            dp[0]=0;
+            return dp[0];
+        }
+        int mini=INT_MAX;
+        for(int j=1;j<=k;j++){
+            if(i-j<0){
+                break;
+            }
+            int val=genMini(i-j,height,n,k,dp)+abs(height[i]-height[i-j]);
+            mini=min(mini,val);
+        }
+        dp[i]=mini;
+        return dp[i];
+    }
+    int minimizeCost(vector<int>& height, int n, int k) {
+        // Code here
+        vector<int> dp(n+1,-1);
+        int mini=genMini(n-1,height,n,k,dp);
+        return dp[n-1];
+    }
+};
+
+//M3:DP-BU, Tabulation:
+  int minimizeCost(vector<int>& height, int n, int k) {
+        // Code here
+        vector<int> dp(n+1,-1);
+        // int mini=genMini(n-1,height,n,k,dp);
+        dp[0]=0;
+        for(int i=1;i<n;i++){
+            int mini=INT_MAX;
+            for(int j=1;j<=k;j++){
+                if(i-j<0){
+                    break;
+                }
+                int val=dp[i-j]+abs(height[i]-height[i-j]);
+                mini=min(mini,val);
+            }
+            dp[i]=mini;
+        }
+        return dp[n-1];
+    }
+
+
+//*House Robber I - Maximum Sum of Non Adjacent Elements:
+//M1: Recursion:, The better recursion / memoisation is below, where we dont need a boolean 
+class Solution {
+public:
+    int genMaxi(int i, vector<int> nums, int n,bool canRob){
+        if(i==n){
+            return 0;
+        }
+        if(canRob){
+            return max(
+                genMaxi(i+1,nums,n,!canRob)+nums[i] ,
+                genMaxi(i+1,nums,n,canRob)
+            );
+        }
+        else{
+            return genMaxi(i+1,nums,n,!canRob);
+        }
+    }
+    int rob(vector<int>& nums) {
+        int n=nums.size();
+        bool canRob=true;
+        int maxi=genMaxi(0,nums,n,canRob);
+        return maxi;
+    }
+};
+//M2: Memoisation: 
+//M2.1: More Space waste
+class Solution {
+public:
+    int genMaxi(int i, vector<int> nums, int n,bool canRob,vector<vector<int>> &dp){
+        if(dp[i][canRob]!=-1){
+            return dp[i][canRob];
+        }
+        if(i==n){
+            dp[i][canRob]=0;
+            return 0;
+        }
+        if(canRob){
+            dp[i][canRob]= max(
+                genMaxi(i+1,nums,n,!canRob,dp)+nums[i] ,
+                genMaxi(i+1,nums,n,canRob,dp)
+            );
+        }
+        else{
+            dp[i][canRob]= genMaxi(i+1,nums,n,!canRob,dp);
+        }
+        return dp[i][canRob];
+    }
+    int rob(vector<int>& nums) {
+        int n=nums.size();
+        vector<vector<int>> dp(n+1,vector<int>(2,-1));
+        bool canRob=true;
+        return genMaxi(0,nums,n,canRob,dp);
+    }
+};
+//M2.2: Better
+class Solution {
+public:
+    int genMaxi(int i, vector<int> nums, int n,vector<int> &dp){
+        if(i<0){
+            return 0;
+        }
+        if(dp[i]!=-1){
+            return dp[i];
+        }
+        if(i==0){
+            dp[i]=nums[i];
+            return dp[i];
+        }
+        //if pick directly go to i-2
+        int pick=genMaxi(i-2,nums,n,dp)+nums[i];
+        //if not pick we will just go to next one
+        int not_pick=genMaxi(i-1,nums,n,dp);
+        //in this way we will always be going to the index , where its possible to pick
+        dp[i]=max(pick,not_pick);
+        return dp[i];
+    }
+    int rob(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> dp(n,-1);
+        // bool canRob=true;
+        int maxi=genMaxi(n-1,nums,n,dp);
+        return dp[n-1];
+    }
+};
+
+//M3:Tabulation: TC:O(N) SC:O(N)
+//To convert Memoisation into tabulation first consider base case
+  int rob(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> dp(n,-1);
+        //base cases for tabulation
+        dp[0]=nums[0];
+        int neg_index=0;
+        for(int i=1;i<n;i++){
+            int take=nums[i];
+            if(i-2>=0)
+                take+=dp[i-2];
+            int not_take=dp[i-1];
+            dp[i]=max(take,not_take);
+        }
+        // int maxi=genMaxi(n-1,nums,n,dp);
+        return dp[n-1];
+    }
+
+//M4:Space Optimisation
+    int rob(vector<int>& nums) {
+        int n=nums.size();
+        // vector<int> dp(n,-1);
+        //base cases for tabulation
+        // dp[0]=nums[0];
+        int prev2=0;
+        int prev1=nums[0];
+        int neg_index=0;
+        for(int i=1;i<n;i++){
+            int take=nums[i];
+            if(i-2>=0)
+                take+=prev2;
+            int not_take=prev1;
+            prev2=prev1;
+            prev1=max(take,not_take);
+        }
+        return prev1;
+    }
+
+//*House Robber II , Houses are circular
+        //Here for circular we dont want first and last element together
+        //so, without any new logic we can just call the straight_Rob twice
+        //once with the nums array without first element, and the other without last element
+class Solution {
+public:
+    int straight_rob(vector<int>& nums) {
+        //from prev Question
+        int n=nums.size();
+        int prev2=0;
+        int prev1=nums[0];
+        int neg_index=0;
+        for(int i=1;i<n;i++){
+            int take=nums[i];
+            if(i-2>=0)
+                take+=prev2;
+            int not_take=prev1;
+            prev2=prev1;
+            prev1=max(take,not_take);
+        }
+        return prev1;
+    }
+    long long int rob(vector<int> &nums){
+        int n=nums.size();
+        vector<int> temp1,temp2;
+        if(n==1) return nums[0]; //just in case we dont give 0 when theres only one element
+        for(int i=0;i<n;i++){
+            if(i!=0) temp1.push_back(nums[i]);
+            if(i!=n-1) temp2.push_back(nums[i]);
+        }
+        return max(straight_rob(temp1),straight_rob(temp2));
+    }
+};

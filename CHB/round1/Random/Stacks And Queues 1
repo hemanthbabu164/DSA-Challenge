@@ -1,0 +1,79 @@
+//INFIX TO POSTFIX
+//STANDARD: 1. If operand, add to output string, 2. if open para, push to stack 
+            3. if closed para, pop everything from stack till open para and simultaneously add them to output string
+            4. if operator , pop the operators with priority >= ours and add them to ans  
+class Solution {
+  public:
+    // Function to convert an infix expression to a postfix expression.
+    string infixToPostfix(string s) {
+        // Your code here
+        unordered_map<char,int> priority;
+        priority['(']=priority[')']=0;
+        priority['+']=priority['-']=1;
+        priority['*']=priority['/']=2;
+        priority['^']=3;
+        stack<char> st;
+        int i=0;
+        string ans="";
+        while(i<s.size()){
+            if((s[i] >= 'A' && s[i]<='Z') || (s[i] >= 'a' && s[i]<='z') || (s[i] >= '0' && s[i]<='9')){
+                ans+=s[i];
+            }
+            else if(s[i]=='('){
+                st.push(s[i]);
+            }
+            else if(s[i]==')'){
+                while(st.top()!='('){
+                    ans+=st.top();
+                    st.pop();
+                }
+                st.pop();
+            }
+            else{
+                while(!st.empty()  &&  priority[s[i]]<=priority[st.top()]){
+                    ans+=st.top();
+                    st.pop();
+                }
+                st.push(s[i]);
+            }
+            i++;
+        }
+        while(!st.empty()){
+            ans+=st.top();
+            st.pop();
+        }
+        return ans;
+    }
+};
+
+
+//POSTFIX TO INFIX
+//STANDARD: 1. If operand push to stack 
+            2. else , remove top two from stack, concat it with operator, shove it in paran and push to stack
+class Solution {
+  public:
+    string postToInfix(string s) {
+        // Write your code here
+        int i=0;
+        string ans="";
+        stack<string> st;
+        while(i<s.size()){
+            if((s[i] >= 'A' && s[i]<='Z') || (s[i] >= 'a' && s[i]<='z') || (s[i] >= '0' && s[i]<='9')){
+                
+                st.push(string(1,s[i]));
+                // cout<<st.top()<<endl;
+            }
+            else{
+                string first=st.top();
+                st.pop();
+                string second=st.top();
+                st.pop();
+                st.push("("+second+s[i]+first+")");
+                // cout<<st.top()<<endl;
+                
+            }
+            i++;
+        }
+        return st.top();
+    }
+};

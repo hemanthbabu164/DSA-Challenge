@@ -1,0 +1,51 @@
+//*Minimum Swaps to Group All 1 's Together II
+//Given a binary circular array nums , return the minimum number of swaps required to group all 1 's present in the array together at any location.
+//Approach: Taking the sliding window size equal to the total number of ones, and taking the window with maxOnes in that and swapping the zeroes out of it
+//To consider Circualr array, we take a new array which will be 2*array or we can assume theres an array and implement % while running from n to 2n;
+class Solution {
+public:
+    int minSwaps(vector<int>& nums) {
+        //take total number of 1s as length of the window
+        int n=nums.size();
+        int n2=n*2;
+        int numOnes=0;
+        for(int i: nums){
+            if(i==1){
+                numOnes++;
+            }
+        }
+        int l=0;
+        int r=0;
+        int windowOnes=0,maxOnes=0;
+        while(r<n2){
+            if(nums[r%n]==1) windowOnes+=1;
+            if(r-l+1 > numOnes){
+                windowOnes-=nums[l%n];
+                l++;
+            }
+            maxOnes=max(maxOnes,windowOnes);
+            r++;
+        }
+        return numOnes-maxOnes;
+    }
+};
+
+//**Binary SubArray with sum K
+//M1: BRUTEFORCE
+class Solution {
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        int count=0;
+        int n=nums.size();
+        for(int i=0;i<n;i++){
+            int sum=0;
+            for(int j=i;j<n;j++){
+                sum+=nums[j];
+                if(sum==goal) count++;
+                if(sum>goal) break;
+            }
+        }
+        return count;
+    }
+};
+//M2:

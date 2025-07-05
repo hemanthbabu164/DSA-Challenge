@@ -1,0 +1,139 @@
+//*Combination Sum III, size of 'ds' the array we make is give and target is given , but the elements we take in part of addidtion is not in any array but between 1 to 9
+//M1: We can do it just like Combination Sum I by adding an extra condition of ds, but its inefficient
+class Solution {
+public:
+    void genSub(int i, int n, vector<int> candidates, vector<int> ds,vector<vector<int>>& ans, int target){
+        if(ds.size()==n){
+            if(target==0){
+                ans.push_back(ds);
+            }
+            return;
+        }
+        if(i>=candidates.size()) return;
+        ds.push_back(candidates[i]);
+        genSub(i+1,n,candidates,ds,ans,target-candidates[i]);
+        ds.pop_back();
+        
+        genSub(i+1,n,candidates,ds,ans,target);
+
+    }
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> ans;
+        vector<int> nums;
+        for(int i=1;i<10;i++){
+            nums.push_back(i);
+        }
+        genSub(0,k,nums,{},ans,n);
+        return ans;
+    }
+};
+
+//M2: We can do it in 2nd Pattern, i.e., with a loop checking the numbers we would like to take
+//This is EFFICIENT
+class Solution {
+public:
+    void genSub(int i, int k,  vector<int> ds,vector<vector<int>>& ans, int target){
+        if(k==0){
+            if(target==0){
+                ans.push_back(ds);
+            }
+            return;
+        }
+        if(i==10) return;
+        for(int j=i;j<10;j++){
+            ds.push_back(j);
+            genSub(j+1,k-1,ds,ans,target-j);
+            ds.pop_back();
+        }
+
+    }
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> ans;
+        genSub(1,k,{},ans,n);
+        return ans;
+    }
+};
+
+//*Letter Combinations of a Phone Number
+//M1: Recursive BruteForce? well Used normal map here, rather use unordered map as shown after this program for more efficient one.
+class Solution {
+public:
+    void genCombs(int i,int n,string digits, vector<string> &ans,vector<string> ds,map<char,string> mpp){
+        if(i==n){
+            ans=ds;
+            return;
+        }
+        vector<string> temp;
+        for(auto j : mpp[digits[i]]){
+            for(string p: ds){
+                temp.push_back(p+j);
+            }
+        }
+        genCombs(i+1,n,digits,ans,temp,mpp);
+    }
+    vector<string> letterCombinations(string digits) {
+        if(digits == ""){
+            return {};
+        }
+        map<char,string> mpp={
+            {'1',""},
+            {'2',"abc"},
+            {'3',"def"},
+            {'4',"ghi"},
+            {'5',"jkl"},
+            {'6',"mno"},
+            {'7',"pqrs"},
+            {'8',"tuv"},
+            {'9',"wxyz"},
+            {'0'," "}            
+        };
+        vector<string> ans;
+        int n=digits.size();
+        genCombs(0,n,digits,ans,{""},mpp);
+        return ans;
+    }
+};
+
+//M2: Slight modification from map to unordered_map for better efficiency
+        unordered_map<char, vector<string>> keypad;
+        keypad['2'] = {"a","b","c"};
+        keypad['3'] = {"d","e","f"};
+        keypad['4'] = {"g","h","i"};
+        keypad['5'] = {"j","k","l"};
+        keypad['6'] = {"m","n","o"};
+        keypad['7'] = {"p","q","r","s"};
+        keypad['8'] = {"t","u","v"};
+        keypad['9'] = {"w","x","y","z"};
+
+
+//* Palindrome Partitioning , a good question, though it looks same as the 2nd pattern,it give a different perspective
+//, try drawing the recursion tree wih example "aab", f(0,[]), loop i to n, checkpalindrome with start at i and end at j
+class Solution {
+public:
+    bool is_palindrome(string str, int start,int end){
+        while(start<=end){
+            if(str[start++]!=str[end--]){return false;}
+        }
+        return true;
+    }
+    void genPart(int i, int n, string s, vector<string> ds,vector<vector<string>> &ans){
+        if(i==n){
+            ans.push_back(ds);
+            return;
+        }
+        for(int j=i;j<n;j++){
+            if(is_palindrome(s,i,j)){
+                ds.push_back(s.substr(i,j-i+1));
+                genPart(j+1,n,s,ds,ans);
+                ds.pop_back();
+            }
+        }
+    }
+    vector<vector<string>> partition(string s) {
+        vector<vector<string>> ans;
+        vector<string> ds;
+        int n=s.size();
+        genPart(0,n,s,ds,ans);
+        return ans;
+    }
+};

@@ -1,0 +1,102 @@
+// Counting Good Numbers, If you do not keep long long everywhere, you are dead.
+class Solution {
+public:
+     long long myPow(long long x, long long n,long long m) {
+        if(x==0) return 0;
+        if(x==1 || n==0) return 1;
+        if(n==1) return x;
+        if(n%2==0){
+            return myPow((x*x)%m,n/2,m) % m;
+        }
+        return (x*myPow(x,n-1,m))%m;
+    }
+    int countGoodNumbers(long long n) {
+        long long m=1e9+7;
+        long long ans=0;
+        // long long nodd=n/2;
+        // long long neven=n/2+n%2;
+        ans=myPow(20,n/2,m) * ((n%2==1)? 5 : 1); //myPow(5,neven,m)*myPow(4,nodd,m);
+        return ans%m;
+    }
+};
+
+
+
+//Sorting a stack
+//M1: The super Ultra Pro Max Lazy Method:
+void SortedStack :: sort()
+{
+   vector<int> vec;
+   while(!s.empty()){
+       vec.push_back(s.top());
+       s.pop();
+   }
+   std::sort(vec.begin(),vec.end());
+   for(auto i : vec){
+       s.push(i);
+   }   
+}
+//M2: Recursive Method , Do not mess with Pointers or & , know when to pass by reference
+void sortedInsert(int i,stack<int> &s){
+    if(s.empty() || s.top()<i){
+        s.push(i);
+    }
+    else{
+        int temp=s.top();
+        s.pop();
+        sortedInsert(i,s);
+        s.push(temp);
+    }
+}
+void sortStack(stack<int> &s){
+    if(!s.empty()){
+        int temp=s.top();
+        s.pop();
+        sortStack(s);
+        sortedInsert(temp,s);
+    }
+}
+void SortedStack :: sort()
+{
+   sortStack(s);
+}
+
+
+//Reversing a Stack
+//M1: Normie , No Special Method
+class Solution{
+public:
+    void Reverse(stack<int> &s){
+        vector<int> vec;
+        while(!s.empty()){
+            vec.push_back(s.top());
+            s.pop();
+        }
+        for(auto i: vec){
+            s.push(i);
+        }
+    }
+};
+//M2: Recursion Method, Same like above but extra process waste?
+class Solution{
+public:
+    void insertAtBottom(int i, stack<int> &s){
+        if(s.empty()){
+            s.push(i);
+        }
+        else{
+            int temp=s.top();
+            s.pop();
+            insertAtBottom(i,s);
+            s.push(temp);
+        }
+    }
+    void Reverse(stack<int> &s){
+        if(!s.empty()){
+            int temp=s.top();
+            s.pop();
+            Reverse(s);
+            insertAtBottom(temp,s);
+        }        
+    }
+};
