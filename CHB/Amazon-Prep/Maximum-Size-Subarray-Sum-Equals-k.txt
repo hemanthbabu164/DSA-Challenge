@@ -1,0 +1,59 @@
+Question:
+Maximum Size Subarray Sum Equals k
+Given an integer array nums and an integer k, return the maximum length of a subarray that sums to k. If there is not one, return 0 instead.
+
+Solution:
+Method-1 - OWN -BruteForce - TLE:
+int maxSubArrayLen(vector<int>& nums, int k) {
+	// Your code goes here
+	int n= nums.size();
+	int maxlen=0;
+	for(int i=0;i<n;i++){
+		int sum=0;
+		int len=0;
+		for(int j=i;j<n;j++){
+			sum+=nums[j];
+			len++;
+			if(sum==k){
+				maxlen=max(maxlen,len);
+			}
+		}
+	}
+	return maxlen;
+
+}
+
+Method-2: If a->b sum is p, if a->c sum is p+k then b->c sum is k; so we check (a->c sum - k) (p+k-k) already exists or not
+
+int maxSubArrayLen(vector<int>& nums, int k) {
+	// Your code goes here
+	int n= nums.size();
+	int max_len=0;
+
+	// [sum,index]
+	map<int,int> prefix_sum;
+	int sum=0;
+
+	for(int i=0;i<n;i++){
+		sum+=nums[i];
+
+		if(sum==k){
+			max_len=i+1; // No len> len of all the elements so far
+		}
+		
+		// If a->b sum is p, if a->c sum is p+k then b->c sum is k
+		if(prefix_sum.find(sum-k) != prefix_sum.end()){
+			max_len=max(max_len, i-prefix_sum[sum-k]);
+		}
+
+		// insert only if not found, since we will get the longest with this
+		if(prefix_sum.find(sum) == prefix_sum.end()){
+			prefix_sum[sum]=i;
+		}
+
+	}
+
+	return max_len;
+}
+
+

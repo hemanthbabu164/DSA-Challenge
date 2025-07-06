@@ -1,0 +1,40 @@
+https://takeuforward.org/plus/dsa/problems/valid-paranthesis-checker ✅
+https://takeuforward.org/plus/dsa/problems/longest-substring-without-repeating-characters ✅
+https://leetcode.com/problems/evaluate-division/description/ ✅
+DFS, BFS => Graph traversal ✅
+https://takeuforward.org/plus/dsa/problems/maximum-size-subarray-sum-equals-k✅
+https://takeuforward.org/plus/dsa/problems/rotten-oranges✅
+https://takeuforward.org/plus/dsa/problems/reverse-ll-in-group-of-given-size-k - DISCARD
+https://leetcode.com/problems/merge-intervals/description/✅
+https://www.geeksforgeeks.org/dsa/maximum-sum-linked-list-two-sorted-linked-lists-common-nodes/
+Balanced Array
+Lexicographically largest sub-sequence of the given string
+Decode Ways ii
+House Robber
+Longest Consecutive Sequence
+Maximum Subarray Sum
+Question 1
+
+I was given an encoded string where each letter corresponds to a number, and in some cases, the frequency of the character was mentioned in parentheses. For example, the string "1226#24#(2)" translates to "abzxx". The encoding works like this: 'a' is 1, 'b' is 2, and so on. Characters like 'j' are encoded as 10#, 'k' as 11#, etc. If a character appears more than once, its frequency is appended next to it.
+
+The task was to calculate the frequency of each character in the string.
+
+Output:
+
+[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1]
+
+Question 2
+
+The second problem involved finding the kth largest number from a sublist that starts at index k and goes till the last element of the list. For instance, if you’re given the list [4, 2, 1, 3] and k = 2, the expected output would be [2, 2, 3].
+
+Question 1
+
+I was given an n x n grid where some cells had traps (marked as -1) and the others were free (marked as 0). The task was to find how many distinct paths there are from the top-left (0,0) to the bottom-right (n-1, n-1). You can only move right or down, and you can’t step on the trap cells.
+
+The follow-up was a bit more interesting. Now, each cell either contains a trap (-1) or a reward (a non-negative integer). The goal was to find the maximum reward I could collect along a valid path, again moving only right or down, and avoiding traps. If there’s no valid path, the answer should be 0.
+
+Question 2
+
+In this question, I was given a number n. The task was to reduce n to 0 by performing the minimum number of operations, where in each operation, you subtract one of the digits of n from itself.
+
+ For example, with n = 27, the minimum number of operations needed was 5.

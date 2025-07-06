@@ -1,0 +1,22 @@
+DFS: => SC = O(N)ls+O(N)vis+O(N)stackspace , TC = O(V)+O(2E) for undirected, O(V)+O(E) for directed 
+
+void dfs(int node, vector<int> adj[], int vis[], vector<int> &ls){
+	vis[node]=1;
+	ls.push_back(node);
+	
+	// traversing neighbours
+	for(int neighbour : adj[node]){
+		if(vis[neighbour]!=1){
+			dfs(neighbour,adj,vis,ls);
+		}
+	}
+}
+
+vector<int> dfsOfGraph(int V, vector<int> adj[]){
+	int vis[V] = {0};
+	int start = 0;	
+	vector<int> ls;
+	dfs(start, adj, vis, ls);
+	
+	return ls;	
+} 

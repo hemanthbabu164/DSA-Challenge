@@ -12,3 +12,41 @@ Note: For Possible DP
 
 
 Any Problem which involves finding out the maximum substring or something like that, you should straight away start thinking about 2 pointer and sliding window approach => Not a specific algorithm, changes according to the problem, only constant is a window will be moving
+
+If you see transitive relations between variables giving some values => go for graph by putting variables as vertices, values as weights
+Determine whether it is directed or not based on the relations given are commutative or not
+
+
+Graph:
+-> Note in the question whether the graph is 0-based numbering or 1-based numbering to tweak the algorithms accordingly
+
+-> Adjacency Matrix ❌ Adjacency List ✅ [vector<int> adj[] => no.of rows = no.of vertices(or +1), each element is a vector] 
+
+-> Traversal algo are such that it travels to all the connected nodes in the component, for unconnected components to traverse in graph we use VISITED array, Meaning every  traversal follows the structure:
+int Visited[N]={0}
+for(i=1->N){
+	if(!Visited(i)) Traverse(i)
+}
+
+-> BFS or Levelwise => distance from the source is increased uniformly => O(N)+O(2E)
+QUEUE structure used
+starting node is marked as visited and put in queue
+Then iterating over queue, pop, check Adjacency List for neighbour, if it is not already visited put neighbours in queue and mark it as visited
+NOTE : Dont forget that marking as visited is during pushing in the QUEUE
+
+-> DFS :
+Recursion 
+starting node is marked as visited and put in list
+call a recursive dfs function
+
+-> Detecting Cycle in an Undirected graph:
+1. With BFS: TC => O(N+2E), SC => O(N+N)
+	In Queue insert {node,parent}
+	If a neighbour is already visited, then it came from some other path, meaning a cycle in undirected graph: NOTE THIS VISITED NEIGHBOUR CANT BE THE PARENT ITSELF (since 1->2,3, 2->1,3; here 1 is already visited, but it is not the issue)
+	This needs to be done for each component(start node) => means you can put in the before structure :
+		int Visited[N]={0}
+		for(i=1->N){
+			if(!Visited(i)) Traverse(i)
+		}
+		
+2. 

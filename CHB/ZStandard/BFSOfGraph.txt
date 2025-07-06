@@ -1,0 +1,22 @@
+BFS: => SC = O(3V), TC = O(V)+O(2E)
+vector<int> bfsOfGraph(int V, vector<int> adj[]){
+	int vis[V] = {0};
+	vis[0]=1;
+	queue<int> q;
+	q.push(0);
+	
+	vector<int> bfs;
+	
+	while(!q.empty()){
+		int node = q.front();
+		q.pop();
+		bfs.push_back(node);
+		for(int neighbour: adj[node]){
+			if(vis[neighbour]!=1){
+				q.push(neighbour);
+				vis[neighbour]=1;
+			}
+		}
+	}
+	return bfs;	
+} 
