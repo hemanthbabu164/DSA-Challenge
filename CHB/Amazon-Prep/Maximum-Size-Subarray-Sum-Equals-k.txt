@@ -38,7 +38,7 @@ int maxSubArrayLen(vector<int>& nums, int k) {
 		sum+=nums[i];
 
 		if(sum==k){
-			max_len=i+1; // No len> len of all the elements so far
+			max_len=i+1; // No len > len of all the elements so far
 		}
 		
 		// If a->b sum is p, if a->c sum is p+k then b->c sum is k

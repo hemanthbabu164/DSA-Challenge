@@ -1,6 +1,6 @@
 Question:
 Longest Substring Without Repeating Characters
-Given a string, S. Find the lerwth of the longest substring without repeating characters.
+Given a string, S. Find the length of the longest substring without repeating characters.
 
 Solution:
 Method - Sliding-Window:

@@ -1,0 +1,100 @@
+Question:
+128. Longest Consecutive Sequence
+Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.
+
+You must write an algorithm that runs in O(n) time.
+
+Solution:
+Method-1 - BRUTEFORCE - OWN - TLE => O(k) where k is difference between maxelem and minelem in array
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        if(nums.empty()) return 0;
+
+        int maxlen=1;
+        int len=0;
+        int maxele=INT_MIN;
+        int minele=INT_MAX;
+
+        for(int i:nums){
+            maxele=max(maxele,i);
+            minele=min(minele,i);
+        }
+
+        for(int i=minele;i<=maxele;i++){
+            if(find(nums.begin(), nums.end(),i)!=nums.end()){
+                len++;           
+            }
+            else{
+                maxlen=max(maxlen,len);
+                len=0;
+            }
+        }
+        
+        maxlen=max(maxlen,len);
+
+        return maxlen;
+    }
+};
+
+Method-2:
+Better -Sorted array - TC=>NLogN but accepted though O(N) was asked
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        if (nums.empty())
+            return 0;
+
+        sort(nums.begin(), nums.end());
+        int maxlen = 1;
+        int len = 1;
+        int lastsmaller = nums[0];
+
+        for (int i = 1; i < nums.size(); i++) {
+            if (nums[i]-1 == lastsmaller) {
+                len++;
+                lastsmaller = nums[i];
+            } else if (nums[i] != lastsmaller) {  
+                len = 1;
+                lastsmaller = nums[i];
+            }          
+            maxlen = max(len, maxlen);
+        }
+
+        return maxlen;
+    }
+};
+
+Method-3: - Optimal - unordered set -> Find:O(1) on average but O(N) at worst case (collisions)
+TC=> O(N) inserting + O(N+N) => while loop runs only for N times cummulatively; SC=>O(N)
+-We use set, and instead of checking for each element we check only for starting points
+=> Meaning if we find '3' in the set, we wont start checking whether '4' is in set then '5' then '6' like in naive approach
+=> instead we check for '2', if it is present we skip processing from '3'
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        if (nums.empty())
+            return 0;
+
+        unordered_set<int> st;
+        for (int i : nums) {
+            st.insert(i);
+        }
+        int maxlen = 1;
+
+        for (int i : st) {
+            // If it is the start point
+            if (st.find(i - 1) == st.end()) {
+                int num = i;
+                int len = 1;
+                while (st.find(num + 1) != st.end()) {
+                    len++;
+                    num++;
+                }
+                maxlen = max(len, maxlen);
+            }
+        }
+
+        return maxlen;
+    }
+};
