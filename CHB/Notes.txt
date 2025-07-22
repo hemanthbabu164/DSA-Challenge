@@ -1,3 +1,6 @@
+*************************************************************************************************************************************
+DYNAMIC PROGRAMMING
+*************************************************************************************************************************************
 Note: For Possible DP
 1: Recursion
   Steps in Recursion:
@@ -10,9 +13,70 @@ Note: For Possible DP
 3: Tabulation(DP BU) => BaseCase to Required answer, assign the basecases to dp arr, then look at the recursion and convert it into loop => this eliminates stack space
 4: Optimizing Space Complexity. => Only keeping the necessary no.of variables, instead of entire dp array, which eliminates the SC by another level
 
-
+*************************************************************************************************************************************
+TWO POINTER & SLIDING WINDOW
+*************************************************************************************************************************************
 Any Problem which involves finding out the maximum substring or something like that, you should straight away start thinking about 2 pointer and sliding window approach => Not a specific algorithm, changes according to the problem, only constant is a window will be moving
 
+4 Patterns:
+
+**Pattern-1:- Constant Window 
+=> Move it based on condition, both l and r move at the same time
+
+**Pattern-2:- Longest subarray/substring where <condition>
+|=> BruteForce O(N^2): All subarrays - 2 for loops i:0->n, j:i->n ; we can put some optimization here as per condition like breaking off the innerloop once sum exceeds k or something like that
+|=> Better O(2*N): Expand -> r, Shrink -> l
+Example:
+```
+while(r<n){
+	sum=sum+arr[r];
+	while(sum>k){
+		l++;
+	}
+	maxlen = max(maxlen, r-l+1);
+	r=r+1;
+}
+```
+|=> Optimal O(N): Can be done only when condition permits, here window size need not be shrunk less than maxlen so we will only move fwd one step instead of shrinking:
+Example:
+```
+while(r<n){
+	sum=sum+arr[r];
+	if(sum>k){
+		l++;
+	}
+	maxlen = max(maxlen, r-l+1);
+	r=r+1;
+}
+```
+
+**Pattern-3:- No.of subarrays where <condition>
+Should understand when to shrink and when to expand => Solved Using Pattern-2
+Example:
+Number of substrings containing all three characters , s=bbacbaa
+Intution: if we find min substring with all three characters, then we can add all the left characters to count since we get substrings adding each of them,  if we take the above s => s[1:4]=bac is a string with all three lastseen!=-1 ({2,1,3}), now we take bac(s[1:4]) and bbac(s[0:4]) as possible substrings
+```
+lastseen[3]={-1,-1,-1}
+for(i:0->n){
+	lastseen[s[i] - 'a') = i;
+	if(all three lastseen != -1){
+		count+= 1+min(all three last seen)
+	}
+}
+return count;
+```
+
+To Find No.Of Subarrays with sum = k , we will do:
+x = No.Of Subarrays with sum <= k
+y = No.Of Subarrays with sum <= k-1
+and return x-y
+
+**Pattern-4:- Shortest/Mininum window <condition>
+When we find a valid window, we shrink the window and check if it is valid or not
+
+*************************************************************************************************************************************
+GRAPH
+*************************************************************************************************************************************
 If you see transitive relations between variables giving some values => go for graph by putting variables as vertices, values as weights
 Determine whether it is directed or not based on the relations given are commutative or not
 
