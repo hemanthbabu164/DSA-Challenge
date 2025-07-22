@@ -49,4 +49,32 @@ call a recursive dfs function
 			if(!Visited(i)) Traverse(i)
 		}
 		
-2. 
+
+
+**BiPartite Graph:**
+-> In DSA we can prove it by taking 2 colors, and coloring the graph such that no 2 adjacent nodes have the same color 
+-> Linear graph (No cycles) and Even length cycle graph are BiPartite graphs
+-> Odd length cycle graphs are non-bipartite graph
+=> Conversly we can also prove whether a graph contains odd length cycles or not by implementing BiPartite check
+BiPartite Check:
+
+Method-1: BFS:
+Just doing a BFS traversal, [Visited array will be color array, with acceptable values -1,0,1]
+Coloring each neighbour the opposite of the node if neighbour is not colored
+if neighbour is colored, check if the color is same as the node, if yes return false
+
+Method-2: DFS:
+DFS traversal with similar logic to BFS
+In the recursion if any of the DFS call returns false, then no need to check further, you can return a false
+
+
+**Detect Cycles in a Directed Graph:**
+With DFS:
+-> Same method as in undirected graph wont work
+-> Cycle could be said as ON THE SAME PATH NODE HAS TO BE VISITED AGAIN
+-> you dont need parent storage here
+
+We maintain 2 arrays => 1. visited, 2. PathVisited [Or we can use single visited array with 3 values]
+PathVisited for a node will be reset when dfs call for that node is being returned as false(no cycle)
+And when another component is getting started for a dfs call, reset all the pathVisited array elements
+if any of the DFS call returns true, then no need to check further neighbors, you can return a true
