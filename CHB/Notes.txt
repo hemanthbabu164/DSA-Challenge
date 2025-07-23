@@ -49,9 +49,6 @@ while(r<n){
 	r=r+1;
 }
 ```
-
-**Pattern-3:- No.of subarrays where <condition>
-Should understand when to shrink and when to expand => Solved Using Pattern-2
 Example:
 Number of substrings containing all three characters , s=bbacbaa
 Intution: if we find min substring with all three characters, then we can add all the left characters to count since we get substrings adding each of them,  if we take the above s => s[1:4]=bac is a string with all three lastseen!=-1 ({2,1,3}), now we take bac(s[1:4]) and bbac(s[0:4]) as possible substrings
@@ -66,13 +63,81 @@ for(i:0->n){
 return count;
 ```
 
+**Pattern-3:- No.of subarrays where <condition>
+Should understand when to shrink and when to expand => Solved Using Pattern-2
+
 To Find No.Of Subarrays with sum = k , we will do:
 x = No.Of Subarrays with sum <= k
 y = No.Of Subarrays with sum <= k-1
 and return x-y
 
+Example:
+```
+No.of Binary SubArrays with sum= goal; arr={1,0,0,1,1,0} goal=2
+
+Now with the usual pattern we miss out some of the subarrays since we will be in a dilemma whether to shrink or not when we get sum as 2
+so what we will do is count (subarrays with sum<=goal) - count (subarrays with sum<=goal-1)
+
+At any point, if a window satisfy our condition, then we will be adding all the subarrays that end with that value from l
+Which will look something like:
+```
+if(k<0) return 0; //=> Edgecase since if goal is 0, then when doing count (subarrays with sum<=goal-1), we will have goal as -1
+while(r<arr.size()){
+	sum+=arr[r];
+	while(sum>k){
+		sum-=arr[l];
+		l++;
+	}
+	count+=(r-l+1); // => the no.of possible subarrays that end with that character from l is nothing but length of the window
+	r++;
+}
+```
+```
+
 **Pattern-4:- Shortest/Mininum window <condition>
 When we find a valid window, we shrink the window and check if it is valid or not
+Example:
+```
+Minimum window substring 
+s = "ddaaabbca" t="abc", Now the smallest window we get is "bca"
+Intution: we will be checking based on whether count is equal to t.size()
+count is incremented when reduction of a char freq in hash is happening from positive
+During expansion new character freq is reducing by 1
+when we find a valid count, then we shrink the window, when shrinking we increase the freq in hash and if it is going to positive then count will be decreased
+func(s,t){
+hash[256] = {0}
+for(i:0->t.size()) hash[t[i]] ++;
+
+while(r<s.size()){
+	if hash[s[r]] > 0 count++;
+	hash[s[r]]--;
+	while(count==t.size()){
+		if(r-l+1 <minlen){
+			minlen=r-l+1; startindex=l;
+		}
+		hash[s[l]]++;
+		if hash[s[l]] > 0 count--;
+	}
+	r++;
+}
+return s.substr(startIndex, minlen);
+
+}
+```
+
+*************************************************************************************************************************************
+PREFIXSUMS
+*************************************************************************************************************************************
+
+Using PrefixSums:
+-> Longest subarray with sum as k 
+	Prefix sum hash with {prefix sum, index}
+	|=> If array has both positives, zeroes and negatives then prefixsum is the optimal solution
+	|=> If array has only positives and zeroes it would be a better solution and 2 pointer approach will be the optimal one
+-> Counting Subarrays with sum as k
+	Prefix sum hash with {prefix sum, frequency}
+	|=> If the array has only binary values, then 2 pointer approach can be used too to decrease SC, but TC will be a bit compromised
+		since we will be doing [count(subarrays with sum<=goal) - count(subarrays with sum<=goal-1)]
 
 *************************************************************************************************************************************
 GRAPH
