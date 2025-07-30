@@ -53,7 +53,6 @@ public:
 
         vector<double> ans;
 
-
         for(int i=0; i< queries.size();i++){
             string var1 = queries[i][0];
             string var2 = queries[i][1];
@@ -73,3 +72,5 @@ public:
 Method-2: GRAPH:
 Summary: Variables are vertices, value a/b is the edge value between a->b
 Specific direction required, since numerator-> denominator  has a different weight compared to denominator-> numerator
+
+Then performing BFS for each query by passing in src and destination, we will be storing node and multiplication value in the queue and when we pop the destination node from queue we can just take that as the value for that query

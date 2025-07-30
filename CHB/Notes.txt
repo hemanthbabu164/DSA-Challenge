@@ -117,6 +117,7 @@ while(r<s.size()){
 		}
 		hash[s[l]]++;
 		if hash[s[l]] > 0 count--;
+		l++;
 	}
 	r++;
 }
@@ -157,7 +158,7 @@ for(i=1->N){
 	if(!Visited(i)) Traverse(i)
 }
 
--> BFS or Levelwise => distance from the source is increased uniformly => O(N)+O(2E)
+-> BFS or Levelwise => distance from the source is increased uniformly => O(N)+O(2E) // For Directed its N+E
 QUEUE structure used
 starting node is marked as visited and put in queue
 Then iterating over queue, pop, check Adjacency List for neighbour, if it is not already visited put neighbours in queue and mark it as visited
@@ -166,7 +167,7 @@ NOTE : Dont forget that marking as visited is during pushing in the QUEUE
 -> DFS :
 Recursion 
 starting node is marked as visited and put in list
-call a recursive dfs function
+call a recursive dfs function for neighbours
 
 -> Detecting Cycle in an Undirected graph:
 1. With BFS: TC => O(N+2E), SC => O(N+N)
@@ -207,3 +208,57 @@ We maintain 2 arrays => 1. visited, 2. PathVisited [Or we can use single visited
 PathVisited for a node will be reset when dfs call for that node is being returned as false(no cycle)
 And when another component is getting started for a dfs call, reset all the pathVisited array elements
 if any of the DFS call returns true, then no need to check further neighbors, you can return a true
+
+
+**Topological Sort**
+-> Linear ordering of nodes such that if there is a node from u,v then u must appear before v in the ordering.
+Only applicable for DAG (Directed Acyclic Graph)
+=> USE THE TOPO SORT WHEN THE PROBLEM STATES THAT SOMETHING SHOULD HAPPEN BEFORE SOMETHING
+
+-> With DFS (One of the possible orderings):
+Using Stack -LIFO
+```
+Maintain a stack space, insert the node just before the recursive dfs call is getting completed 
+```
+In DFS, we print a vertex and then recursively call DFS for its adjacent vertices. In topological sorting, we need to print a vertex before its adjacent vertices. 
+
+-> With Kahn's Algorithm or BFS:
+using Queue FIFO, 
+```
+Store the Indegrees of all nodes
+Take the nodes with indegree as 0 and put it in Queue
+now while queue not empty
+	take the front element and place it in ordering
+	reduce the indegree of all the neighbors and if indegree of neighbor becomes 0 then put it in Queue
+```
+
+
+**Detect Cycles in a Directed Graph:**
+With BFS with Kahn's Algorithm:
+-> Generally for Topological Sort we need it to be DAG
+-> Here we cant produce a Topological Sort with all the elements since there will be a cycle and that will be the indication
+```
+topo.size() < n ? It has a cycle : No cycle
+```
+
+
+**Shortest Path in Directed Acyclic Graph - Topological Sort**
+-> For DAG
+```
+Do a TopoSort and get the stack order 
+Now follow the dist[v]=min(dist[v],dist[u]+wt(u->v)) form by iterating over the stack
+
+```
+
+
+**Shortest Path in Undirected Graph with Unit Weights**
+-> BFS with pushing into Queue not with visisted array cond but with dist[v] changed or not : dist[v]=min(dist[v],dist[u]+1) 
+Since it is Unit Weights BFS queue naturally goes with sorted distances 
+
+
+**Shortest Path in Undirected Graph - Dijkstra's Algorithm**
+-> Not applicable to graphs with -ve weight cycle
+
+*************************************************************************************************************************************
+
+*************************************************************************************************************************************
