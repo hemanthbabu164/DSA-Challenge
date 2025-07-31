@@ -1,0 +1,32 @@
+Steps to Approach an LLD Interview:
+
+1. Identify Requirements:
+|=> Functional requirements
+|=> Non functional requirements
+|=> Highlight edge cases
+
+2. Identify core entities 
+|=> Define core entities related to system
+|=> Include attributes, responsibilities and relationships
+|=> Mention supporting entities if required
+
+3. Visualize interaction flow:
+|=> Who interacts with whom
+|=> Sequence flows/ flowcharts
+	-> System interactions with user
+	-> Internal service - service calls
+	-> External system calls
+
+4. Define class structures and relationships
+|=> Use OOP and SOLID principles
+|=> Include Domain models, dtos, services, gateways/adapters
+|=> Architecture := Controller -> service -> repository -> domain layers
+
+5. Define Core usecases and methods
+|=> Satisfying functional requirements
+|=> For every major feature, define:
+	-> method 
+	-> i/o
+	-> collaborating classes
+	-> transaction flow
+|=> Include CRUD operations, Real time flows with major edge case functionality, background task
